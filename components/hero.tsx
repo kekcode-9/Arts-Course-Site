@@ -43,7 +43,7 @@ function HeaderSection () {
 function ObjectiveSection () {
     return (
         <Typography
-            additionalClasses='text-left font-extralight w-full px-[3rem] xl:px[0rem] xl:w-1/2 '
+            additionalClasses='lg:w-full xl:w-1/2 lg:text-left text-center font-extralight px-[3rem] xl:px[0rem]'
             isHeader={false}
         >
             { HERO_OBJECTIVE }
@@ -53,13 +53,16 @@ function ObjectiveSection () {
 
 function MobileHeroImage () {
     return (
-        <div className='relative -z-10'>
+        <>
             <Image
-                src={'/back-anatomy.png'}
+                src={'/values-of-head.png'}
                 alt='anatomy of the back'
                 layout='fill'
+                objectFit='cover'
+                quality={100}
+                className='relative -z-10'
             />
-        </div>
+        </>
     )
 }
 
@@ -131,17 +134,22 @@ function HeroLargeScreens () {
 
 function HeroMobileDevices () {
     return (
-        <section className='flex flex-col lg:hidden'>
+        <section className='flex flex-col lg:hidden h-full'>
             <HeaderLinks/>
-            <div>
-                <MobileHeroImage/>
-                <div className='flex flex-col'>
-                    <HeaderSection/>
-                    <ObjectiveSection/>
+            <div className='relative flex flex-col h-full'>
+                <div className='relative flex flex-grow items-center'> {/** if it can be 50% then i want it to be 50% but it at least has to fit the height max content height. then whichever of the two is larger can be chosen */}
+                    <MobileHeroImage/>
+                    <div className='flex flex-col gap-6 items-center my-8'>
+                        <HeaderSection/>
+                        <ObjectiveSection/>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <ApplySection/>
+                <div className='flex flex-col flex-grow items-center justify-between'>
+                    <div className='flex justify-center w-full my-8'>
+                        <ApplySection/>
+                    </div>
+                    <Arrows showBoth={false} isLast={false} />
+                </div>
             </div>
         </section>
     )

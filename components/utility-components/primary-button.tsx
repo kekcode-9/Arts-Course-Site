@@ -13,7 +13,7 @@ export default function PrimaryButton({
         w-52 
         h-12 
         text-xl text-white 
-        bg-neutral-dark-gray-bg'
+        bg-burnt-orange lg:bg-neutral-dark-gray-bg'
     >
         {label}
     </button>

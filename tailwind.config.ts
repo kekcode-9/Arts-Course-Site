@@ -22,6 +22,11 @@ const config: Config = {
       'neutral-dark-gray-bg': '#181818',
       'white': '#FFFFFF'
     },
+    minHeight: {
+      '1/2': '50%',
+      'full': '100%',
+      'fit': 'fit-content'
+    },
     screens: {
       'xl': '1599px',
       'lg': '920px',
