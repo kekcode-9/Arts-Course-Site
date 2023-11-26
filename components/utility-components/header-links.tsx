@@ -4,15 +4,23 @@ import constants from '@/utilities/constants/constants';
 
 const { LOG_IN, MENU } = constants;
 
-export default function HeaderLinks() {
+type HeaderLinksProps = {
+    hideOnLarge: boolean,
+    height?: string | null
+}
+
+export default function HeaderLinks({
+    hideOnLarge,
+    height
+}: HeaderLinksProps) {
   return (
     <div
-        className='flex max-lg:items-center max-lg:justify-between lg:grid lg:grid-cols-4
+        className={`${hideOnLarge && 'lg:hidden'} flex max-lg:items-center max-lg:justify-between lg:grid lg:grid-cols-4
         w-full 
-        min-h-[6rem] md:h-28 lg:h-1/4
-        lg:pt-[7.75rem] max-lg:px-14 max-sm:px-8
+        min-h-[6rem] md:h-28 ${height || 'lg:h-1/4'}
+        ${height ? 'items-center' : 'lg:pt-[7.75rem]'} max-lg:px-14 max-sm:px-8
         md:text-xl text-lg
-        bg-burnt-orange'
+        bg-burnt-orange`}
     >
         <Link href={''}
             className='lg:col-end-3 lg:text-right'

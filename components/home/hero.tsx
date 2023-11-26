@@ -1,18 +1,23 @@
+'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
-import PrimaryButton from './utility-components/primary-button';
-import HeaderLinks from './utility-components/header-links';
-import Arrows from './utility-components/arrows';
-import Typography from './utility-components/typography';
+import React, { useEffect } from 'react';
+import CTA from '../utility-components/cta';
+import Arrows from '../utility-components/arrows';
+import RightColumn from '../utility-components/right-column';
+import Typography from '../utility-components/typography';
 import constants from '@/utilities/constants/constants';
+import FruitBasket from '@/public/fruit-basket.webp';
+import BackAnatomy from '@/public/back-anatomy.webp';
+import ValuesOfHead from '@/public/values-of-head.webp';
 
 const { 
     OR, 
     NAME_HEADER, 
     HERO_OBJECTIVE, 
     LABEL_FOR_CLASSES, 
-    ARE_YOU_INSTRUCTOR 
+    ARE_YOU_INSTRUCTOR,
+    APPLY_NOW 
 } = constants;
 
 function ApplySection () {
@@ -24,7 +29,7 @@ function ApplySection () {
             <Typography isHeader={false}>
                 { LABEL_FOR_CLASSES }
             </Typography>
-            <PrimaryButton label='Apply now'/>
+            <CTA label={ APPLY_NOW } primary={true} />
             <Typography isHeader={false}>
                 { OR } <br/> <span className='underline'> { ARE_YOU_INSTRUCTOR } </span> ?
             </Typography>
@@ -32,7 +37,7 @@ function ApplySection () {
     )
 }
 
-function HeaderSection () {
+export function HeaderSection () {
     return (
         <Typography isHeader={true}>
             { NAME_HEADER }
@@ -55,11 +60,13 @@ function MobileHeroImage () {
     return (
         <>
             <Image
-                src={'/values-of-head.png'}
+                src={ValuesOfHead}
                 alt='anatomy of the back'
                 layout='fill'
                 objectFit='cover'
                 quality={100}
+                loading='lazy'
+                placeholder='blur'
                 className='relative -z-10'
             />
         </>
@@ -69,7 +76,7 @@ function MobileHeroImage () {
 function HeroLargeScreens () {
     return (
         <section
-            className='hidden lg:flex h-full text-white'
+            className='hero-large hidden lg:flex h-screen text-white'
         >
             <div
                 className='w-full h-full'
@@ -87,10 +94,12 @@ function HeroLargeScreens () {
                     className='relative w-full h-1/2'
                 >
                     <Image 
-                        src='/fruit-basket.png' 
+                        src={FruitBasket}
                         alt='fruit basket still life drawing'
                         layout='fill'
                         objectFit='cover'
+                        loading='lazy'
+                        placeholder='blur'
                     />
                 </div>
             </div>
@@ -112,50 +121,37 @@ function HeroLargeScreens () {
                     <ApplySection/>
                 </div>
             </div>
-            <div
-                className='flex flex-col w-full h-full'
-            >
-                <HeaderLinks/>
-                <div
-                    className='relative w-full h-3/4 basis-auto'
-                >
-                    <Image
-                        src='/back-anatomy.png'
-                        alt='back anatomy sketch'
-                        layout='fill'
-                        objectFit='cover'
-                    />
-                    <Arrows showBoth={false} isLast={false} />
-                </div>
-            </div>
+            <RightColumn src={BackAnatomy} showBoth={false} isLast={false} />
         </section>
     )
 }
 
 function HeroMobileDevices () {
     return (
-        <section className='flex flex-col lg:hidden h-full'>
-            <HeaderLinks/>
-            <div className='relative flex flex-col h-full'>
-                <div className='relative flex flex-grow items-center'> {/** if it can be 50% then i want it to be 50% but it at least has to fit the height max content height. then whichever of the two is larger can be chosen */}
-                    <MobileHeroImage/>
-                    <div className='flex flex-col gap-6 items-center my-8'>
-                        <HeaderSection/>
-                        <ObjectiveSection/>
-                    </div>
+        <section className='hero-mobile flex flex-col lg:hidden h-full'>
+            <div className='relative flex flex-grow items-center'> {/** if it can be 50% then i want it to be 50% but it at least has to fit the height max content height. then whichever of the two is larger can be chosen */}
+                <MobileHeroImage/>
+                <div className='flex flex-col gap-6 items-center my-8'>
+                    <HeaderSection/>
+                    <ObjectiveSection/>
                 </div>
-                <div className='flex flex-col flex-grow items-center justify-between'>
-                    <div className='flex justify-center w-full my-8'>
-                        <ApplySection/>
-                    </div>
-                    <Arrows showBoth={false} isLast={false} />
+            </div>
+            <div className='flex flex-col flex-grow items-center justify-between'>
+                <div className='flex justify-center w-full my-8'>
+                    <ApplySection/>
                 </div>
+                <Arrows showBoth={false} isLast={false} />
             </div>
         </section>
     )
 }
 
 export default function Hero() {
+    useEffect(() => {
+        window.addEventListener('scroll', () => {
+            // alert('scrolling')
+        })
+    }, [])
   return (
     <>
         <HeroLargeScreens/>
