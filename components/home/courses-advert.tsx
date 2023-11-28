@@ -5,12 +5,11 @@ import dynamic from 'next/dynamic';
 import RightColumn from '../utility-components/right-column';
 import Typography from '../utility-components/typography';
 import CTA from '../utility-components/cta';
-import MobileFooter from '../utility-components/mobile-footer';
+import MobileContent from '../utility-components/mobile-content';
 import Logo from '../utility-components/logo';
 import constants from '@/utilities/constants/constants';
 import DownArrowPlain from '../utility-components/svg-utilities/down-arrow-plain';
 import Skeletons from '@/public/skeletons.png';
-import Arrows from '../utility-components/arrows';
 
 const Slider = dynamic(() => import('../../components/utility-components/slider'), {
     loading: () => <p>Loading...</p>,
@@ -114,9 +113,7 @@ function CoursesAdvertLargeScreen() {
 
 function CourseAdvertMobile() {
     return (
-        <section
-            className='relative flex flex-col lg:hidden h-full max-h-[calc(100vh-6rem)]'
-        >
+        <MobileContent>
             <div className='relative flex items-center flex-grow w-full h-fit'>
                 <Image 
                     src={Skeletons}
@@ -137,8 +134,7 @@ function CourseAdvertMobile() {
                     <MiddleColumn/>
                 </div>
             </div>
-            <MobileFooter showBoth={true} isLast={false} />
-        </section>
+        </MobileContent>
     )
 }
 
