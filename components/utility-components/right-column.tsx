@@ -21,9 +21,9 @@ export default function RightColumn({
     <div
         className='flex flex-col w-full h-full'
     >
-        <HeaderLinks hideOnLarge={false} height={showBoth ? '1/6' : null} />
+        <HeaderLinks hideOnLarge={false} height={showBoth ? 'h-[1/6]' : null} />
         <div
-            className='relative w-full h-3/4 basis-auto'
+            className={`relative w-full ${showBoth ? 'h-full' : 'h-3/4'} basis-auto`}
         >
             {
                 src &&

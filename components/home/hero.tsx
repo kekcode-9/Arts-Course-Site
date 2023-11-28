@@ -155,7 +155,7 @@ export default function Hero() {
   return (
     <>
         <HeroLargeScreens/>
-        <HeroMobileDevices/>
+        {/*<HeroMobileDevices/>*/}
     </>
   )
 }

@@ -29,10 +29,12 @@ export default function Arrows({
         <div className='lg:hidden'>
             {
                 showBoth ?
-                <>
+                <div
+                    className='flex flex-col items-center'
+                >
                     <UpArrowcircular/>
                     <DownArrowCircular/>
-                </> : <DownArrowCircular/>
+                </div> : <DownArrowCircular/>
             }
         </div>
     </div>

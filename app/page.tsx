@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className='max-lg:flex max-lg:flex-col h-full text-center'>
         <HeaderLinks hideOnLarge={true} />
-        <div className='relative flex flex-col h-full lg:h-max'>
+        <div className='max-lg:mt-[6rem] relative flex flex-col h-full lg:h-max'>
           <Hero/>
           <CoursesAdvert/>
         </div>

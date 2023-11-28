@@ -1,6 +1,7 @@
 export default {
     OR: 'or',
     PLUS: '+',
+    LOGO: 'Esner Academy of Art',
     // buttons
     APPLY_NOW: 'Apply now',
     EXPLORE_ALL_COURSES: 'Explore all courses',

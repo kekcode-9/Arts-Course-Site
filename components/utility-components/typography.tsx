@@ -25,7 +25,7 @@ export default function Typography({
   ) : (
     <h1
         className={
-            `text-[2rem] md:text-[2.5rem] font-medium
+            `${size || 'text-[2rem] md:text-[2.5rem] font-medium'}
             ${additionalClasses}`
         }
     >

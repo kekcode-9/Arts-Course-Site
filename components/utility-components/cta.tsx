@@ -13,7 +13,7 @@ export default function CTA({
     <button
         className={`flex items-center justify-center 
         w-52 
-        h-12 
+        h-[48px] 
         text-xl ${primary ? 'text-white' : 'text-neutral-dark-gray-bg'} 
         ${primary ? 'bg-burnt-orange lg:bg-neutral-dark-gray-bg' : 'bg-white'}`}
     >
