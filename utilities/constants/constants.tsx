@@ -16,5 +16,19 @@ export default {
     // Courses advert
     WE_OFFER: 'At Esner Academy of Art we offer',
     IN_PERSON_COURSES: 'In-person courses at our studio',
-    INTERACTIVE_ONLINE: 'Interactive online classes and workshops'
+    INTERACTIVE_ONLINE: 'Interactive online classes and workshops',
+    // resources advert
+    HRS_OF_VIDEO: '2500+ hrs of videos',
+    FIFTEENK_REFERENCES: '15000+ references',
+    THREEHUNDRED_3D_MODELS: '300+ 3D models',
+    // instructors
+    INSTRUCTORS: [
+        {
+            image: '/bauman-instructor-1.jpg',
+            name: 'Stephen Bauman',
+            experties: 'Drawing, Painting',
+            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+        }
+    ]
+
 } as const;

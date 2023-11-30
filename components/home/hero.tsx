@@ -76,7 +76,7 @@ function MobileHeroImage () {
 function HeroLargeScreens () {
     return (
         <section
-            className='hero-large hidden lg:flex h-screen text-white'
+            className='hidden lg:flex h-screen text-white'
         >
             <div
                 className='w-full h-full'

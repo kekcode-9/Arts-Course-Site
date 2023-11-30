@@ -88,7 +88,7 @@ function MiddleColumn() {
 function CoursesAdvertLargeScreen() {
     return (
         <section
-            className='course-advert-large hidden lg:flex w-full h-screen'
+            className='hidden lg:flex w-full h-screen'
         >
             <div
                 className='relative w-full h-full'

@@ -30,7 +30,7 @@ export default function RightColumn({
                 <Image
                     src={src}
                     alt='back anatomy sketch'
-                    layout='fill'
+                    fill
                     objectFit={fit || 'cover'}
                     loading='lazy'
                     placeholder='blur'
