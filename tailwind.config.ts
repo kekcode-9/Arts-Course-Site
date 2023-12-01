@@ -21,7 +21,8 @@ const config: Config = {
       'burnt-orange': '#772F06',
       'neutral-dark-gray-bg': '#181818',
       'white': '#FFFFFF',
-      'black': '#000000'
+      'black': '#000000',
+      'dirty-white': '#E7DFDF'
     },
     minHeight: {
       '1/2': '50%',

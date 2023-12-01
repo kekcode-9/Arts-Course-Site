@@ -8,11 +8,13 @@ const mobileLogoArr = LOGO.split(' ');
 type LogoProps = {
     position?: string;
     bottom?: string;
+    customInset?: string;
 }
 
 export default function Logo({
     position,
-    bottom
+    bottom,
+    customInset
 }: LogoProps) {
   return (
     <>
@@ -27,7 +29,12 @@ export default function Logo({
                 })
             }
         </div>
-        <div className={`${position || 'absolute'} top-0 right-0 ${bottom || 'bottom-12'} left-0 m-auto hidden lg:block`}>
+        <div 
+            className={`${position || 'absolute'} z-10 hidden lg:block
+            ${customInset || `top-0 right-0 ${bottom || 'bottom-12'} left-0`}  
+            w-fit h-fit
+            m-auto`}
+        >
             <Typography isHeader={false} additionalClasses='underline'>
                 {LOGO}
             </Typography>

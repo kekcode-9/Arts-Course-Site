@@ -5,6 +5,7 @@ export default {
     // buttons
     APPLY_NOW: 'Apply now',
     EXPLORE_ALL_COURSES: 'Explore all courses',
+    SEE_ALL_INSTRUCTORS: 'See all instructors',
     // Hero page
     NAME_HEADER: (<>Esner <br/> Academy of Art</>),
     HERO_OBJECTIVE: 'Kickstart your career as a professional artist with our structured curriculum, personal feedback and thousands of lessons curated with care.',
@@ -22,7 +23,26 @@ export default {
     FIFTEENK_REFERENCES: '15000+ references',
     THREEHUNDRED_3D_MODELS: '300+ 3D models',
     // instructors
+    MEET_INSTRUCTORS: 'Meet the instructors',
     INSTRUCTORS: [
+        {
+            image: '/bauman-instructor-1.jpg',
+            name: 'Stephen Bauman',
+            experties: 'Drawing, Painting',
+            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+        },
+        {
+            image: '/bauman-instructor-1.jpg',
+            name: 'Stephen Bauman',
+            experties: 'Drawing, Painting',
+            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+        },
+        {
+            image: '/bauman-instructor-1.jpg',
+            name: 'Stephen Bauman',
+            experties: 'Drawing, Painting',
+            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+        },
         {
             image: '/bauman-instructor-1.jpg',
             name: 'Stephen Bauman',

@@ -15,7 +15,9 @@ export default function HeaderLinks({
 }: HeaderLinksProps) {
   return (
     <div
-        className={`max-lg:fixed max-lg:z-[100] ${hideOnLarge && 'lg:hidden'} flex max-lg:items-center max-lg:justify-between lg:grid lg:grid-cols-4
+        className={`${hideOnLarge && 'lg:hidden'}
+        max-lg:fixed max-lg:z-[100] flex max-lg:items-center max-lg:justify-between 
+        lg:grid lg:grid-cols-4
         w-full 
         min-h-[6rem] md:h-28 ${height || 'lg:h-1/4'}
         ${height ? 'items-center' : 'lg:pt-[7.75rem]'} max-lg:px-14 max-sm:px-8
