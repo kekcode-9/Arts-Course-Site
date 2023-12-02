@@ -5,6 +5,7 @@ import RightColumn from '../utility-components/right-column';
 import Typography from '../utility-components/typography';
 import CTA from '../utility-components/cta';
 import Logo from '../utility-components/logo';
+import MobileContent from '../utility-components/mobile-content';
 import constants from '@/utilities/constants/constants';
 
 const { 
@@ -45,11 +46,15 @@ function Card({
     }, [])
     return (
         <div
-            className={`flex ${flexDirection} gap-4 items-center justify-center w-max h-max`}
+            className={`flex ${flexDirection} gap-4 
+            ${flexDirection==='flex-row' ? 'items-center' : 'items-start'} justify-center 
+            w-max h-max`}
         >
             <div
                 className='relative flex items-start
-                w-[6.5rem] h-[6.5rem] border-4 border-double border-[#C5C5C5]
+                w-[4.5rem] md:w-[6.5rem] 
+                h-[4.5rem] md:h-[6.5rem] 
+                border-4 border-double border-[#C5C5C5]
                 rounded-full 
                 overflow-clip'
             >
@@ -62,7 +67,7 @@ function Card({
                 />
             </div>
             <div
-                className='flex flex-col gap-2 items-start'
+                className={`flex flex-col gap-2 items-start`}
             >
                 <div
                     className='flex gap-1 items-center'
@@ -77,7 +82,9 @@ function Card({
                 <Typography 
                     isHeader={false} 
                     size='text-base font-light' 
-                    additionalClasses='w-[17.875rem] text-left text-dirty-white'
+                    additionalClasses={`w-[17.875rem]  
+                    text-left
+                    text-dirty-white`}
                 >
                     {work}
                 </Typography>
@@ -85,6 +92,35 @@ function Card({
         </div>
     )
 }
+
+function InstructorCards() {
+    return (
+        <div
+            className='flex flex-wrap gap-[2rem] md:gap-[5rem] max-lg:justify-start
+            w-full 
+            h-full lg:h-[18rem] 
+            max-lg:px-12 lg:pr-[6.5rem]
+            overflow-scroll'
+        >
+            {
+                INSTRUCTORS.map((instructor, i) => {
+                    return (
+                        <Card cardItem={instructor} key={i} />
+                    )
+                })
+            }
+        </div>
+    )
+}
+
+function Header() {
+    return (
+        <Typography additionalClasses='text-left font-normal md:font-bold' size='text-2xl md:text-[2rem]' isHeader={false}>
+            {MEET_INSTRUCTORS}
+        </Typography>
+    )
+}
+
 function InstructorsLargeScreen() {
     return (
         <section
@@ -110,24 +146,9 @@ function InstructorsLargeScreen() {
                     w-full 
                     min-h-[6rem] md:h-28 lg:h-[7rem]'
                 >
-                    <Typography additionalClasses='text-left font-bold' size='text-[2rem]' isHeader={false}>
-                        {MEET_INSTRUCTORS}
-                    </Typography>
+                    <Header/>
                 </div>
-                <div
-                    className='flex flex-wrap gap-x-[5rem] gap-y-[5rem]
-                    w-full h-[18rem] 
-                    pr-[6.5rem]
-                    overflow-scroll'
-                >
-                    {
-                        INSTRUCTORS.map((instructor, i) => {
-                            return (
-                                <Card cardItem={instructor} key={i} />
-                            )
-                        })
-                    }
-                </div>
+                <InstructorCards/>
                 <CTA label={SEE_ALL_INSTRUCTORS} primary={false} />
             </div>
             <Logo customInset='left-[6.5rem] bottom-12' />
@@ -137,9 +158,25 @@ function InstructorsLargeScreen() {
 
 function InstructorMobileDevices() {
     return (
-        <section
-            className='flex max-lg:hidden'
-        ></section>
+        <MobileContent>
+                <div
+                    className='flex flex-col items-center justify-center gap-8
+                    w-full h-full overflow-scroll
+                    my-12'
+                >
+                    <div
+                        className='flex flex-col md:flex-row items-start md:items-center justify-between 
+                        w-full
+                        px-12'
+                    >
+                        <Header/>
+                        <Typography isHeader={false} additionalClasses='underline'>
+                            {SEE_ALL_INSTRUCTORS}
+                        </Typography>
+                    </div>
+                    <InstructorCards/>
+                </div>
+        </MobileContent>
     )
 }
 

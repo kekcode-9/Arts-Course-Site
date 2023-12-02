@@ -15,7 +15,7 @@ export default function MobileFooter({
     <div
         className='flex items-center justify-between
         w-full h-fit
-        px-8 pt-8 
+        px-8 py-8 
         bg-neutral-dark-gray-bg'
     >
         <Logo/>

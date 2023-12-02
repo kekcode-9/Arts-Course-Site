@@ -10,7 +10,8 @@ export default function MobileContent({
 }: MobildeContentProps) {
   return (
     <section
-      className='relative flex flex-col lg:hidden h-full max-h-[calc(100vh-6rem)]'
+      className='relative flex flex-col items-center lg:hidden 
+      h-full max-md:max-h-[calc(100vh-6rem)] md:max-lg:max-h-[calc(100vh-6rem)]'
     >
       {children}
       <MobileFooter showBoth={true} isLast={false} />
