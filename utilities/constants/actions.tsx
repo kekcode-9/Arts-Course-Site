@@ -1,0 +1,5 @@
+export const ACTIONS = {
+    UPDATE_ROUTE: 'UPDATE_ROUTE',
+    SET_SHOWBOTH: 'SET_SHOWBOTH',
+    SET_ISLAST: 'SET_ISLAST'
+} as const

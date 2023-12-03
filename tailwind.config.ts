@@ -20,7 +20,14 @@ const config: Config = {
     colors: {
       'burnt-orange': '#772F06',
       'neutral-dark-gray-bg': '#181818',
-      'white': '#FFFFFF'
+      'white': '#FFFFFF',
+      'black': '#000000',
+      'dirty-white': '#E7DFDF'
+    },
+    minHeight: {
+      '1/2': '50%',
+      'full': '100%',
+      'fit': 'fit-content'
     },
     screens: {
       'xl': '1599px',

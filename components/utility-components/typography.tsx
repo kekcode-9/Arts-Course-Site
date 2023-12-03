@@ -3,18 +3,20 @@ import React from 'react';
 type TypographyProps = {
     children: React.ReactNode,
     additionalClasses?: string,
-    isHeader: boolean
+    isHeader: boolean,
+    size?: string
 }
 
 export default function Typography({
     children,
     additionalClasses,
-    isHeader
+    isHeader,
+    size
 }: TypographyProps) {
   return !isHeader ? (
     <p
         className={
-            `text-base md:text-lg lg:text-xl
+            `${size || 'text-base md:text-lg lg:text-xl'}
             ${additionalClasses}`
         }
     >
@@ -23,7 +25,7 @@ export default function Typography({
   ) : (
     <h1
         className={
-            `text-[2.5rem] font-medium
+            `${size || 'text-[2rem] md:text-[2.5rem] font-medium'}
             ${additionalClasses}`
         }
     >
