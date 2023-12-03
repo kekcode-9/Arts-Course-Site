@@ -3,13 +3,13 @@ import Logo from './logo';
 import Arrows from './arrows';
 
 type MobileFooterProps = {
-    showBoth: boolean,
-    isLast: boolean
+    onArrowUpClick?: () => void;
+    onArrowDownClick?: () => void;
 }
 
 export default function MobileFooter({
-    showBoth,
-    isLast
+    onArrowDownClick,
+    onArrowUpClick
 }: MobileFooterProps) {
   return (
     <div
@@ -19,7 +19,7 @@ export default function MobileFooter({
         bg-neutral-dark-gray-bg'
     >
         <Logo/>
-        <Arrows showBoth={showBoth} isLast={isLast} />
+        <Arrows onArrowUp={onArrowUpClick} onArrowDown={onArrowDownClick} />
     </div>
   )
 }

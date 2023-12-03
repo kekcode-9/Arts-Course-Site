@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import HomePage from '@/components/home/home-page';
 import Hero from '@/components/home/hero';
 import CoursesAdvert from '@/components/home/courses-advert';
 import ResourcesAdvert from '@/components/home/resources-advert';
@@ -10,10 +11,7 @@ export default function Home() {
     <div className='max-lg:flex max-lg:flex-col h-full text-center'>
         <HeaderLinks hideOnLarge={true} />
         <div className='max-md:mt-[6rem] md:max-lg:mt-[7rem] relative flex flex-col h-full lg:h-max'>
-          <Hero/>
-          {/*<CoursesAdvert/>*/}
-          {/*<ResourcesAdvert/>*/}
-          <Instructors/>
+          <HomePage/>
         </div>
     </div>
   )

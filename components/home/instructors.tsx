@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
 import RightColumn from '../utility-components/right-column';
 import Typography from '../utility-components/typography';
@@ -7,12 +7,20 @@ import CTA from '../utility-components/cta';
 import Logo from '../utility-components/logo';
 import MobileContent from '../utility-components/mobile-content';
 import constants from '@/utilities/constants/constants';
+import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { ACTIONS } from '@/utilities/constants/actions';
 
 const { 
     MEET_INSTRUCTORS, 
     SEE_ALL_INSTRUCTORS, 
     INSTRUCTORS 
 } = constants;
+
+const {
+    UPDATE_ROUTE,
+    SET_SHOWBOTH,
+    SET_ISLAST
+  } = ACTIONS;
 
 type CardProps = {
     cardItem: (typeof INSTRUCTORS)[number];
@@ -122,18 +130,12 @@ function Header() {
 }
 
 function InstructorsLargeScreen() {
+    const { dispatch } = useContext(CourseContext);
     return (
         <section
             className='relative hidden lg:flex
             w-full h-screen'
         >
-            <div
-                className='absolute z-10 right-0
-                flex items-center justify-end 
-                w-[33.33%] h-screen'
-            >
-                <RightColumn showBoth={true} isLast={false} />
-            </div>
             <div
                 className='relative z-10 top-0 left-0 
                 flex flex-col gap-[5rem]
@@ -152,13 +154,47 @@ function InstructorsLargeScreen() {
                 <CTA label={SEE_ALL_INSTRUCTORS} primary={false} />
             </div>
             <Logo customInset='left-[6.5rem] bottom-12' />
+            <div
+                className='absolute z-10 right-0
+                flex items-center justify-end 
+                w-[33.33%] h-screen'
+            >
+                <RightColumn
+                    onArrowUpClick={() => {
+                        dispatch({
+                            type: UPDATE_ROUTE,
+                            payload: HOME_ROUTES.RESOURCES_ADVERT
+                        })
+                    }}
+                    onArrowDownClick={() => {
+                        dispatch({
+                            type: UPDATE_ROUTE,
+                            payload: HOME_ROUTES.HERO
+                        })
+                    }}
+                />
+            </div>
         </section>
     )
 }
 
 function InstructorMobileDevices() {
+    const { dispatch } = useContext(CourseContext);
     return (
-        <MobileContent>
+        <MobileContent
+            onArrowUpClick={() => {
+                dispatch({
+                    type: UPDATE_ROUTE,
+                    payload: HOME_ROUTES.RESOURCES_ADVERT
+                })
+            }}
+            onArrowDownClick={() => {
+                dispatch({
+                    type: UPDATE_ROUTE,
+                    payload: HOME_ROUTES.HERO
+                })
+            }}
+        >
                 <div
                     className='flex flex-col items-center justify-center gap-8
                     w-full h-full overflow-scroll
@@ -181,6 +217,18 @@ function InstructorMobileDevices() {
 }
 
 export default function Instructors() {
+    const { dispatch } = useContext(CourseContext);
+  
+    useEffect(() => {
+      dispatch({
+        type: SET_SHOWBOTH,
+        payload: true
+      });
+      dispatch({
+        type: SET_ISLAST,
+        payload: false
+      });
+    }, [])
   return (
     <>
         <InstructorsLargeScreen/>

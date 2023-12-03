@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import RightColumn from '../utility-components/right-column';
@@ -10,6 +10,8 @@ import Logo from '../utility-components/logo';
 import constants from '@/utilities/constants/constants';
 import DownArrowPlain from '../utility-components/svg-utilities/down-arrow-plain';
 import Skeletons from '@/public/skeletons.png';
+import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { ACTIONS } from '@/utilities/constants/actions';
 
 const Slider = dynamic(() => import('../../components/utility-components/slider'), {
     loading: () => <p>Loading...</p>,
@@ -22,6 +24,12 @@ const {
     INTERACTIVE_ONLINE,
     EXPLORE_ALL_COURSES
 } = constants;
+
+const {
+    UPDATE_ROUTE,
+    SET_SHOWBOTH,
+    SET_ISLAST
+  } = ACTIONS;
 
 function MiddleColumn() {
     const [ showArrow, setShowArrow ] = useState(true);
@@ -86,12 +94,13 @@ function MiddleColumn() {
 }
 
 function CoursesAdvertLargeScreen() {
+    const { dispatch } = useContext(CourseContext);
     return (
         <section
             className='hidden lg:flex w-full h-screen'
         >
             <div
-                className='relative w-full h-full'
+                className='relative w-full h-screen'
             >
                 <Slider imageFile='drawing-in-studio' total={4} />
                 <Logo/>
@@ -101,10 +110,20 @@ function CoursesAdvertLargeScreen() {
                 className='w-full h-full bg-white'
             >
                 <RightColumn 
-                    showBoth={true} 
-                    isLast={false} 
                     src={Skeletons}
                     fit='none'
+                    onArrowUpClick={() => {
+                        dispatch({
+                            type: UPDATE_ROUTE,
+                            payload: HOME_ROUTES.HERO
+                        })
+                    }}
+                    onArrowDownClick={() => {
+                        dispatch({
+                            type: UPDATE_ROUTE,
+                            payload: HOME_ROUTES.RESOURCES_ADVERT
+                        })
+                    }}
                 />
             </div>
         </section>
@@ -112,9 +131,25 @@ function CoursesAdvertLargeScreen() {
 }
 
 function CourseAdvertMobile() {
+    const { dispatch } = useContext(CourseContext);
     return (
-        <MobileContent>
-            <div className='relative flex items-center flex-grow w-full h-fit'>
+        <MobileContent
+            onArrowUpClick={() => {
+                dispatch({
+                    type: UPDATE_ROUTE,
+                    payload: HOME_ROUTES.HERO
+                })
+            }}
+            onArrowDownClick={() => {
+                dispatch({
+                    type: UPDATE_ROUTE,
+                    payload: HOME_ROUTES.RESOURCES_ADVERT
+                })
+            }}
+        >
+            <div className='relative flex items-center flex-grow 
+            w-full h-fit
+            overflow-scroll'>
                 <Image 
                     src={Skeletons}
                     alt='skeletons'
@@ -139,6 +174,19 @@ function CourseAdvertMobile() {
 }
 
 export default function CoursesAdvert() {
+  const { dispatch } = useContext(CourseContext);
+
+  useEffect(() => {
+    dispatch({
+      type: SET_SHOWBOTH,
+      payload: true
+    });
+    dispatch({
+      type: SET_ISLAST,
+      payload: false
+    });
+  }, [])
+
   return (
     <>
         <CoursesAdvertLargeScreen/>

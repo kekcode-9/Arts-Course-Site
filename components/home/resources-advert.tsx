@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import Image, { StaticImageData } from "next/image";
 import { motion, useAnimationControls } from "framer-motion";
 import MobileContent from "../utility-components/mobile-content";
@@ -10,10 +10,18 @@ import Logo from "../utility-components/logo";
 import References from "@/public/references.webp";
 import Models from "@/public/models.webp";
 import Videos from "@/public/videos.webp";
+import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { ACTIONS } from '@/utilities/constants/actions';
 
 const { HRS_OF_VIDEO, FIFTEENK_REFERENCES, THREEHUNDRED_3D_MODELS } = constants;
 
 const labels = [HRS_OF_VIDEO, FIFTEENK_REFERENCES, THREEHUNDRED_3D_MODELS];
+
+const {
+  UPDATE_ROUTE,
+  SET_SHOWBOTH,
+  SET_ISLAST
+} = ACTIONS;
 
 type ResourseOverviewProps = {
   src: StaticImageData;
@@ -126,6 +134,7 @@ function ResourcesWrapper() {
 }
 
 function ResourcesAdvertLargeScreen() {
+  const { dispatch } = useContext(CourseContext);
   return (
     <section className="hidden lg:flex w-full h-screen overflow-clip">
       <div className="w-full h-full flex flex-col items-center justify-around">
@@ -153,20 +162,60 @@ function ResourcesAdvertLargeScreen() {
         </div>
       </div>
       <ResourcesWrapper />
-      <RightColumn showBoth={true} isLast={false} />
+      <RightColumn
+        onArrowUpClick={() => {
+          dispatch({
+              type: UPDATE_ROUTE,
+              payload: HOME_ROUTES.COURSES_ADVERT
+          })
+        }}
+        onArrowDownClick={() => {
+            dispatch({
+                type: UPDATE_ROUTE,
+                payload: HOME_ROUTES.INSTRUCTORS
+            })
+        }}
+      />
     </section>
   );
 }
 
 function ResourcesAdvertMobile() {
+  const { dispatch } = useContext(CourseContext);
   return (
-    <MobileContent>
+    <MobileContent
+      onArrowUpClick={() => {
+        dispatch({
+            type: UPDATE_ROUTE,
+            payload: HOME_ROUTES.COURSES_ADVERT
+        })
+      }}
+      onArrowDownClick={() => {
+          dispatch({
+              type: UPDATE_ROUTE,
+              payload: HOME_ROUTES.INSTRUCTORS
+          })
+      }}
+    >
       <ResourcesWrapper />
     </MobileContent>
   );
 }
 
 export default function ResourcesAdvert() {
+  const { dispatch } = useContext(CourseContext);
+
+  useEffect(() => {
+    dispatch({
+      type: SET_SHOWBOTH,
+      payload: true
+    });
+    dispatch({
+      type: SET_ISLAST,
+      payload: false
+    });
+  }, [])
+
   return (
     <>
       <ResourcesAdvertLargeScreen />

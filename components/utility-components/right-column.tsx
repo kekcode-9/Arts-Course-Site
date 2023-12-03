@@ -1,22 +1,26 @@
-import React from 'react';
+'use client'
+import React, { useContext } from 'react';
 import Image from 'next/image';
 import { StaticImageData } from 'next/image';
+import { CourseContext } from '@/utilities/store';
 import HeaderLinks from './header-links';
 import Arrows from './arrows';
 
 type RightColumnImage = {
     src?: StaticImageData;
-    showBoth: boolean;
-    isLast: boolean;
-    fit?: string
+    fit?: string;
+    onArrowUpClick?: () => void;
+    onArrowDownClick?: () => void;
 }
 
 export default function RightColumn({
     src,
-    showBoth,
-    isLast,
-    fit
+    fit,
+    onArrowUpClick,
+    onArrowDownClick
 }: RightColumnImage) {
+    const { state } = useContext(CourseContext);
+    const { showBoth } = state;
   return (
     <div
         className='flex flex-col w-full h-full'
@@ -36,7 +40,10 @@ export default function RightColumn({
                     placeholder='blur'
                 />
             }
-            <Arrows showBoth={showBoth} isLast={isLast} />
+            <Arrows
+                onArrowUp={onArrowUpClick}
+                onArrowDown={onArrowDownClick}
+            />
         </div>
     </div>
   )

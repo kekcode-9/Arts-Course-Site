@@ -2,11 +2,15 @@ import React from 'react';
 import MobileFooter from './mobile-footer';
 
 type MobildeContentProps = {
-  children: React.ReactNode
+  children: React.ReactNode;
+  onArrowUpClick?: () => void;
+  onArrowDownClick?: () => void;
 }
 
 export default function MobileContent({
-  children
+  children,
+  onArrowUpClick,
+  onArrowDownClick
 }: MobildeContentProps) {
   return (
     <section
@@ -14,7 +18,10 @@ export default function MobileContent({
       h-full max-md:max-h-[calc(100vh-6rem)] md:max-lg:max-h-[calc(100vh-6rem)]'
     >
       {children}
-      <MobileFooter showBoth={true} isLast={false} />
+      <MobileFooter 
+        onArrowUpClick={onArrowUpClick} 
+        onArrowDownClick={onArrowDownClick}
+      />
     </section>
   )
 }

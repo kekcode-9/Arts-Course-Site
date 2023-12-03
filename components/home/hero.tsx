@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import CTA from '../utility-components/cta';
 import Arrows from '../utility-components/arrows';
 import RightColumn from '../utility-components/right-column';
@@ -10,6 +10,8 @@ import constants from '@/utilities/constants/constants';
 import FruitBasket from '@/public/fruit-basket.webp';
 import BackAnatomy from '@/public/back-anatomy.webp';
 import ValuesOfHead from '@/public/values-of-head.webp';
+import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { ACTIONS } from '@/utilities/constants/actions';
 
 const { 
     OR, 
@@ -19,6 +21,12 @@ const {
     ARE_YOU_INSTRUCTOR,
     APPLY_NOW 
 } = constants;
+
+const {
+    UPDATE_ROUTE,
+    SET_SHOWBOTH,
+    SET_ISLAST
+  } = ACTIONS;
 
 function ApplySection () {
     return (
@@ -74,6 +82,7 @@ function MobileHeroImage () {
 }
 
 function HeroLargeScreens () {
+    const { dispatch } = useContext(CourseContext);
     return (
         <section
             className='hidden lg:flex h-screen text-white'
@@ -121,12 +130,20 @@ function HeroLargeScreens () {
                     <ApplySection/>
                 </div>
             </div>
-            <RightColumn src={BackAnatomy} showBoth={false} isLast={false} />
+            <RightColumn src={BackAnatomy}
+                onArrowDownClick={() => {
+                    dispatch({
+                        type: UPDATE_ROUTE,
+                        payload: HOME_ROUTES.COURSES_ADVERT
+                    })
+                }}
+            />
         </section>
     )
 }
 
 function HeroMobileDevices () {
+    const { dispatch } = useContext(CourseContext);
     return (
         <section className='hero-mobile flex flex-col lg:hidden h-full'>
             <div className='relative flex flex-grow items-center'> {/** if it can be 50% then i want it to be 50% but it at least has to fit the height max content height. then whichever of the two is larger can be chosen */}
@@ -140,22 +157,37 @@ function HeroMobileDevices () {
                 <div className='flex justify-center w-full my-8'>
                     <ApplySection/>
                 </div>
-                <Arrows showBoth={false} isLast={false} />
+                <Arrows
+                    onArrowDown={() => {
+                        dispatch({
+                            type: UPDATE_ROUTE,
+                            payload: HOME_ROUTES.COURSES_ADVERT
+                        })
+                    }}
+                />
             </div>
         </section>
     )
 }
 
 export default function Hero() {
+    const { dispatch } = useContext(CourseContext);
+
     useEffect(() => {
-        window.addEventListener('scroll', () => {
-            // alert('scrolling')
-        })
+        dispatch({
+            type: SET_SHOWBOTH,
+            payload: false
+        });
+        dispatch({
+            type: SET_ISLAST,
+            payload: false
+        });
     }, [])
+
   return (
     <>
         <HeroLargeScreens/>
-        {/*<HeroMobileDevices/>*/}
+        <HeroMobileDevices/>
     </>
   )
 }

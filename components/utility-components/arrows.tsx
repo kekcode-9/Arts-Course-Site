@@ -1,18 +1,22 @@
-import React from 'react';
+'use client'
+import React, { useContext } from 'react';
 import DownArrowRect from './svg-utilities/down-arrow-rect';
 import DownArrowTallRect from './svg-utilities/down-arrow-tall-rect';
 import DownArrowCircular from './svg-utilities/down-arrow-circular';
 import UpArrowcircular from './svg-utilities/up-arrow-circular';
+import { CourseContext } from '@/utilities/store';
 
 type ArrowsProps = {
-    showBoth: boolean,
-    isLast: boolean
+    onArrowUp?: () => void;
+    onArrowDown?: () => void;
 }
 
 export default function Arrows({
-    showBoth,
-    isLast
+    onArrowUp,
+    onArrowDown
 }: ArrowsProps) {
+    const { state } = useContext(CourseContext);
+    const { showBoth, isLast } = state;
   return (
     <div 
         className='lg:absolute lg:bottom-[4.25rem] lg:grid lg:grid-cols-4
@@ -21,9 +25,9 @@ export default function Arrows({
         <div className='hidden lg:flex lg:flex-col items-end gap-6 col-end-4'>
             {showBoth ?
             <>
-                <DownArrowRect up={true} />
-                <DownArrowRect up={false} />
-            </> : <DownArrowTallRect up={isLast} />
+                <DownArrowRect up={true} onClick={onArrowUp} />
+                <DownArrowRect up={false} onClick={onArrowDown} />
+            </> : <DownArrowTallRect up={isLast} onClick={isLast ? onArrowUp : onArrowDown} />
             }
         </div>
         <div className='lg:hidden'>
@@ -32,9 +36,9 @@ export default function Arrows({
                 <div
                     className='flex flex-col items-center'
                 >
-                    <UpArrowcircular/>
-                    <DownArrowCircular/>
-                </div> : <DownArrowCircular/>
+                    <UpArrowcircular onClick={onArrowUp} />
+                    <DownArrowCircular onClick={onArrowDown} />
+                </div> : <DownArrowCircular onClick={isLast ? onArrowUp : onArrowDown}/>
             }
         </div>
     </div>

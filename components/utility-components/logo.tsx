@@ -31,7 +31,7 @@ export default function Logo({
         </div>
         <div 
             className={`${position || 'absolute'} z-10 hidden lg:block
-            ${customInset || `top-0 right-0 ${bottom || 'bottom-12'} left-0`}  
+            ${customInset || `right-0 ${bottom || 'bottom-12'} left-0`}  
             w-fit h-fit
             m-auto`}
         >
