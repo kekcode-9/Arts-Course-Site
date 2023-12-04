@@ -1,17 +1,13 @@
 'use client'
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import RightColumn from '../utility-components/right-column';
 import Typography from '../utility-components/typography';
 import CTA from '../utility-components/cta';
-import MobileContent from '../utility-components/mobile-content';
 import Logo from '../utility-components/logo';
 import constants from '@/utilities/constants/constants';
 import DownArrowPlain from '../utility-components/svg-utilities/down-arrow-plain';
 import Skeletons from '@/public/skeletons.png';
-import { CourseContext, HOME_ROUTES } from '@/utilities/store';
-import { ACTIONS } from '@/utilities/constants/actions';
 
 const Slider = dynamic(() => import('../../components/utility-components/slider'), {
     loading: () => <p>Loading...</p>,
@@ -25,13 +21,7 @@ const {
     EXPLORE_ALL_COURSES
 } = constants;
 
-const {
-    UPDATE_ROUTE,
-    SET_SHOWBOTH,
-    SET_ISLAST
-  } = ACTIONS;
-
-function MiddleColumn() {
+export function MiddleColumn() {
     const [ showArrow, setShowArrow ] = useState(true);
     useEffect(() => {
         const setArrowVisibility = () => {
@@ -93,104 +83,53 @@ function MiddleColumn() {
     )
 }
 
-function CoursesAdvertLargeScreen() {
-    const { dispatch } = useContext(CourseContext);
+export function CoursesAdvertLargeLeftCol () {
     return (
-        <section
-            className='hidden lg:flex w-full h-screen'
-        >
-            <div
-                className='relative w-full h-screen'
-            >
-                <Slider imageFile='drawing-in-studio' total={4} />
-                <Logo/>
-            </div>
-            <MiddleColumn/>
-            <div
-                className='w-full h-full bg-white'
-            >
-                <RightColumn 
-                    src={Skeletons}
-                    fit='none'
-                    onArrowUpClick={() => {
-                        dispatch({
-                            type: UPDATE_ROUTE,
-                            payload: HOME_ROUTES.HERO
-                        })
-                    }}
-                    onArrowDownClick={() => {
-                        dispatch({
-                            type: UPDATE_ROUTE,
-                            payload: HOME_ROUTES.RESOURCES_ADVERT
-                        })
-                    }}
-                />
-            </div>
-        </section>
+        <>
+            <Slider imageFile='drawing-in-studio' total={4} />
+            <Logo/>
+        </>
     )
 }
 
-function CourseAdvertMobile() {
-    const { dispatch } = useContext(CourseContext);
+export function CourseAdvertLargeRightImage() {
     return (
-        <MobileContent
-            onArrowUpClick={() => {
-                dispatch({
-                    type: UPDATE_ROUTE,
-                    payload: HOME_ROUTES.HERO
-                })
-            }}
-            onArrowDownClick={() => {
-                dispatch({
-                    type: UPDATE_ROUTE,
-                    payload: HOME_ROUTES.RESOURCES_ADVERT
-                })
-            }}
-        >
-            <div className='relative flex items-center flex-grow 
+        <Image
+            src={Skeletons}
+            alt='back anatomy sketch'
+            fill
+            objectFit='none'
+            loading='lazy'
+            placeholder='blur'
+        />
+    )
+}
+
+export function CourseAdvertMobile() {
+    return (
+        <div 
+            className='relative flex items-center flex-grow 
             w-full h-fit
-            overflow-scroll'>
-                <Image 
-                    src={Skeletons}
-                    alt='skeletons'
-                    placeholder='blur'
-                    fill
-                    objectFit='cover'
-                    className='relative -z-10'
-                />
-                <div 
-                    className='absolute -z-9 top-0 
-                    w-full h-full 
-                    bg-neutral-dark-gray-bg opacity-70'
-                />
-                <div
-                    className='w-full max-h-[calc(100vh-21rem)] overflow-scroll'
-                >
-                    <MiddleColumn/>
-                </div>
+            overflow-scroll'
+        >
+            <Image 
+                src={Skeletons}
+                alt='skeletons'
+                placeholder='blur'
+                fill
+                objectFit='cover'
+                className='relative -z-10'
+            />
+            <div 
+                className='absolute -z-9 top-0 
+                w-full h-full 
+                bg-neutral-dark-gray-bg opacity-70'
+            />
+            <div
+                className='w-full max-h-[calc(100vh-21rem)] overflow-scroll'
+            >
+                <MiddleColumn/>
             </div>
-        </MobileContent>
+        </div>
     )
-}
-
-export default function CoursesAdvert() {
-  const { dispatch } = useContext(CourseContext);
-
-  useEffect(() => {
-    dispatch({
-      type: SET_SHOWBOTH,
-      payload: true
-    });
-    dispatch({
-      type: SET_ISLAST,
-      payload: false
-    });
-  }, [])
-
-  return (
-    <>
-        <CoursesAdvertLargeScreen/>
-        <CourseAdvertMobile/>
-    </>
-  )
 }

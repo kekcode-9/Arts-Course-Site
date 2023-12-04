@@ -1,27 +1,17 @@
 "use client";
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import { motion, useAnimationControls } from "framer-motion";
-import MobileContent from "../utility-components/mobile-content";
 import Typography from "../utility-components/typography";
-import RightColumn from "../utility-components/right-column";
 import constants from "@/utilities/constants/constants";
 import Logo from "../utility-components/logo";
 import References from "@/public/references.webp";
 import Models from "@/public/models.webp";
 import Videos from "@/public/videos.webp";
-import { CourseContext, HOME_ROUTES } from '@/utilities/store';
-import { ACTIONS } from '@/utilities/constants/actions';
 
 const { HRS_OF_VIDEO, FIFTEENK_REFERENCES, THREEHUNDRED_3D_MODELS } = constants;
 
 const labels = [HRS_OF_VIDEO, FIFTEENK_REFERENCES, THREEHUNDRED_3D_MODELS];
-
-const {
-  UPDATE_ROUTE,
-  SET_SHOWBOTH,
-  SET_ISLAST
-} = ACTIONS;
 
 type ResourseOverviewProps = {
   src: StaticImageData;
@@ -105,7 +95,7 @@ function ResourseOverview({
   );
 }
 
-function ResourcesWrapper() {
+export function ResourcesWrapper() {
   return (
     <div
       className="relative lg:z-10 flex flex-col items-center gap-2
@@ -133,93 +123,31 @@ function ResourcesWrapper() {
   );
 }
 
-function ResourcesAdvertLargeScreen() {
-  const { dispatch } = useContext(CourseContext);
-  return (
-    <section className="hidden lg:flex w-full h-screen overflow-clip">
-      <div className="w-full h-full flex flex-col items-center justify-around">
-        <div className="absolute bottom-0 w-[1px] h-screen bg-white" />
-        {labels.map((label, i) => {
-          return (
-            <div key={i}
-              className={`relative z-10 w-full h-max py-4 ${
-                i == 2 ? "mb-32" : "mb-12"
-              } bg-neutral-dark-gray-bg`}
-            >
-              <Typography isHeader={false}>{label}</Typography>
-            </div>
-          );
-        })}
-        <div
-          className="absolute z-10 bottom-12
-                    flex flex-col gap-2 items-center 
-                    w-full h-max 
-                    py-4
-                    bg-neutral-dark-gray-bg"
-        >
-          <Typography isHeader={false}>@</Typography>
-          <Logo position="relative" bottom="bottom-0" />
-        </div>
-      </div>
-      <ResourcesWrapper />
-      <RightColumn
-        onArrowUpClick={() => {
-          dispatch({
-              type: UPDATE_ROUTE,
-              payload: HOME_ROUTES.COURSES_ADVERT
-          })
-        }}
-        onArrowDownClick={() => {
-            dispatch({
-                type: UPDATE_ROUTE,
-                payload: HOME_ROUTES.INSTRUCTORS
-            })
-        }}
-      />
-    </section>
-  );
-}
-
-function ResourcesAdvertMobile() {
-  const { dispatch } = useContext(CourseContext);
-  return (
-    <MobileContent
-      onArrowUpClick={() => {
-        dispatch({
-            type: UPDATE_ROUTE,
-            payload: HOME_ROUTES.COURSES_ADVERT
-        })
-      }}
-      onArrowDownClick={() => {
-          dispatch({
-              type: UPDATE_ROUTE,
-              payload: HOME_ROUTES.INSTRUCTORS
-          })
-      }}
-    >
-      <ResourcesWrapper />
-    </MobileContent>
-  );
-}
-
-export default function ResourcesAdvert() {
-  const { dispatch } = useContext(CourseContext);
-
-  useEffect(() => {
-    dispatch({
-      type: SET_SHOWBOTH,
-      payload: true
-    });
-    dispatch({
-      type: SET_ISLAST,
-      payload: false
-    });
-  }, [])
-
+export function ResourcesAdvertLargeLeftCol () {
   return (
     <>
-      <ResourcesAdvertLargeScreen />
-      <ResourcesAdvertMobile />
+      <div className="absolute bottom-0 w-[1px] h-screen bg-white" />
+      {labels.map((label, i) => {
+        return (
+          <div key={i}
+            className={`relative z-10 w-full h-max py-4 ${
+              i == 2 ? "mb-32" : "mb-12"
+            } bg-neutral-dark-gray-bg`}
+          >
+            <Typography isHeader={false}>{label}</Typography>
+          </div>
+        );
+      })}
+      <div
+        className="absolute z-10 bottom-12
+                  flex flex-col gap-2 items-center 
+                  w-full h-max 
+                  py-4
+                  bg-neutral-dark-gray-bg"
+      >
+        <Typography isHeader={false}>@</Typography>
+        <Logo position="relative" bottom="bottom-0" />
+      </div>
     </>
-  );
+  )
 }

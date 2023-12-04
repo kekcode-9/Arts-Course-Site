@@ -1,43 +1,42 @@
 'use client'
 import React, { useContext } from 'react';
-import Hero from './hero';
-import CoursesAdvert from './courses-advert';
-import ResourcesAdvert from './resources-advert';
-import Instructors from './instructors';
+import { HeroMobileDevices } from './hero';
+import LeftColumn from '../utility-components/left-column';
+import RightColumn from '../utility-components/right-column';
+import MiddleColumn from '../utility-components/middle-column';
+import MobileContent from '../utility-components/mobile-content';
 import { 
     CourseContextProvider, 
     CourseContext, 
     HOME_ROUTES
 } from '@/utilities/store';
 
-const {
-    HERO,
-    COURSES_ADVERT,
-    RESOURCES_ADVERT,
-    INSTRUCTORS
-} = HOME_ROUTES
+const { HERO } = HOME_ROUTES
 
-const getActiveSection = (route: string) => {
-    switch(route) {
-        case HERO:
-            return <Hero/>
-        case COURSES_ADVERT:
-            return <CoursesAdvert/>
-        case RESOURCES_ADVERT:
-            return <ResourcesAdvert/>
-        case INSTRUCTORS:
-            return <Instructors/>
-        default:
-            return <Hero/>
-    }
+function AssembledContentLarge() {
+    return (
+        <section
+            className='relative
+            hidden lg:flex
+            w-full h-screen
+            overflow-clip'
+        >
+            <LeftColumn/>
+            <MiddleColumn/>
+            <RightColumn/>
+        </section>
+    )
 }
 
-function Test () {
+function Main () {
     const { state } = useContext(CourseContext);
     const { route } = state;
     return (
         <>
-            {getActiveSection(route)}
+            {
+                route === HERO ? <HeroMobileDevices/> : <MobileContent/>
+            }
+            <AssembledContentLarge/>
         </>
     )
 }
@@ -45,7 +44,7 @@ function Test () {
 export default function HomePage() {
   return (
     <CourseContextProvider>
-        <Test/>
+        <Main/>
     </CourseContextProvider>
   )
 }
