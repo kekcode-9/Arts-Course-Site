@@ -1,55 +1,74 @@
-'use client'
-import React, { useContext } from 'react';
-import dynamicImports from '@/utilities/dynamic-imports';
-import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+"use client";
+import React, { useContext } from "react";
+import dynamicImports from "@/utilities/dynamic-imports";
+import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 
-const { 
-    HERO,
-    COURSES_ADVERT,
-    RESOURCES_ADVERT,
-    INSTRUCTORS
-} = HOME_ROUTES;
+const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 
 type MiddleColumnProps = {
-    position?: string;
-    flex?: string;
-    additionalClasses?: string;
-}
+  position?: string;
+  flex?: string;
+  additionalClasses?: string;
+};
 
 export default function MiddleColumn({
-    position,
-    flex,
-    additionalClasses
+  position,
+  flex,
+  additionalClasses,
 }: MiddleColumnProps) {
-    const { state } = useContext(CourseContext);
-    const { route } = state;
+  const { state } = useContext(CourseContext);
+  const { route } = state;
 
-    const divContent = () => {
-        switch(route) {
-            case HERO:
-                return dynamicImports(HERO, 'HeroLargeMiddleCol');
-            case COURSES_ADVERT:
-                return dynamicImports(COURSES_ADVERT, 'MiddleColumn');
-            case RESOURCES_ADVERT:
-                return dynamicImports(RESOURCES_ADVERT, 'ResourcesWrapper');
-            default:
-                return dynamicImports(HERO, 'HeroLargeMiddleCol');
-        }
+  const divContent = () => {
+    switch (route) {
+      case HERO:
+        return dynamicImports(HERO, "HeaderSection");
+      case COURSES_ADVERT:
+        return dynamicImports(COURSES_ADVERT, "MiddleColumn");
+      case RESOURCES_ADVERT:
+        return dynamicImports(RESOURCES_ADVERT, "ResourcesWrapper");
+      default:
+        return dynamicImports(HERO, "HeroLargeMiddleCol");
     }
+  };
 
   return (
     <div
-        className={`
-            ${route === INSTRUCTORS && 'hidden'}
+      className={`
+            ${route === INSTRUCTORS && "hidden"}
             ${position}
             ${flex}
             w-full h-full
             ${additionalClasses}
         `}
     >
-        {
-            divContent()
-        }
+      <div
+        className={`div-middle-upper
+                relative z-10
+                flex ${
+                  route !== HERO && "flex-col"
+                } items-center justify-center 
+                ${
+                  route === COURSES_ADVERT
+                    ? "gap-6 lg:gap-8"
+                    : route === RESOURCES_ADVERT && "gap-2"
+                }
+                w-full 
+                ${route === HERO ? "h-1/2" : "h-full"}
+                ${route === RESOURCES_ADVERT && "bg-black"}
+            `}
+      >
+        {divContent()}
+      </div>
+      <div
+        className={`div-middle-lower
+                flex items-center justify-center
+                w-full h-1/2 
+                bg-burnt-orange
+            `}
+      >
+        {route === HERO && dynamicImports("hero", "ApplySection")}
+      </div>
     </div>
-  )
+  );
 }

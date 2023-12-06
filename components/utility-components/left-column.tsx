@@ -36,42 +36,44 @@ export default function LeftColumn() {
             w-full h-screen
         `}
     >
-      <AnimatePresence>
-        {route === HERO && (
-          <motion.div
-            className="div-upper
-                    flex justify-center
-                    w-full h-1/2
-                    lg:pt-[7.75rem]
-                    bg-burnt-orange"
-            initial={{
-              transform: "scaleY(0)",
-              transformOrigin: "top",
-            }}
-            animate={{
-              transform: "scaleY(1)",
-              transformOrigin: "top",
-            }}
-            exit={{
-              transform: "scaleY(0)",
-              transformOrigin: "bottom",
-            }}
-          >
-            {route === HERO && dynamicImports("hero", "ObjectiveSection")}
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <div
-        className={`div-lower
+        <AnimatePresence>
+            {
+                route === HERO && (
+                <motion.div
+                    className="div-left-upper
+                            flex justify-center
+                            w-full h-1/2
+                            lg:pt-[7.75rem]
+                            bg-burnt-orange"
+                    initial={{
+                    transform: "scaleY(0)",
+                    transformOrigin: "top",
+                    }}
+                    animate={{
+                    transform: "scaleY(1)",
+                    transformOrigin: "top",
+                    }}
+                    exit={{
+                    transform: "scaleY(0)",
+                    transformOrigin: "top",
+                    }}
+                >
+                    {route === HERO && dynamicImports("hero", "ObjectiveSection")}
+                </motion.div>
+            )}
+        </AnimatePresence>
+        <div
+          className={`div-left-lower
             relative
             ${
-              route === RESOURCES_ADVERT &&
-              "flex flex-col items-center justify-around"
+            route === RESOURCES_ADVERT &&
+            "flex flex-col items-center justify-around"
             }
-            w-full ${route === HERO ? "h-1/2" : "h-screen"}`}
-      >
-        {divLowerContent()}
-      </div>
+            w-full ${route === HERO ? "h-1/2" : "h-screen"}
+          `}
+        >
+            {divLowerContent()}
+        </div>
     </div>
   );
 }

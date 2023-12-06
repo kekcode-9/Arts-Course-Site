@@ -18,7 +18,7 @@ const {
     APPLY_NOW 
 } = constants;
 
-function ApplySection () {
+export function ApplySection () {
     return (
         <div
             className='flex flex-col items-center gap-6 
