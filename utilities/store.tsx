@@ -18,18 +18,20 @@ type initialStateType = {
     route: homeRoutesType[keyof homeRoutesType];
     showBoth: boolean;
     isLast: boolean;
+    data: any;
 }
 
 // create the initial state
 const initialState: initialStateType = {
     route: HOME_ROUTES.HERO,
     showBoth: false,
-    isLast: false
+    isLast: false,
+    data: {}
 }
 
 // create the type of the action parameter for reducer
 type actionType = {
-    type: (typeof ACTIONS)[keyof (typeof ACTIONS)];
+    type: (typeof ACTIONS)[keyof (typeof ACTIONS)] | 'TEST';
     payload?: any
 }
 
@@ -43,6 +45,11 @@ const {
 function reducer (state: initialStateType, action: actionType) {
     const { type, payload } = action;
     switch(type) {
+        case 'TEST':
+            return {
+                ...state,
+                data: payload
+            }
         case UPDATE_ROUTE:
             return {
                 ...state,

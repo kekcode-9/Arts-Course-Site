@@ -8,6 +8,7 @@ import Logo from '../utility-components/logo';
 import constants from '@/utilities/constants/constants';
 import DownArrowPlain from '../utility-components/svg-utilities/down-arrow-plain';
 import Skeletons from '@/public/skeletons.png';
+import getCourses from '@/firebase/firestore-access';
 
 const Slider = dynamic(() => import('../../components/utility-components/slider'), {
     loading: () => <p>Loading...</p>,
@@ -84,6 +85,9 @@ export function MiddleColumn() {
 }
 
 export function CoursesAdvertLargeLeftCol () {
+    useEffect(() => {
+        getCourses();
+    }, [])
     return (
         <>
             <Slider imageFile='drawing-in-studio' total={4} />

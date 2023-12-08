@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { HeroMobileDevices } from './hero';
 import LeftColumn from '../utility-components/left-column';
 import RightColumn from '../utility-components/right-column';
@@ -28,23 +28,47 @@ function AssembledContentLarge() {
     )
 }
 
-function Main () {
-    const { state } = useContext(CourseContext);
-    const { route } = state;
+type mainProps = {
+    d: any;
+}
+
+function Main ({ d }: mainProps) {
+    const { state, dispatch } = useContext(CourseContext);
+    const { route, data } = state;
+    useEffect(() => {
+        d.then((dt: any) => {
+            dispatch({
+                type: 'TEST',
+                payload: dt
+            })
+        })
+    }, [])
     return (
         <>
             {
-                route === HERO ? <HeroMobileDevices/> : <MobileContent/>
+                // route === HERO ? <HeroMobileDevices/> : <MobileContent/>
             }
-            <AssembledContentLarge/>
+            {/*<AssembledContentLarge/>*/}
+            {
+                data && <>{JSON.stringify(data)}</>
+            }
         </>
     )
 }
 
-export default function HomePage() {
+type HomeProps = {
+    data: any;
+}
+
+export default function HomePage({
+    data
+}: HomeProps) {
+    useEffect(() => {
+        // data.then((d: any) => {alert(JSON.stringify(d))}).catch((e: any) => alert(JSON.stringify(e)))
+    }, [])
   return (
     <CourseContextProvider>
-        <Main/>
+        <Main d={data}/>
     </CourseContextProvider>
   )
 }
