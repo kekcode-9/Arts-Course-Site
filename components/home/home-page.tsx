@@ -14,6 +14,11 @@ import {
 const { HERO } = HOME_ROUTES
 
 function AssembledContentLarge() {
+    /**
+     * left top --> left bottom --> middle top --> middle bottom --> right top --> right bottom
+     * left top --> middle bottom --> right top --> middle top --> left bottom --> right bottom
+     * 0            0                 0             0.5            1               1.5
+     */
     return (
         <section
             className='relative

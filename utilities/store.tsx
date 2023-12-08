@@ -10,12 +10,12 @@ export const HOME_ROUTES = {
     INSTRUCTORS: 'instructors'
 } as const
 
-export type homeRoutesType = typeof HOME_ROUTES
+export type homeRoutesType = (typeof HOME_ROUTES)[keyof (typeof HOME_ROUTES)]
 
 // create the type for the initial state of the store
 type initialStateType = {
     // route can be any of the values from the HOME_ROUTES (key, value) pairs
-    route: homeRoutesType[keyof homeRoutesType];
+    route: homeRoutesType;
     showBoth: boolean;
     isLast: boolean;
 }

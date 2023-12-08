@@ -1,5 +1,6 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import gsap from "gsap";
 import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 import HeaderLinks from "./header-links";
 import Arrows from "./arrows";
@@ -10,6 +11,7 @@ const { HERO, COURSES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 export default function RightColumn() {
   const { state } = useContext(CourseContext);
   const { showBoth, route } = state;
+  const lowerDivRef = useRef<HTMLDivElement | null>(null);
 
   const imageContent = () => {
     switch (route) {
@@ -21,6 +23,17 @@ export default function RightColumn() {
         return <></>;
     }
   };
+
+  useEffect(() => {
+    if (lowerDivRef.current) {
+      setTimeout(() => {
+        gsap.to(lowerDivRef.current, {
+          scaleY: 1,
+          duration: 0.5
+        });
+      }, 120);
+    }
+  }, [lowerDivRef.current])
 
   return (
     <div
@@ -36,10 +49,12 @@ export default function RightColumn() {
         height={showBoth || route === INSTRUCTORS ? "lg:h-1/6" : null}
       />
       <div
+        ref={lowerDivRef}
         className={`relative basis-auto
-            w-full h-full
-            ${route === COURSES_ADVERT ? "bg-white" : ""}
-            `}
+          w-full h-full
+          ${route === COURSES_ADVERT ? "bg-white" : ""}
+          scale-y-0 origin-bottom
+        `}
       >
         {
             imageContent()
