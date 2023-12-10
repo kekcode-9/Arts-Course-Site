@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import dynamicImports from "@/utilities/dynamic-imports";
 import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 import gsap from "gsap";
@@ -17,8 +17,10 @@ export default function MiddleColumn({
   flex,
   additionalClasses
 }: MiddleColumnProps) {
+  const [ showUpperContent, setShowUpperContent ] = useState(false);
+  const [ showLowerContent, setShowLowerContent] = useState(false);
   const { state } = useContext(CourseContext);
-  const { route } = state;
+  const { route, lastRoute } = state;
   const upperDivRef = useRef<HTMLDivElement | null>(null);
   const lowerDivRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,15 +42,67 @@ export default function MiddleColumn({
       setTimeout(() => {
         gsap.to(upperDivRef.current, {
           scaleY: 1,
-          duration: 0.5
+          duration: 0.5,
+          onComplete: () => {
+            setShowUpperContent(true);
+          }
         });
       }, 100);
+
       gsap.to(lowerDivRef.current, {
         scaleY: 1,
-        duration: 0.5
+        duration: 0.5,
+        onComplete: () => {
+          setShowLowerContent(true);
+        }
       })
     }
   }, [upperDivRef.current, lowerDivRef.current]);
+
+  useEffect(() => {
+    if (upperDivRef.current && lowerDivRef.current) {
+      if (lastRoute === HERO && route === COURSES_ADVERT) {
+        setShowUpperContent(false);
+        setShowLowerContent(false);
+        const tl = gsap.timeline();
+        tl.to(lowerDivRef.current, {
+          scaleY: 0,
+          transformOrigin: 'bottom',
+          duration: 0.5,
+          onComplete: () => {
+            gsap.set(lowerDivRef.current, {
+              display: 'none'
+            });
+          }
+        });
+        tl.to(upperDivRef.current, {
+          height: '100%',
+          onComplete: () => {
+            setShowUpperContent(true);
+          }
+        });
+      } if (lastRoute === COURSES_ADVERT && route === HERO) {
+        setShowUpperContent(false);
+        const tl = gsap.timeline();
+        tl.set(lowerDivRef.current, {
+          display: 'flex',
+        });
+        tl.to(upperDivRef.current, {
+          height: '50%',
+          onComplete: () => {
+            setShowUpperContent(true);
+          }
+        })
+        tl.to(lowerDivRef.current, {
+          scaleY: 1,
+          duration: 0.5,
+          onComplete: () => {
+            setShowLowerContent(true);
+          }
+        });
+      }
+    }
+  }, [lastRoute, route])
 
   return (
     <div
@@ -72,27 +126,24 @@ export default function MiddleColumn({
               : route === RESOURCES_ADVERT && "gap-2"
           }
           w-full 
-          ${route === HERO ? "h-1/2" : "h-full"}
+          ${/*route === HERO ? "h-1/2" : "h-full"*/'h-1/2'}
           ${route === RESOURCES_ADVERT && "bg-black"}
           scale-y-0 origin-top
       `}
       >
-        {divContent()}
+        {showUpperContent && divContent()}
       </div>
-      {
-        route === HERO &&
-        <div
-          ref={lowerDivRef}
-          className={`div-middle-lower
-            flex items-center justify-center
-            w-full h-1/2 
-            bg-burnt-orange
-            scale-y-0 origin-bottom
-        `}
-        >
-          {dynamicImports("hero", "ApplySection")}
-        </div>
-      }
+      <div
+        ref={lowerDivRef}
+        className={`div-middle-lower
+          flex items-center justify-center
+          w-full h-1/2 
+          bg-burnt-orange
+          scale-y-0 origin-bottom
+      `}
+      >
+        {route === HERO && showLowerContent && dynamicImports("hero", "ApplySection")}
+      </div>
     </div>
   );
 }

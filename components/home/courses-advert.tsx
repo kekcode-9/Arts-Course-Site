@@ -1,5 +1,7 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import gsap from 'gsap';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import Typography from '../utility-components/typography';
@@ -93,14 +95,29 @@ export function CoursesAdvertLargeLeftCol () {
 }
 
 export function CourseAdvertLargeRightImage() {
+    const MotionImage = motion(Image);
+
     return (
-        <Image
+        <MotionImage
+            key={'rightImage'}
             src={Skeletons}
             alt='back anatomy sketch'
             fill
-            objectFit='none'
+            objectFit='contain'
             loading='lazy'
             placeholder='blur'
+            initial={{
+                opacity: 0
+            }}
+            animate={{
+                opacity: 1,
+            }}
+            exit={{
+                opacity: 0
+            }}
+            transition={{
+                duration: 0.2
+            }}
         />
     )
 }

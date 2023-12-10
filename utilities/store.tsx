@@ -16,12 +16,14 @@ export type homeRoutesType = (typeof HOME_ROUTES)[keyof (typeof HOME_ROUTES)]
 type initialStateType = {
     // route can be any of the values from the HOME_ROUTES (key, value) pairs
     route: homeRoutesType;
+    lastRoute: homeRoutesType;
     showBoth: boolean;
     isLast: boolean;
 }
 
 // create the initial state
 const initialState: initialStateType = {
+    lastRoute: HOME_ROUTES.HERO,
     route: HOME_ROUTES.HERO,
     showBoth: false,
     isLast: false
@@ -44,8 +46,12 @@ function reducer (state: initialStateType, action: actionType) {
     const { type, payload } = action;
     switch(type) {
         case UPDATE_ROUTE:
-            return {
+            const updated = {
                 ...state,
+                lastRoute: state.route
+            }
+            return {
+                ...updated,
                 route: payload
             }
         case SET_SHOWBOTH:

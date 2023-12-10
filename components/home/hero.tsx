@@ -1,6 +1,8 @@
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 import CTA from '../utility-components/cta';
 import Arrows from '../utility-components/arrows';
 import Typography from '../utility-components/typography';
@@ -106,14 +108,53 @@ export function HeroLargeMiddleCol () {
 }
 
 export function HeroLargeRightImage() {
+    const imgRef = useRef<HTMLImageElement | null>(null);
+    const MotionImage = motion(Image);
+
+    const fadeImageInOut = (fadeIn: boolean) => {
+        // if (imgRef.current) {
+        //     gsap.fromTo(imgRef.current, {
+        //         opacity: + !fadeIn
+        //     }, {
+        //         opacity: + fadeIn,
+        //         duration: 1
+        //     })
+        // }
+    }
+
+    useEffect(() => {
+        // fadeImageInOut(true);
+        // return () => {
+        //     fadeImageInOut(false);
+        // }
+    }, [])
+
     return (
-        <Image
+        <MotionImage
+            key={'rightImage1'}
+            ref={imgRef}
             src={BackAnatomy}
             alt='back anatomy sketch'
             fill
             objectFit='cover'
             loading='lazy'
             placeholder='blur'
+            initial={{
+                opacity: 0
+            }}
+            animate={{
+                opacity: 1,
+                transition: {
+                    delay: 0.4,
+                    duration: 2
+                }
+            }}
+            exit={{
+                opacity: 0,
+                transition: {
+                    duration: 0.5
+                }
+            }}
         />
     )
 }
