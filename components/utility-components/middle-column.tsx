@@ -1,10 +1,29 @@
 "use client";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import dynamicImports from "@/utilities/dynamic-imports";
 import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 import gsap from "gsap";
+import Typography from "./typography";
+import constants from "@/utilities/constants/constants";
+
+const { NAME_HEADER } = constants;
 
 const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
+
+const HeroHeader = dynamicImports(HERO, "HeaderSection", "heroMiddleColUpper");
+const CoursesMiddleCol = dynamicImports(COURSES_ADVERT, "MiddleColumn", "coursesMiddleCol");
+const ResourcesWrapper = dynamicImports(RESOURCES_ADVERT, "ResourcesWrapper", "resourcesMiddleCol");
+
+function SplashScreen() {
+  const { state } = useContext(CourseContext);
+  const { isSplashScreen } = state;
+  return (
+      <Typography isHeader={true} isSplash={isSplashScreen} >
+          {NAME_HEADER}
+      </Typography>
+  )
+}
 
 type MiddleColumnProps = {
   position?: string;
@@ -17,38 +36,29 @@ export default function MiddleColumn({
   flex,
   additionalClasses
 }: MiddleColumnProps) {
-  const [ showUpperContent, setShowUpperContent ] = useState(false);
+  const [ showUpperContent, setShowUpperContent ] = useState(true);
   const [ showLowerContent, setShowLowerContent] = useState(false);
   const { state } = useContext(CourseContext);
-  const { route, lastRoute } = state;
+  const { route, lastRoute, isSplashScreen } = state;
+  const divRef = useRef<HTMLDivElement | null>(null);
   const upperDivRef = useRef<HTMLDivElement | null>(null);
   const lowerDivRef = useRef<HTMLDivElement | null>(null);
 
   const divContent = () => {
     switch (route) {
       case HERO:
-        return dynamicImports(HERO, "HeaderSection");
+        return <SplashScreen/>;
       case COURSES_ADVERT:
-        return dynamicImports(COURSES_ADVERT, "MiddleColumn");
+        return CoursesMiddleCol;
       case RESOURCES_ADVERT:
-        return dynamicImports(RESOURCES_ADVERT, "ResourcesWrapper");
+        return ResourcesWrapper;
       default:
-        return dynamicImports(HERO, "HeroLargeMiddleCol");
+        return HeroHeader;
     }
   };
 
   useEffect(() => {
-    if (upperDivRef.current && lowerDivRef.current) {
-      setTimeout(() => {
-        gsap.to(upperDivRef.current, {
-          scaleY: 1,
-          duration: 0.5,
-          onComplete: () => {
-            setShowUpperContent(true);
-          }
-        });
-      }, 100);
-
+    if (lowerDivRef.current && !isSplashScreen) {
       gsap.to(lowerDivRef.current, {
         scaleY: 1,
         duration: 0.5,
@@ -57,7 +67,7 @@ export default function MiddleColumn({
         }
       })
     }
-  }, [upperDivRef.current, lowerDivRef.current]);
+  }, [lowerDivRef.current, isSplashScreen]);
 
   useEffect(() => {
     if (upperDivRef.current && lowerDivRef.current) {
@@ -81,7 +91,7 @@ export default function MiddleColumn({
             setShowUpperContent(true);
           }
         });
-      } if (lastRoute === COURSES_ADVERT && route === HERO) {
+      } else if (lastRoute === COURSES_ADVERT && route === HERO) {
         setShowUpperContent(false);
         const tl = gsap.timeline();
         tl.set(lowerDivRef.current, {
@@ -89,6 +99,7 @@ export default function MiddleColumn({
         });
         tl.to(upperDivRef.current, {
           height: '50%',
+          delay: 0.5,
           onComplete: () => {
             setShowUpperContent(true);
           }
@@ -100,20 +111,35 @@ export default function MiddleColumn({
             setShowLowerContent(true);
           }
         });
+      } else if (route === INSTRUCTORS) {
+        gsap.to(divRef.current, {
+          display: 'none',
+          delay: 0.5
+        })
+      } else if (lastRoute === INSTRUCTORS) {
+        const tl = gsap.timeline();
+        tl.set(divRef.current, {
+          display: 'block',
+          opacity: 0
+        })
+        .to(divRef.current, {
+          opacity: 1,
+          delay: 1
+        })
       }
     }
   }, [lastRoute, route])
 
   return (
     <div
+      ref={divRef}
       className={`
-            ${route === INSTRUCTORS && "hidden"}
-            ${position}
-            ${flex}
-            w-full h-full
-            ${additionalClasses}
-            overflow-clip
-        `}
+      ${position}
+      ${flex}
+      w-full h-full
+      ${additionalClasses}
+      overflow-clip
+      `}
     >
       <div
         ref={upperDivRef}
@@ -126,12 +152,12 @@ export default function MiddleColumn({
               : route === RESOURCES_ADVERT && "gap-2"
           }
           w-full 
-          ${/*route === HERO ? "h-1/2" : "h-full"*/'h-1/2'}
-          ${route === RESOURCES_ADVERT && "bg-black"}
-          scale-y-0 origin-top
+          h-1/2
       `}
       >
-        {showUpperContent && divContent()}
+        <AnimatePresence mode="wait">
+          {showUpperContent && route !== INSTRUCTORS && divContent()}
+        </AnimatePresence>
       </div>
       <div
         ref={lowerDivRef}

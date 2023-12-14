@@ -21,18 +21,46 @@ const {
 } = constants;
 
 export function ApplySection () {
+    const spanRefs = [
+        useRef<HTMLSpanElement | null>(null),
+        useRef<HTMLSpanElement | null>(null),
+        useRef<HTMLSpanElement | null>(null)
+    ]
+
+    useEffect(() => {
+        const tl = gsap.timeline();
+        spanRefs.forEach((ref) => {
+            if (ref.current) {
+                tl.fromTo(ref.current, {
+                    translateY: '20px',
+                    opacity: 0
+                }, {
+                    translateY: '0px',
+                    opacity: 1,
+                    duration: 0.3
+                }, "<+0.07")
+            }
+        })
+    }, [])
+
     return (
         <div
             className='flex flex-col items-center gap-6 
             w-[16.5rem]'
         >
-            <Typography isHeader={false}>
-                { LABEL_FOR_CLASSES }
-            </Typography>
-            <CTA label={ APPLY_NOW } primary={true} />
-            <Typography isHeader={false}>
-                { OR } <br/> <span className='underline'> { ARE_YOU_INSTRUCTOR } </span> ?
-            </Typography>
+            <span ref={spanRefs[0]}>
+                <Typography isHeader={false}>
+                    { LABEL_FOR_CLASSES }
+                </Typography>
+            </span>
+            <span ref={spanRefs[1]}>
+                <CTA label={ APPLY_NOW } primary={true} />
+            </span>
+            <span ref={spanRefs[2]}>
+                <Typography isHeader={false}>
+                    { OR } <br/> <span className='underline'> { ARE_YOU_INSTRUCTOR } </span> ?
+                </Typography>
+            </span>
         </div>
     )
 }
@@ -48,8 +76,9 @@ export function HeaderSection () {
 export function ObjectiveSection () {
     return (
         <Typography
-            additionalClasses='lg:w-full xl:w-1/2 lg:text-left text-center font-extralight px-[3rem] xl:px[0rem]'
+            additionalClasses='lg:w-full xl:w-1/2 lg:text-left text-center font-extralight px-[3rem] xl:px-[0rem]'
             isHeader={false}
+            animateEntrance={true}
         >
             { HERO_OBJECTIVE }
         </Typography>
@@ -111,27 +140,8 @@ export function HeroLargeRightImage() {
     const imgRef = useRef<HTMLImageElement | null>(null);
     const MotionImage = motion(Image);
 
-    const fadeImageInOut = (fadeIn: boolean) => {
-        // if (imgRef.current) {
-        //     gsap.fromTo(imgRef.current, {
-        //         opacity: + !fadeIn
-        //     }, {
-        //         opacity: + fadeIn,
-        //         duration: 1
-        //     })
-        // }
-    }
-
-    useEffect(() => {
-        // fadeImageInOut(true);
-        // return () => {
-        //     fadeImageInOut(false);
-        // }
-    }, [])
-
     return (
         <MotionImage
-            key={'rightImage1'}
             ref={imgRef}
             src={BackAnatomy}
             alt='back anatomy sketch'
@@ -152,7 +162,7 @@ export function HeroLargeRightImage() {
             exit={{
                 opacity: 0,
                 transition: {
-                    duration: 0.5
+                    duration: 2
                 }
             }}
         />

@@ -19,16 +19,16 @@ export default function HeaderLinks({
   height,
 }: HeaderLinksProps) {
   const { state } = useContext(CourseContext);
-  const { route, lastRoute } = state;
+  const { route, lastRoute, isSplashScreen } = state;
   const headerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    if (headerRef.current) {
+    if (headerRef.current && !isSplashScreen) {
       gsap.to(headerRef.current, {
         translateY: "0%",
         duration: 0.5,
       });
     }
-  }, [headerRef.current]);
+  }, [headerRef.current, isSplashScreen]);
 
   useEffect(() => {
     if (lastRoute !== route && route === COURSES_ADVERT && headerRef.current) {
@@ -50,6 +50,7 @@ export default function HeaderLinks({
     <div
       ref={headerRef}
       className={`${hideOnLarge && "lg:hidden"}
+            relative z-10
             max-lg:fixed max-lg:z-[100] flex max-lg:items-center max-lg:justify-between 
             lg:grid lg:grid-cols-4
             w-full

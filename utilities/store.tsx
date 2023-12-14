@@ -15,6 +15,7 @@ export type homeRoutesType = (typeof HOME_ROUTES)[keyof (typeof HOME_ROUTES)]
 // create the type for the initial state of the store
 type initialStateType = {
     // route can be any of the values from the HOME_ROUTES (key, value) pairs
+    isSplashScreen: boolean;
     route: homeRoutesType;
     lastRoute: homeRoutesType;
     showBoth: boolean;
@@ -23,6 +24,7 @@ type initialStateType = {
 
 // create the initial state
 const initialState: initialStateType = {
+    isSplashScreen: true,
     lastRoute: HOME_ROUTES.HERO,
     route: HOME_ROUTES.HERO,
     showBoth: false,
@@ -38,13 +40,19 @@ type actionType = {
 const {
     UPDATE_ROUTE,
     SET_SHOWBOTH,
-    SET_ISLAST
+    SET_ISLAST,
+    SET_UNSET_Splash_SCREEN
 } = ACTIONS;
 
 // create the reducer
 function reducer (state: initialStateType, action: actionType) {
     const { type, payload } = action;
     switch(type) {
+        case SET_UNSET_Splash_SCREEN:
+            return {
+                ...state,
+                isSplashScreen: payload
+            }
         case UPDATE_ROUTE:
             const updated = {
                 ...state,

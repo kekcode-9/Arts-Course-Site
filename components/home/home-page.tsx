@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { HeroMobileDevices } from './hero';
 import LeftColumn from '../utility-components/left-column';
 import RightColumn from '../utility-components/right-column';
@@ -10,21 +10,21 @@ import {
     CourseContext, 
     HOME_ROUTES
 } from '@/utilities/store';
+import { ACTIONS } from '@/utilities/constants/actions';
 
-const { HERO } = HOME_ROUTES
+const { HERO } = HOME_ROUTES;
+
+const { SET_UNSET_Splash_SCREEN } = ACTIONS;
 
 function AssembledContentLarge() {
-    /**
-     * left top --> left bottom --> middle top --> middle bottom --> right top --> right bottom
-     * left top --> middle bottom --> right top --> middle top --> left bottom --> right bottom
-     * 0            0                 0             0.5            1               1.5
-     */
     return (
         <section
-            className='relative
+            className={`
+            relative
             hidden lg:flex
             w-full h-screen
-            overflow-clip'
+            overflow-clip
+            `}
         >
             <LeftColumn/>
             <MiddleColumn/>
@@ -34,8 +34,21 @@ function AssembledContentLarge() {
 }
 
 function Main () {
-    const { state } = useContext(CourseContext);
+    const { state, dispatch } = useContext(CourseContext);
     const { route } = state;
+    useEffect(() => {
+        const splashScreenTimeout = setTimeout(() => {
+            dispatch({
+                type: SET_UNSET_Splash_SCREEN,
+                payload: false
+            })
+        }, 2000);
+
+        return () => {
+            clearTimeout(splashScreenTimeout);
+        }
+    }, []);
+
     return (
         <>
             {
