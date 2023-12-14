@@ -13,6 +13,7 @@ const HeroRightImage = dynamicImports(HERO, "HeroLargeRightImage", "HeroRightIma
 const CoursesRightImage = dynamicImports(COURSES_ADVERT, "CourseAdvertLargeRightImage", "CoursesRightImage");
 
 export default function RightColumn() {
+  const [showImage, setShowImage] = useState(false);
   const { state } = useContext(CourseContext);
   const { showBoth, route, lastRoute, isSplashScreen } = state;
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -32,7 +33,8 @@ export default function RightColumn() {
       gsap.to(lowerDivRef.current, {
         background: 'white',
         scaleY: 1,
-        duration: 0.5
+        duration: 0.5,
+        onComplete: () => setShowImage(true)
       })
     } else if (lastRoute !== route && route === COURSES_ADVERT && lowerDivRef.current) {
       gsap.to(lowerDivRef.current, {
@@ -91,7 +93,7 @@ export default function RightColumn() {
         `}
       >
         <AnimatePresence>
-          {imageContent()}
+          {showImage && imageContent()}
         </AnimatePresence>
         <Arrows />
       </div>

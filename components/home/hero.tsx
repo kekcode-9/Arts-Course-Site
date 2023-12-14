@@ -103,14 +103,30 @@ function MobileHeroImage () {
 }
 
 export function HeroLargeLeftColImage () {
+    const MotionImage = motion(Image);
     return (
-        <Image 
+        <MotionImage 
             src={FruitBasket}
             alt='fruit basket still life drawing'
-            layout='fill'
+            fill
             objectFit='cover'
             loading='lazy'
             placeholder='blur'
+            initial={{
+                opacity: 0
+            }}
+            animate={{
+                opacity: 1,
+                transition: {
+                    duration: 2
+                }
+            }}
+            exit={{
+                opacity: 0,
+                transition: {
+                    duration: 0.5
+                }
+            }}
         />
     )
 }
@@ -137,12 +153,10 @@ export function HeroLargeMiddleCol () {
 }
 
 export function HeroLargeRightImage() {
-    const imgRef = useRef<HTMLImageElement | null>(null);
     const MotionImage = motion(Image);
 
     return (
         <MotionImage
-            ref={imgRef}
             src={BackAnatomy}
             alt='back anatomy sketch'
             fill
@@ -155,7 +169,6 @@ export function HeroLargeRightImage() {
             animate={{
                 opacity: 1,
                 transition: {
-                    delay: 0.4,
                     duration: 2
                 }
             }}
