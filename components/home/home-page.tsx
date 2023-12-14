@@ -1,43 +1,60 @@
 'use client'
-import React, { useContext } from 'react';
-import Hero from './hero';
-import CoursesAdvert from './courses-advert';
-import ResourcesAdvert from './resources-advert';
-import Instructors from './instructors';
+import React, { useContext, useEffect, useState } from 'react';
+import { HeroMobileDevices } from './hero';
+import LeftColumn from '../utility-components/left-column';
+import RightColumn from '../utility-components/right-column';
+import MiddleColumn from '../utility-components/middle-column';
+import MobileContent from '../utility-components/mobile-content';
 import { 
     CourseContextProvider, 
     CourseContext, 
     HOME_ROUTES
 } from '@/utilities/store';
+import { ACTIONS } from '@/utilities/constants/actions';
 
-const {
-    HERO,
-    COURSES_ADVERT,
-    RESOURCES_ADVERT,
-    INSTRUCTORS
-} = HOME_ROUTES
+const { HERO } = HOME_ROUTES;
 
-const getActiveSection = (route: string) => {
-    switch(route) {
-        case HERO:
-            return <Hero/>
-        case COURSES_ADVERT:
-            return <CoursesAdvert/>
-        case RESOURCES_ADVERT:
-            return <ResourcesAdvert/>
-        case INSTRUCTORS:
-            return <Instructors/>
-        default:
-            return <Hero/>
-    }
+const { SET_UNSET_Splash_SCREEN } = ACTIONS;
+
+function AssembledContentLarge() {
+    return (
+        <section
+            className={`
+            relative
+            hidden lg:flex
+            w-full h-screen
+            overflow-clip
+            `}
+        >
+            <LeftColumn/>
+            <MiddleColumn/>
+            <RightColumn/>
+        </section>
+    )
 }
 
-function Test () {
-    const { state } = useContext(CourseContext);
+function Main () {
+    const { state, dispatch } = useContext(CourseContext);
     const { route } = state;
+    useEffect(() => {
+        const splashScreenTimeout = setTimeout(() => {
+            dispatch({
+                type: SET_UNSET_Splash_SCREEN,
+                payload: false
+            })
+        }, 2000);
+
+        return () => {
+            clearTimeout(splashScreenTimeout);
+        }
+    }, []);
+
     return (
         <>
-            {getActiveSection(route)}
+            {
+                route === HERO ? <HeroMobileDevices/> : <MobileContent/>
+            }
+            <AssembledContentLarge/>
         </>
     )
 }
@@ -45,7 +62,7 @@ function Test () {
 export default function HomePage() {
   return (
     <CourseContextProvider>
-        <Test/>
+        <Main/>
     </CourseContextProvider>
   )
 }

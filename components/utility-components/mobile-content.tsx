@@ -1,27 +1,41 @@
-import React from 'react';
+'use client'
+import React, { useContext } from 'react';
 import MobileFooter from './mobile-footer';
+import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import dynamicImports from '@/utilities/dynamic-imports';
 
-type MobildeContentProps = {
-  children: React.ReactNode;
-  onArrowUpClick?: () => void;
-  onArrowDownClick?: () => void;
-}
+const {
+  COURSES_ADVERT,
+  RESOURCES_ADVERT,
+  INSTRUCTORS
+} = HOME_ROUTES;
 
-export default function MobileContent({
-  children,
-  onArrowUpClick,
-  onArrowDownClick
-}: MobildeContentProps) {
+export default function MobileContent() {
+  const { state } = useContext(CourseContext);
+  const { route } = state;
+
+  const getContent = () => {
+    switch(route) {
+      case COURSES_ADVERT:
+        return dynamicImports(COURSES_ADVERT, 'CourseAdvertMobile');
+      case RESOURCES_ADVERT:
+        return dynamicImports(RESOURCES_ADVERT, 'ResourcesWrapper');
+      case INSTRUCTORS:
+        return dynamicImports(INSTRUCTORS, 'InstructorMobileDevices');
+      default:
+        return <></>
+    }
+  }
+
   return (
     <section
       className='relative flex flex-col items-center lg:hidden 
       h-full max-md:max-h-[calc(100vh-6rem)] md:max-lg:max-h-[calc(100vh-6rem)]'
     >
-      {children}
-      <MobileFooter 
-        onArrowUpClick={onArrowUpClick} 
-        onArrowDownClick={onArrowDownClick}
-      />
+      {
+        getContent()
+      }
+      <MobileFooter/>
     </section>
   )
 }

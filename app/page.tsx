@@ -1,9 +1,4 @@
-import Image from 'next/image';
 import HomePage from '@/components/home/home-page';
-import Hero from '@/components/home/hero';
-import CoursesAdvert from '@/components/home/courses-advert';
-import ResourcesAdvert from '@/components/home/resources-advert';
-import Instructors from '@/components/home/instructors';
 import HeaderLinks from '@/components/utility-components/header-links';
 
 export default function Home() {

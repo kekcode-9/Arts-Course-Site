@@ -1,33 +1,26 @@
 "use client";
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect } from "react";
+import gsap from "gsap";
 import Image, { StaticImageData } from "next/image";
-import { motion, useAnimationControls } from "framer-motion";
-import MobileContent from "../utility-components/mobile-content";
+import { motion, AnimatePresence } from "framer-motion";
 import Typography from "../utility-components/typography";
-import RightColumn from "../utility-components/right-column";
 import constants from "@/utilities/constants/constants";
 import Logo from "../utility-components/logo";
 import References from "@/public/references.webp";
 import Models from "@/public/models.webp";
 import Videos from "@/public/videos.webp";
-import { CourseContext, HOME_ROUTES } from '@/utilities/store';
-import { ACTIONS } from '@/utilities/constants/actions';
 
 const { HRS_OF_VIDEO, FIFTEENK_REFERENCES, THREEHUNDRED_3D_MODELS } = constants;
 
 const labels = [HRS_OF_VIDEO, FIFTEENK_REFERENCES, THREEHUNDRED_3D_MODELS];
-
-const {
-  UPDATE_ROUTE,
-  SET_SHOWBOTH,
-  SET_ISLAST
-} = ACTIONS;
 
 type ResourseOverviewProps = {
   src: StaticImageData;
   alt: string;
   label?: string;
   lgHeight?: string;
+  delay?: number;
+  tl?: gsap.core.Timeline;
 };
 
 function ResourseOverview({
@@ -35,44 +28,59 @@ function ResourseOverview({
   alt,
   label,
   lgHeight,
+  delay,
+  tl
 }: ResourseOverviewProps) {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const imgControls = useAnimationControls();
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const imgParent = useRef<HTMLDivElement | null>(null);
+
+  const imageInfiniteScroll = () => {
+    const tranlateLength = (imgRef.current && wrapperRef.current) && `${imgRef.current.offsetHeight - wrapperRef.current.offsetHeight}px`;
+
+    gsap.fromTo(imgParent.current, {
+      translateY: `-${tranlateLength}`,
+    }, {
+      translateY: `0px`,
+      duration: 15,
+      repeat: -1
+    });
+  };
+
+  const wrapperEntryAnimation = () => {
+    if (wrapperRef.current) {
+      tl && tl.to(wrapperRef.current, {
+        opacity: 1
+      }, `<+=${delay}`);
+    }
+  }
 
   useEffect(() => {
-    if (imgRef.current && wrapperRef.current) {
-        imgControls.start({
-            transform: "translateY(0px)",
-            transition: {
-                duration: 9,
-                repeat: Infinity
-            }
-        });
-        imgControls.set({
-            transform: `translateY(-${
-                imgRef.current &&
-                `${
-                  wrapperRef.current &&
-                  imgRef.current.offsetHeight - wrapperRef.current.offsetHeight
-                }px`
-              })`
-        });
-    }
-  }, [imgRef.current, wrapperRef.current])
+    wrapperEntryAnimation();
+  }, [imgRef.current, wrapperRef.current]);
+
   return (
-    <div
-      ref={wrapperRef}
-      className={`relative flex items-start justify-center flex-grow flex-shrink
-            w-full h-[33.33%] ${lgHeight} border-
-            lg:border-2 lg:border-white
-            overflow-clip`}
-    >
+    <AnimatePresence>
       <motion.div
-        className="max-lg:absolute max-lg:-z-9 h-fit"
-        animate={imgControls}
+        ref={wrapperRef}
+        className={`relative flex items-start justify-center flex-grow flex-shrink
+        w-full h-[33.33%] ${lgHeight} border-
+        lg:border-2 lg:border-white
+        opacity-0
+        overflow-clip
+        `}
+        exit={{
+          opacity: 0,
+          transition: {
+            duration: 0.5
+          }
+        }}
       >
-        <Image
+        <motion.div
+          ref={imgParent}
+          className="max-lg:absolute max-lg:-z-9 h-fit"
+        >
+          <Image
             ref={imgRef}
             src={src}
             alt={alt}
@@ -80,146 +88,184 @@ function ResourseOverview({
             placeholder="blur"
             quality={100}
             className="w-auto h-auto"
-        />
-      </motion.div>
-      <div
-        className="absolute -z-9 top-0 
-                block lg:hidden
-                w-full h-full 
-                bg-neutral-dark-gray-bg opacity-0 lg:opacity-50"
-      />
-      <div
-        className="flex lg:hidden items-center justify-center 
-                w-full h-full"
-      >
+            onLoad={() => imageInfiniteScroll()}
+          />
+        </motion.div>
         <div
-          className="relative z-100 flex items-center justify-center 
-                    w-full h-max 
-                    py-2
-                    text-white bg-black"
+          className="absolute -z-9 top-0 
+                  block lg:hidden
+                  w-full h-full 
+                  bg-neutral-dark-gray-bg opacity-0 lg:opacity-50"
+        />
+        <div
+          className="flex lg:hidden items-center justify-center 
+                  w-full h-full"
         >
-          <Typography isHeader={false}>{label}</Typography>
+          <div
+            className="relative z-100 flex items-center justify-center 
+                      w-full h-max 
+                      py-2
+                      text-white bg-black"
+          >
+            <Typography isHeader={false}>{label}</Typography>
+          </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
-function ResourcesWrapper() {
+export function ResourcesWrapper() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const tl = gsap.timeline();
+
   return (
-    <div
-      className="relative lg:z-10 flex flex-col items-center gap-2
-            w-full h-full bg-black"
+    <motion.div
+      key={'middleColumnResources'}
+      ref={containerRef}
+      className="container-div
+      relative lg:z-10 flex flex-col items-center gap-2
+      w-full h-full"
+      exit={{
+        opacity: 0,
+        transition: {
+          duration: 0.5
+        }
+      }}
     >
       <ResourseOverview
         src={Videos}
         alt={HRS_OF_VIDEO}
         label={HRS_OF_VIDEO}
         lgHeight="lg:h-[30%]"
+        delay={0.3}
+        tl={tl}
       />
       <ResourseOverview
         src={References}
         alt={FIFTEENK_REFERENCES}
         label={FIFTEENK_REFERENCES}
         lgHeight="lg:h-[30%]"
+        delay={0.5}
+        tl={tl}
       />
       <ResourseOverview
         src={Models}
         alt={THREEHUNDRED_3D_MODELS}
         label={THREEHUNDRED_3D_MODELS}
         lgHeight="lg:h-[40%]"
+        delay={1}
+        tl={tl}
       />
-    </div>
+    </motion.div>
   );
 }
 
-function ResourcesAdvertLargeScreen() {
-  const { dispatch } = useContext(CourseContext);
-  return (
-    <section className="hidden lg:flex w-full h-screen overflow-clip">
-      <div className="w-full h-full flex flex-col items-center justify-around">
-        <div className="absolute bottom-0 w-[1px] h-screen bg-white" />
-        {labels.map((label, i) => {
-          return (
-            <div key={i}
-              className={`relative z-10 w-full h-max py-4 ${
-                i == 2 ? "mb-32" : "mb-12"
-              } bg-neutral-dark-gray-bg`}
-            >
-              <Typography isHeader={false}>{label}</Typography>
-            </div>
-          );
-        })}
-        <div
-          className="absolute z-10 bottom-12
-                    flex flex-col gap-2 items-center 
-                    w-full h-max 
-                    py-4
-                    bg-neutral-dark-gray-bg"
-        >
-          <Typography isHeader={false}>@</Typography>
-          <Logo position="relative" bottom="bottom-0" />
-        </div>
-      </div>
-      <ResourcesWrapper />
-      <RightColumn
-        onArrowUpClick={() => {
-          dispatch({
-              type: UPDATE_ROUTE,
-              payload: HOME_ROUTES.COURSES_ADVERT
-          })
-        }}
-        onArrowDownClick={() => {
-            dispatch({
-                type: UPDATE_ROUTE,
-                payload: HOME_ROUTES.INSTRUCTORS
-            })
-        }}
-      />
-    </section>
-  );
-}
+export function ResourcesAdvertLargeLeftCol() {
+  const lineDivRef = useRef<HTMLDivElement | null>(null);
+  const logoRef = useRef<HTMLDivElement | null>(null);
+  const labelRefs = [
+    useRef<HTMLDivElement | null>(null),
+    useRef<HTMLDivElement | null>(null),
+    useRef<HTMLDivElement | null>(null),
+  ];
 
-function ResourcesAdvertMobile() {
-  const { dispatch } = useContext(CourseContext);
-  return (
-    <MobileContent
-      onArrowUpClick={() => {
-        dispatch({
-            type: UPDATE_ROUTE,
-            payload: HOME_ROUTES.COURSES_ADVERT
-        })
-      }}
-      onArrowDownClick={() => {
-          dispatch({
-              type: UPDATE_ROUTE,
-              payload: HOME_ROUTES.INSTRUCTORS
-          })
-      }}
-    >
-      <ResourcesWrapper />
-    </MobileContent>
-  );
-}
-
-export default function ResourcesAdvert() {
-  const { dispatch } = useContext(CourseContext);
+  const labelsEntryAnimation = () => {
+    const tl = gsap.timeline();
+    tl.to(lineDivRef.current, {
+      scaleY: 1,
+      transformOrigin: "top",
+      delay: 0.3,
+      duration: 3,
+    })
+      .to(
+        labelRefs[0].current,
+        {
+          opacity: 1,
+        },
+        "<+=0.2"
+      )
+      .to(
+        labelRefs[1].current,
+        {
+          opacity: 1,
+        },
+        "<+=0.4"
+      )
+      .to(
+        labelRefs[2].current,
+        {
+          opacity: 1,
+        },
+        "<+=0.6"
+      )
+      .to(
+        logoRef.current,
+        {
+          opacity: 1,
+        },
+        "<+=0.6"
+      );
+  };
 
   useEffect(() => {
-    dispatch({
-      type: SET_SHOWBOTH,
-      payload: true
-    });
-    dispatch({
-      type: SET_ISLAST,
-      payload: false
-    });
-  }, [])
+    if (lineDivRef.current) {
+      labelsEntryAnimation();
+    }
+  }, [lineDivRef.current]);
 
   return (
     <>
-      <ResourcesAdvertLargeScreen />
-      <ResourcesAdvertMobile />
+      <motion.div
+        ref={lineDivRef}
+        className="absolute bottom-0 
+        w-[1px] h-screen 
+        scale-y-0
+        bg-white"
+        exit={{
+          scaleY: 0,
+          transformOrigin: 'top',
+          transition: {
+            duration: 0.5
+          }
+        }}
+      />
+      {labels.map((label, i) => {
+        return (
+          <motion.div
+            key={i}
+            ref={labelRefs[i]}
+            className={`relative z-10 w-full h-max py-4 ${
+              i == 2 ? "mb-32" : "mb-12"
+            } 
+            opacity-0
+            bg-neutral-dark-gray-bg`}
+            exit={{
+              opacity: 0,
+              transition: {
+                delay: (2-i)/10
+              }
+            }}
+          >
+            <Typography isHeader={false}>{label}</Typography>
+          </motion.div>
+        );
+      })}
+      <motion.div
+        ref={logoRef}
+        className="absolute z-10 bottom-12
+        flex flex-col gap-2 items-center 
+        w-full h-max 
+        py-4
+        opacity-0
+        bg-neutral-dark-gray-bg"
+        exit={{
+          opacity: 0
+        }}
+      >
+        <Typography isHeader={false}>@</Typography>
+        <Logo position="relative" bottom="bottom-0" />
+      </motion.div>
     </>
   );
 }

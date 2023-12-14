@@ -1,4 +1,6 @@
+'use client'
 import React from 'react';
+import { motion } from 'framer-motion';
 import Typography from './typography';
 import constants from '@/utilities/constants/constants';
 
@@ -29,16 +31,24 @@ export default function Logo({
                 })
             }
         </div>
-        <div 
+        <motion.div 
             className={`${position || 'absolute'} z-10 hidden lg:block
             ${customInset || `right-0 ${bottom || 'bottom-12'} left-0`}  
             w-fit h-fit
             m-auto`}
+            initial={{}}
+            animate={{}}
+            exit={{
+                opacity: 0,
+                transition: {
+                    duration: 0.5
+                }
+            }}
         >
             <Typography isHeader={false} additionalClasses='underline'>
                 {LOGO}
             </Typography>
-        </div>
+        </motion.div>
     </>
   )
 }

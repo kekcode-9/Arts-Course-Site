@@ -18,7 +18,7 @@ export default function Slider({
     useEffect(() => {
       const interval = setInterval(() => {
         setIndex((index+1)%total);
-      }, 4000)
+      }, 3000)
 
       return () => {
         clearInterval(interval);
@@ -26,8 +26,16 @@ export default function Slider({
     }, [index])
 
   return (
-    <div
-        className='relative w-full h-full'
+    <motion.div
+      className='relative w-full h-full'
+      initial={{}}
+      animate={{}}
+      exit={{
+        opacity: 0,
+        transition: {
+          duration: 0.5
+        }
+      }}
     >
       <AnimatePresence>
         <MotionImage 
@@ -52,6 +60,6 @@ export default function Slider({
           }}
         />
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }

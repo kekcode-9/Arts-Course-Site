@@ -4,19 +4,57 @@ import DownArrowRect from './svg-utilities/down-arrow-rect';
 import DownArrowTallRect from './svg-utilities/down-arrow-tall-rect';
 import DownArrowCircular from './svg-utilities/down-arrow-circular';
 import UpArrowcircular from './svg-utilities/up-arrow-circular';
-import { CourseContext } from '@/utilities/store';
+import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { ACTIONS } from '@/utilities/constants/actions';
 
-type ArrowsProps = {
-    onArrowUp?: () => void;
-    onArrowDown?: () => void;
-}
+const ROUTES = Object.values(HOME_ROUTES);
+const {
+    UPDATE_ROUTE,
+    SET_SHOWBOTH,
+    SET_ISLAST
+} = ACTIONS;
 
-export default function Arrows({
-    onArrowUp,
-    onArrowDown
-}: ArrowsProps) {
-    const { state } = useContext(CourseContext);
+export default function Arrows() {
+    const { state, dispatch } = useContext(CourseContext);
+    const { route } = state;
     const { showBoth, isLast } = state;
+
+    const onArrowUp = () => {
+        const prevIndex = ROUTES.indexOf(route) - 1;
+        if (prevIndex >= 0) {
+          dispatch({
+            type: UPDATE_ROUTE,
+            payload: ROUTES[prevIndex],
+          });
+          dispatch({
+            type: SET_SHOWBOTH,
+            payload: prevIndex !== 0,
+          });
+          dispatch({
+            type: SET_ISLAST,
+            payload: false,
+          });
+        }
+    };
+    
+    const onArrowDown = () => {
+    const nextIndex = ROUTES.indexOf(route) + 1;
+    if (nextIndex <= ROUTES.length - 1) {
+        dispatch({
+        type: UPDATE_ROUTE,
+        payload: ROUTES[nextIndex],
+        });
+        dispatch({
+        type: SET_SHOWBOTH,
+        payload: nextIndex < ROUTES.length - 1,
+        });
+        dispatch({
+        type: SET_ISLAST,
+        payload: nextIndex === ROUTES.length - 1,
+        });
+    }
+    };
+
   return (
     <div 
         className='lg:absolute lg:bottom-[4.25rem] lg:grid lg:grid-cols-4

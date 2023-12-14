@@ -2,15 +2,7 @@ import React from 'react';
 import Logo from './logo';
 import Arrows from './arrows';
 
-type MobileFooterProps = {
-    onArrowUpClick?: () => void;
-    onArrowDownClick?: () => void;
-}
-
-export default function MobileFooter({
-    onArrowDownClick,
-    onArrowUpClick
-}: MobileFooterProps) {
+export default function MobileFooter() {
   return (
     <div
         className='flex items-center justify-between
@@ -19,7 +11,7 @@ export default function MobileFooter({
         bg-neutral-dark-gray-bg'
     >
         <Logo/>
-        <Arrows onArrowUp={onArrowUpClick} onArrowDown={onArrowDownClick} />
+        <Arrows/>
     </div>
   )
 }
