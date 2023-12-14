@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import Image, { StaticImageData } from "next/image";
-import { motion, useAnimationControls, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Typography from "../utility-components/typography";
 import constants from "@/utilities/constants/constants";
 import Logo from "../utility-components/logo";
@@ -31,29 +31,20 @@ function ResourseOverview({
   delay,
   tl
 }: ResourseOverviewProps) {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
-  const imgControls = useAnimationControls();
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const imgParent = useRef<HTMLDivElement | null>(null);
 
   const imageInfiniteScroll = () => {
-    if (imgRef.current) {
-      imgControls.start({
-        transform: "translateY(0px)",
-        transition: {
-          duration: 9,
-          repeat: Infinity,
-        },
-      });
-      imgControls.set({
-        transform: `translateY(-${
-          imgRef.current &&
-          `${
-            wrapperRef.current &&
-            imgRef.current.offsetHeight - wrapperRef.current.offsetHeight
-          }px`
-        })`,
-      });
-    }
+    const tranlateLength = (imgRef.current && wrapperRef.current) && `${imgRef.current.offsetHeight - wrapperRef.current.offsetHeight}px`;
+
+    gsap.fromTo(imgParent.current, {
+      translateY: `-${tranlateLength}`,
+    }, {
+      translateY: `0px`,
+      duration: 15,
+      repeat: -1
+    });
   };
 
   const wrapperEntryAnimation = () => {
@@ -65,9 +56,8 @@ function ResourseOverview({
   }
 
   useEffect(() => {
-    imageInfiniteScroll();
     wrapperEntryAnimation();
-  }, []);
+  }, [imgRef.current, wrapperRef.current]);
 
   return (
     <AnimatePresence>
@@ -87,8 +77,8 @@ function ResourseOverview({
         }}
       >
         <motion.div
+          ref={imgParent}
           className="max-lg:absolute max-lg:-z-9 h-fit"
-          animate={imgControls}
         >
           <Image
             ref={imgRef}
@@ -98,6 +88,7 @@ function ResourseOverview({
             placeholder="blur"
             quality={100}
             className="w-auto h-auto"
+            onLoad={() => imageInfiniteScroll()}
           />
         </motion.div>
         <div
