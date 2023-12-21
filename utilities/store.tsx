@@ -41,14 +41,14 @@ const {
     UPDATE_ROUTE,
     SET_SHOWBOTH,
     SET_ISLAST,
-    SET_UNSET_Splash_SCREEN
+    SET_UNSET_SPLASH_SCREEN
 } = ACTIONS;
 
 // create the reducer
 function reducer (state: initialStateType, action: actionType) {
     const { type, payload } = action;
     switch(type) {
-        case SET_UNSET_Splash_SCREEN:
+        case SET_UNSET_SPLASH_SCREEN:
             return {
                 ...state,
                 isSplashScreen: payload

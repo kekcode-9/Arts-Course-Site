@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef, useContext } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import Image from "next/image";
@@ -167,7 +168,10 @@ export function MiddleColumn() {
         className="w-52 h-[48px] opacity-0"
       >
         {
-          showCTA && <CTA label={EXPLORE_ALL_COURSES} primary={false} />
+          showCTA && 
+          <Link href='/courses'>
+            <CTA label={EXPLORE_ALL_COURSES} primary={false} />
+          </Link>
         }
       </span>
     </motion.div>

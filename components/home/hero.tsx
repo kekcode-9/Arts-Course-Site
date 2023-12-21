@@ -54,11 +54,16 @@ export function ApplySection () {
                 </Typography>
             </span>
             <span ref={spanRefs[1]}>
-                <CTA label={ APPLY_NOW } primary={true} />
+                <Link href='/student-application'>
+                    <CTA label={ APPLY_NOW } primary={true} />
+                </Link>
             </span>
             <span ref={spanRefs[2]}>
                 <Typography isHeader={false}>
-                    { OR } <br/> <span className='underline'> { ARE_YOU_INSTRUCTOR } </span> ?
+                    { OR } <br/> 
+                    <Link href='/instructor-application'>
+                        <span className='underline'> { ARE_YOU_INSTRUCTOR } </span> ?
+                    </Link>
                 </Typography>
             </span>
         </div>

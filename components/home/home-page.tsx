@@ -14,7 +14,7 @@ import { ACTIONS } from '@/utilities/constants/actions';
 
 const { HERO } = HOME_ROUTES;
 
-const { SET_UNSET_Splash_SCREEN } = ACTIONS;
+const { SET_UNSET_SPLASH_SCREEN } = ACTIONS;
 
 function AssembledContentLarge() {
     return (
@@ -39,7 +39,7 @@ function Main () {
     useEffect(() => {
         const splashScreenTimeout = setTimeout(() => {
             dispatch({
-                type: SET_UNSET_Splash_SCREEN,
+                type: SET_UNSET_SPLASH_SCREEN,
                 payload: false
             })
         }, 2000);
