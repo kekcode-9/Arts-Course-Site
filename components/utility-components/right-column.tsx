@@ -17,7 +17,7 @@ export default function RightColumn() {
   const { state } = useContext(CourseContext);
   const { showBoth, route, lastRoute, isSplashScreen } = state;
   const divRef = useRef<HTMLDivElement | null>(null);
-  const lowerDivRef = useRef<HTMLDivElement | null>(null); 
+  const lowerDivRef = useRef<HTMLDivElement | null>(null);
 
   const imageContent = () => {
     switch (route) {
