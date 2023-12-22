@@ -193,19 +193,47 @@ export function HeroMobileDevices () {
             className='hero-mobile flex flex-col lg:hidden 
             h-full'
         >
-            <div className='relative flex flex-grow items-center'> {/** if it can be 50% then i want it to be 50% but it at least has to fit the height max content height. then whichever of the two is larger can be chosen */}
+            <div className='relative flex flex-grow items-center'>
                 <MobileHeroImage/>
                 <div className='flex flex-col gap-6 items-center my-8'>
-                    <HeaderSection/>
-                    <ObjectiveSection/>
+                    <motion.span
+                        initial={{
+                            opacity: 0,
+                            translateY: '10px'
+                        }}
+                        animate={{
+                            opacity: 1,
+                            translateY: '0px',
+                            transition: {
+                                duration: 0.3
+                            }
+                        }}
+                    >
+                        <HeaderSection/>
+                    </motion.span>
+                    <span>
+                        <ObjectiveSection/>
+                    </span>
                 </div>
             </div>
-            <div className='flex flex-col flex-grow items-center justify-between'>
+            <motion.div 
+                className='flex flex-col flex-grow items-center justify-between'
+                initial={{
+                    scaleY: 0
+                }}
+                animate={{
+                    scaleY: 1,
+                    transformOrigin: 'bottom',
+                    transition: {
+                        duration: 0.5
+                    }
+                }}
+            >
                 <div className='flex justify-center w-full my-8'>
                     <ApplySection/>
                 </div>
                 <Arrows/>
-            </div>
+            </motion.div>
         </section>
     )
 }

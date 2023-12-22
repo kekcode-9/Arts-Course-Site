@@ -213,10 +213,19 @@ export function InstructorLargeLeft() {
 
 export function InstructorMobileDevices() {
     return (
-        <div
+        <motion.div
             className='flex flex-col items-center justify-center gap-8
             w-full h-full overflow-scroll
             my-12'
+            initial={screen.width < 920 && {
+                opacity: 0
+            }}
+            animate={screen.width < 920 && {
+                opacity: 1,
+                transition: {
+                    duration: 0.5
+                }
+            }}
         >
             <div
                 className='flex flex-col md:flex-row items-start md:items-center justify-between 
@@ -229,6 +238,6 @@ export function InstructorMobileDevices() {
                 </Typography>
             </div>
             <InstructorCards/>
-        </div>
+        </motion.div>
     )
 }

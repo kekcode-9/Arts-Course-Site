@@ -240,10 +240,19 @@ export function CourseAdvertLargeRightImage() {
 
 export function CourseAdvertMobile() {
   return (
-    <div
+    <motion.div
       className="relative flex items-center flex-grow 
-            w-full h-fit
-            overflow-scroll"
+      w-full h-fit
+      overflow-scroll"
+      initial={screen.width < 920 && {
+        opacity: 0
+      }}
+      animate={ screen.width < 920 && {
+        opacity: 1,
+        transition: {
+          duration: 0.5
+        }
+      }}
     >
       <Image
         src={Skeletons}
@@ -261,6 +270,6 @@ export function CourseAdvertMobile() {
       <div className="w-full max-h-[calc(100vh-21rem)] overflow-scroll">
         <MiddleColumn />
       </div>
-    </div>
+    </motion.div>
   );
 }
