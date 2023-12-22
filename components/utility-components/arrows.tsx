@@ -77,7 +77,9 @@ export default function Arrows() {
                 >
                     <UpArrowcircular onClick={onArrowUp} />
                     <DownArrowCircular onClick={onArrowDown} />
-                </div> : <DownArrowCircular onClick={isLast ? onArrowUp : onArrowDown}/>
+                </div> : (
+                  isLast ? <UpArrowcircular onClick={onArrowUp} /> : <DownArrowCircular onClick={onArrowDown}/>
+                )
             }
         </div>
     </div>
