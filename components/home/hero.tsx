@@ -189,7 +189,10 @@ export function HeroLargeRightImage() {
 
 export function HeroMobileDevices () {
     return (
-        <section className='hero-mobile flex flex-col lg:hidden h-full'>
+        <section 
+            className='hero-mobile flex flex-col lg:hidden 
+            h-full'
+        >
             <div className='relative flex flex-grow items-center'> {/** if it can be 50% then i want it to be 50% but it at least has to fit the height max content height. then whichever of the two is larger can be chosen */}
                 <MobileHeroImage/>
                 <div className='flex flex-col gap-6 items-center my-8'>

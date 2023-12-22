@@ -57,7 +57,8 @@ export default function Arrows() {
 
   return (
     <div 
-        className='lg:absolute lg:bottom-[4.25rem] lg:grid lg:grid-cols-4
+        className='Arrows
+        lg:absolute lg:bottom-[4.25rem] lg:grid lg:grid-cols-4
         w-max lg:w-full lg:h-max'
     >
         <div className='hidden lg:flex lg:flex-col items-end gap-6 col-end-4'>

@@ -29,6 +29,10 @@ export default function RightColumn() {
   }
 
   useEffect(() => {
+    //window.addEventListener('scroll', () => alert('scrolling'))
+  }, [])
+
+  useEffect(() => {
     if (lastRoute === HERO && route === HERO && !isSplashScreen) {
       gsap.to(lowerDivRef.current, {
         background: 'white',
@@ -76,9 +80,10 @@ export default function RightColumn() {
   return (
     <div
       ref={divRef}
-      className={`w-full
+      className={`right-col
         flex flex-col
-        h-screen
+        w-full
+        h-screen min-h-[770px]
       `}
     >
       <HeaderLinks

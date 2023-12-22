@@ -19,8 +19,8 @@ function SplashScreen() {
   const { state } = useContext(CourseContext);
   const { isSplashScreen } = state;
   return (
-      <Typography isHeader={true} isSplash={isSplashScreen} >
-          {NAME_HEADER}
+      <Typography isHeader={true} isSplash={isSplashScreen} additionalClasses="relative z-20" >
+        {NAME_HEADER}
       </Typography>
   )
 }
@@ -133,10 +133,11 @@ export default function MiddleColumn({
   return (
     <div
       ref={divRef}
-      className={`
+      className={`middle-col
       ${position}
       ${flex}
-      w-full h-full
+      w-full 
+      h-full min-h-[770px]
       ${additionalClasses}
       overflow-clip
       `}

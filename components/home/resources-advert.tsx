@@ -219,7 +219,8 @@ export function ResourcesAdvertLargeLeftCol() {
       <motion.div
         ref={lineDivRef}
         className="absolute bottom-0 
-        w-[1px] h-screen 
+        w-[1px] 
+        h-screen min-h-[770px]
         scale-y-0
         bg-white"
         exit={{

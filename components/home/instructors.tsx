@@ -102,7 +102,7 @@ function Card({
                 <Typography 
                     isHeader={false} 
                     size='text-base font-light' 
-                    additionalClasses={`w-[17.875rem]  
+                    additionalClasses={`max-w-[17.875rem]  
                     text-left
                     text-dirty-white`}
                 >

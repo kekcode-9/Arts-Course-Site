@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef, useContext, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import gsap from "gsap";
@@ -73,13 +73,21 @@ export function MiddleColumn() {
   }, [arrowSpanRef.current, coursesWrapperRef.current, ctaSpanRef.current]);
 
   useEffect(() => {
-    const setArrowVisibility = () => {
+    const setArrowVisibility = (e: UIEvent | null, mounted?: boolean) => {
       if (screen.height < 892 && screen.width < 920) {
         setShowArrow(false);
       } else {
         setShowArrow(true);
+        if (!mounted) {
+          gsap.to(arrowSpanRef.current, {
+            scaleY: 1,
+            transformOrigin: 'top',
+            duration: 0.3
+          });
+        }
       }
     };
+    setArrowVisibility(null, true);
     if (window) {
       window.addEventListener("resize", setArrowVisibility);
     }
@@ -89,6 +97,7 @@ export function MiddleColumn() {
       }
     };
   }, []);
+
   return (
     <motion.div
       key={"middleColumnCourses"}
@@ -133,6 +142,16 @@ export function MiddleColumn() {
         <motion.span 
           ref={arrowSpanRef} 
           className="scale-y-0"
+          initial={{
+            // scaleY: 0
+          }}
+          animate={{
+            // scaleY: 1,
+            // transformOrigin: 'top',
+            // transition: {
+            //   duration: 0.3
+            // }
+          }}
           exit={{
             scaleY: 0,
             transformOrigin: 'top',

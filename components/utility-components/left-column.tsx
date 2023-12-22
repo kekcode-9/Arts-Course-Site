@@ -183,8 +183,10 @@ export default function LeftColumn() {
   return (
     <div
       ref={divRef}
-      className={`relative
-        w-full h-screen
+      className={`left-col
+        relative
+        w-full 
+        h-screen min-h-[770px]
       `}
     >
       <div
@@ -203,6 +205,7 @@ export default function LeftColumn() {
         className={`div-left-lower
           absolute bottom-0
           w-full 
+          ${route !== HERO && 'min-h-[770px]'}
           origin-bottom
           ${
             route === HERO || route === COURSES_ADVERT
