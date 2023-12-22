@@ -44,7 +44,7 @@ function AssembledContentLarge() {
                         className='overlay-div
                         absolute -z-10
                         w-screen 
-                        h-screen min-height-[770px]
+                        h-screen min-h-[770px]
                         bg-neutral-dark-gray-bg opacity-50'
                     />
                     <Image
@@ -140,10 +140,10 @@ function Main () {
 
     useEffect(() => {
         const splashScreenTimeout = setTimeout(() => {
-            dispatch({
-                type: SET_UNSET_SPLASH_SCREEN,
-                payload: false
-            })
+            // dispatch({
+            //     type: SET_UNSET_SPLASH_SCREEN,
+            //     payload: false
+            // })
         }, 2000);
 
         return () => {
