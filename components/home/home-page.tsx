@@ -140,10 +140,10 @@ function Main () {
 
     useEffect(() => {
         const splashScreenTimeout = setTimeout(() => {
-            // dispatch({
-            //     type: SET_UNSET_SPLASH_SCREEN,
-            //     payload: false
-            // })
+            dispatch({
+                type: SET_UNSET_SPLASH_SCREEN,
+                payload: false
+            })
         }, 2000);
 
         return () => {
