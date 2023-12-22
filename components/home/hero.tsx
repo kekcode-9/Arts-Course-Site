@@ -188,7 +188,7 @@ export function HeroLargeRightImage() {
 }
 
 export function HeroMobileDevices () {
-    return (
+    return ( 
         <section 
             className='hero-mobile flex flex-col lg:hidden 
             h-full'
