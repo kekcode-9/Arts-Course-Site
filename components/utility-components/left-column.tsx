@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 import dynamicImports from "@/utilities/dynamic-imports";
+import { ResourcesAdvertLargeLeftCol as ResourcesLeftCol } from "../home/resources-advert";
 
 const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 
@@ -13,11 +14,11 @@ const CoursesLeftCol = dynamicImports(
   "CoursesAdvertLargeLeftCol",
   "CoursesLeftCol"
 );
-const ResourcesLeftCol = dynamicImports(
-  RESOURCES_ADVERT,
-  "ResourcesAdvertLargeLeftCol",
-  "ResourcesLeftCol"
-);
+// const ResourcesLeftCol = dynamicImports(
+//   RESOURCES_ADVERT,
+//   "ResourcesAdvertLargeLeftCol",
+//   "ResourcesLeftCol"
+// );
 const InstructorsLeftCol = dynamicImports(
   INSTRUCTORS,
   "InstructorLargeLeft",
@@ -39,7 +40,7 @@ export default function LeftColumn() {
       case COURSES_ADVERT:
         return CoursesLeftCol;
       case RESOURCES_ADVERT:
-        return ResourcesLeftCol;
+        return <ResourcesLeftCol/>;
       case INSTRUCTORS:
         return InstructorsLeftCol;
       default:
@@ -183,8 +184,10 @@ export default function LeftColumn() {
   return (
     <div
       ref={divRef}
-      className={`relative
-        w-full h-screen
+      className={`left-col
+        relative
+        w-full 
+        h-screen min-h-[770px]
       `}
     >
       <div
@@ -203,6 +206,7 @@ export default function LeftColumn() {
         className={`div-left-lower
           absolute bottom-0
           w-full 
+          ${route !== HERO && 'min-h-[770px]'}
           origin-bottom
           ${
             route === HERO || route === COURSES_ADVERT

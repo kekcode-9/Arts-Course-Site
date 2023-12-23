@@ -6,21 +6,20 @@ import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 import gsap from "gsap";
 import Typography from "./typography";
 import constants from "@/utilities/constants/constants";
+import { HeaderSection } from "../home/hero";
+import { MiddleColumn as CoursesMiddleCol } from "../home/courses-advert";
+import { ResourcesWrapper } from "../home/resources-advert";
 
 const { NAME_HEADER } = constants;
 
 const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 
-const HeroHeader = dynamicImports(HERO, "HeaderSection", "heroMiddleColUpper");
-const CoursesMiddleCol = dynamicImports(COURSES_ADVERT, "MiddleColumn", "coursesMiddleCol");
-const ResourcesWrapper = dynamicImports(RESOURCES_ADVERT, "ResourcesWrapper", "resourcesMiddleCol");
-
 function SplashScreen() {
   const { state } = useContext(CourseContext);
   const { isSplashScreen } = state;
   return (
-      <Typography isHeader={true} isSplash={isSplashScreen} >
-          {NAME_HEADER}
+      <Typography isHeader={true} isSplash={isSplashScreen} additionalClasses="relative z-20" >
+        {NAME_HEADER}
       </Typography>
   )
 }
@@ -49,11 +48,11 @@ export default function MiddleColumn({
       case HERO:
         return <SplashScreen/>;
       case COURSES_ADVERT:
-        return CoursesMiddleCol;
+        return <CoursesMiddleCol/>;
       case RESOURCES_ADVERT:
-        return ResourcesWrapper;
+        return <ResourcesWrapper/>;
       default:
-        return HeroHeader;
+        return <HeaderSection/>;
     }
   };
 
@@ -133,10 +132,11 @@ export default function MiddleColumn({
   return (
     <div
       ref={divRef}
-      className={`
+      className={`middle-col
       ${position}
       ${flex}
-      w-full h-full
+      w-full 
+      h-full min-h-[770px]
       ${additionalClasses}
       overflow-clip
       `}
