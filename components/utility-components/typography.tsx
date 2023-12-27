@@ -35,8 +35,26 @@ export default function Typography({
                 opacity: 1,
                 duration: 0.3
             })
+        } else if (spanRef.current && animateEntrance) {
+            gsap.fromTo(spanRef.current, {
+                translateY: '20px',
+                opacity: 0
+            }, {
+                translateY: '0px',
+                opacity: 1,
+                duration: 0.3
+            })
+        } else if (headerRef.current && animateEntrance) {
+            gsap.fromTo(headerRef.current, {
+                translateY: '20px',
+                opacity: 0
+            }, {
+                translateY: '0px',
+                opacity: 1,
+                duration: 0.3
+            })
         }
-    }, [pRef, animateEntrance])
+    }, [pRef, spanRef, headerRef, animateEntrance])
 
     useEffect(() => {
         if (headerRef.current && isHeader && isSplash) {
@@ -80,6 +98,7 @@ export default function Typography({
         ${size || 'text-[2rem] md:text-[2.5rem] font-medium'}
         ${additionalClasses}
         ${isSplash && 'opacity-0'}
+        ${animateEntrance && 'opacity-0'}
         `}
     >
         {children}

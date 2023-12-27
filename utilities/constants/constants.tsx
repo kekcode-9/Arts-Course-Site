@@ -55,6 +55,24 @@ export default {
     "IN_PERSON_CLASSES": "In Person Classes",
     "ONLINE_INTERACTIVE_CLASSES": "Online interactive live classes",
     "SUBSCRIBE_TO_ONLINE_COURSES": (<><u>Subscribe</u> to our pre-recorded online courses</>),
+    // Student application form labels
+    "STUDENT_FORM_LABELS": {
+        NAME: 'Full name',
+        EMAIL: 'Email id',
+        DOB: 'Date of Birth',
+        EDUCATION: 'Highest level of education',
+        PORTFOLIO: 'Portfolio link',
+        SKILL: 'Where are you at in your art journey ?',
+        SCHOOL_NAME: 'Name of School',
+        DEGREE: 'Degree',
+        PROJECT: 'Project links',
+        COMPANY: 'Name of company',
+        ROLE: 'Current role',
+        YOE: 'Years of experience',
+        PURPOSE: 'How would this course help you in your career ?',
+        COURSE: 'Select a course',
+        SLOT: 'Pick a slot'
+    },
     // Application form inputs
     "DEGREE_LIST": {
         HIGH_SCHOOL: 'High School',
