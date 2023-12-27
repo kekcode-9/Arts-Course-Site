@@ -92,7 +92,7 @@ export default function Typography({
         {children}
     </span>
   ) : (
-    <h1
+    <h1 
         ref={headerRef}
         className={`
         ${size || 'text-[2rem] md:text-[2.5rem] font-medium'}
