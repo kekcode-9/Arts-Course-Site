@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 import dynamicImports from "@/utilities/dynamic-imports";
-import { ResourcesAdvertLargeLeftCol as ResourcesLeftCol } from "../home/resources-advert";
+// import { ResourcesAdvertLargeLeftCol as ResourcesLeftCol } from "../home/resources-advert";
 
 const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 
@@ -14,11 +14,11 @@ const CoursesLeftCol = dynamicImports(
   "CoursesAdvertLargeLeftCol",
   "CoursesLeftCol"
 );
-// const ResourcesLeftCol = dynamicImports(
-//   RESOURCES_ADVERT,
-//   "ResourcesAdvertLargeLeftCol",
-//   "ResourcesLeftCol"
-// );
+const ResourcesLeftCol = dynamicImports(
+  RESOURCES_ADVERT, 
+  "ResourcesAdvertLargeLeftCol", 
+  "ResourcesLeftCol"
+);
 const InstructorsLeftCol = dynamicImports(
   INSTRUCTORS,
   "InstructorLargeLeft",
@@ -40,7 +40,7 @@ export default function LeftColumn() {
       case COURSES_ADVERT:
         return CoursesLeftCol;
       case RESOURCES_ADVERT:
-        return <ResourcesLeftCol/>;
+        return ResourcesLeftCol;
       case INSTRUCTORS:
         return InstructorsLeftCol;
       default:

@@ -7,12 +7,14 @@ import gsap from "gsap";
 import Typography from "./typography";
 import constants from "@/utilities/constants/constants";
 import { HeaderSection } from "../home/hero";
-import { MiddleColumn as CoursesMiddleCol } from "../home/courses-advert";
-import { ResourcesWrapper } from "../home/resources-advert";
-
-const { NAME_HEADER } = constants;
 
 const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
+
+const HeroApplySection = dynamicImports("hero", "ApplySection");
+const CoursesMiddleCol = dynamicImports(COURSES_ADVERT, "MiddleColumn", "CoursesMiddleCol");
+const ResourcesWrapper = dynamicImports(RESOURCES_ADVERT, "ResourcesWrapper", "ResourcesWrapper");
+
+const { NAME_HEADER } = constants;
 
 function SplashScreen() {
   const { state } = useContext(CourseContext);
@@ -48,9 +50,9 @@ export default function MiddleColumn({
       case HERO:
         return <SplashScreen/>;
       case COURSES_ADVERT:
-        return <CoursesMiddleCol/>;
+        return CoursesMiddleCol;
       case RESOURCES_ADVERT:
-        return <ResourcesWrapper/>;
+        return ResourcesWrapper;
       default:
         return <HeaderSection/>;
     }
@@ -168,7 +170,7 @@ export default function MiddleColumn({
           scale-y-0 origin-bottom
       `}
       >
-        {route === HERO && showLowerContent && dynamicImports("hero", "ApplySection")}
+        {route === HERO && showLowerContent && HeroApplySection}
       </div>
     </div>
   );
