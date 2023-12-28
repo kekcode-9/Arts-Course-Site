@@ -4,6 +4,7 @@ import MobileFooter from './mobile-footer';
 import { CourseContext, HOME_ROUTES } from '@/utilities/store';
 import dynamicImports from '@/utilities/dynamic-imports';
 import { CourseAdvertMobile } from '../home/courses-advert';
+import { InstructorMobileDevices } from '../home/instructors';
 
 const {
   COURSES_ADVERT,
@@ -18,11 +19,11 @@ export default function MobileContent() {
   const getContent = () => {
     switch(route) {
       case COURSES_ADVERT:
-        return <CourseAdvertMobile/>; // dynamicImports(COURSES_ADVERT, 'CourseAdvertMobile', 'CourseAdvertMobile');
+        return <CourseAdvertMobile/>;
       case RESOURCES_ADVERT:
         return dynamicImports(RESOURCES_ADVERT, 'ResourcesWrapper', 'ResourcesWrapper');
       case INSTRUCTORS:
-        return dynamicImports(INSTRUCTORS, 'InstructorMobileDevices', 'InstructorMobileDevices');
+        return <InstructorMobileDevices/>;
       default:
         return <></>
     }
