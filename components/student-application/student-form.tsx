@@ -14,6 +14,12 @@ import {
   professionInfoType
 } from "@/utilities/types";
 import { addDocumentToDB } from "@/firebase/firestore-access";
+import routes from "@/utilities/constants/routes";
+import dbCollections from "@/utilities/constants/dbCollections";
+
+const { STUDENT_APPLICATIONS } = dbCollections;
+
+const { LOGIN_SIGNUP, ROOT } = routes;
 
 const { 
   DEGREE_LIST, 
@@ -47,7 +53,7 @@ const {
 function SubmissionSuccessPage({
   applicationId
 }: {applicationId: string}) {
-
+  const applicationType = STUDENT_APPLICATIONS;
   return (
     <div
       className="flex flex-col gap-8 items-center"
@@ -59,14 +65,15 @@ function SubmissionSuccessPage({
         {LOG_IN_FOR_STATUS}
       </Typography>
       <Link href={{
-        pathname: '/login-signup',
+        pathname: LOGIN_SIGNUP,
         query: {
-          applicationId
+          applicationId,
+          applicationType
         }
       }}>
         <CTA primary={true} longButton={true} label={LOG_IN} />
       </Link>
-      <Link href='/'>
+      <Link href={ROOT}>
         <CTA primary={false} longButton={true} label={BACK_TO_HOME} />
       </Link>
     </div>
@@ -428,10 +435,11 @@ export default function StudentForm() {
       }
     });
     updateUncheckedFields(unchecked);
-    setSubmissionSuccess(true);
+    setApplicationId('wWUQy5wadkAO9o8u70W2'); // REMOVE BEFORE COMMIT
+    setSubmissionSuccess(true); // REMOVE BEFORE COMMIT
     if (!unchecked.length) {
       addDocumentToDB(
-        'student_applications', 
+        STUDENT_APPLICATIONS, 
         studentApplicationForm as ApplicationType,
         (id?: string) => setApplicationId(id)
       );

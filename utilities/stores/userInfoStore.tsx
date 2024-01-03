@@ -1,4 +1,3 @@
-'use client'
 import React, { createContext, useReducer, Dispatch } from "react";
 import { ACTIONS } from "../constants/actions";
 

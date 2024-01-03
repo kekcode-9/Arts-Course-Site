@@ -124,6 +124,7 @@ export default {
     DONT_HAVE_ACCOUNT: "Don't have an account ?",
     SIGN_UP: 'Sign up',
     MEMBER_ALREADY: 'Are you a member already ?',
+    CREATE_A_NEW_ACCOUNT: 'Create a new account',
     LOGIN_FORM_LABELS: {
         EMAIL: 'Email',
         PASSWORD: 'Password',

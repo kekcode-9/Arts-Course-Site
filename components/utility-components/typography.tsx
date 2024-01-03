@@ -10,6 +10,7 @@ type TypographyProps = {
     size?: string;
     isSplash?: boolean;
     animateEntrance?: boolean;
+    onClick?: () => void;
 }
 
 export default function Typography({
@@ -19,7 +20,8 @@ export default function Typography({
     isInputLabel,
     size,
     isSplash,
-    animateEntrance
+    animateEntrance,
+    onClick
 }: TypographyProps) {
     const headerRef = useRef<HTMLHeadingElement | null>(null);
     const pRef = useRef<HTMLParagraphElement | null>(null);
@@ -78,6 +80,7 @@ export default function Typography({
         ${additionalClasses}
         ${animateEntrance && 'opacity-0'}
         `}
+        onClick={onClick}
     >
         {children}
     </p> :

@@ -8,12 +8,15 @@ import dynamic from "next/dynamic";
 import Typography from "../utility-components/typography";
 import CTA from "../utility-components/cta";
 import Logo from "../utility-components/logo";
+import routes from "@/utilities/constants/routes";
 import constants from "@/utilities/constants/constants";
 import DownArrowPlain from "../utility-components/svg-utilities/down-arrow-plain";
 import Skeletons from "@/public/skeletons.png";
 import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 
 const { HERO } = HOME_ROUTES;
+
+const { COURSES } = routes;
 
 const Slider = dynamic(
   () => import("../../components/utility-components/slider"),
@@ -188,7 +191,7 @@ export function MiddleColumn() {
       >
         {
           showCTA && 
-          <Link href='/courses'>
+          <Link href={COURSES}>
             <CTA label={EXPLORE_ALL_COURSES} primary={false} />
           </Link>
         }

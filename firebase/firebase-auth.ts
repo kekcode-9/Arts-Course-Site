@@ -1,6 +1,16 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { setDocumentInDB } from "./firestore-access";
+import { 
+  User as FirebaseUser,
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  updateProfile,
+} from "firebase/auth";
+import { setDocumentInDB, getDocumentFromDB } from "./firestore-access";
 import { auth } from "./firebase.config";
+import dbCollections from "@/utilities/constants/dbCollections";
+
+const { STUDENT_APPLICATIONS } = dbCollections;
 
 /**
  * 1. store newly created user to database with their name
@@ -14,58 +24,80 @@ import { auth } from "./firebase.config";
 type updateProfileDataType = {
   name?: string;
   email?: string;
-  application_id?: string;
-  application_type?: string;
+  applicationId?: string;
+  applicationType?: string;
 };
 
 export function updateAccount(
   updatedData: { [key in keyof updateProfileDataType]: string },
   id: string
 ) {
-  const { name, email, application_id, application_type } = updatedData;
-  const data: {[key: string]: string} = {
-    name: name as string,
-    email: email as string,
-  };
-  if (application_id !== undefined && application_type !== undefined) {
-    const application =
-      application_type === "student_applications"
-        ? "student_application_id"
-        : "instructor_application_id";
-    data[application] = application_id;
-  }
+  setDocumentInDB("users", id, updatedData);
+}
 
-  setDocumentInDB("users", id, data);
+export function getCurrentUser(callback: (user: FirebaseUser) => void) {
+  onAuthStateChanged(auth, (user) => user && callback(user));
+}
+
+export async function loginUser(email: string, password: string): Promise<any> {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    const user = userCredential.user;
+    return user;
+  } catch (error) {
+    console.log(`error signing in: ${error}`);
+    return error;
+  }
+}
+
+export async function logoutUser() {
+  await signOut(auth);
 }
 
 export function createUser(
   name: string,
   email: string,
   password: string,
-  onSuccess: () => void,
+  onSuccess: (uid?: string) => void,
   onError: () => void,
-  application_id?: string,
-  application_type?: string
+  applicationId?: string,
+  applicationType?: string
 ) {
   createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log(`user created: ${JSON.stringify(user)}`);
-      updateAccount(
-        {
-          name,
-          email,
-          application_id: application_id as string,
-          application_type: application_type as string,
-        },
-        user.uid
-      );
-      onSuccess();
+      if (applicationId && applicationType) {
+        getDocumentFromDB(STUDENT_APPLICATIONS, applicationId)
+        .then((docData) => {
+          if (docData && docData.email === email) {
+            updateAccount(
+              {
+                name,
+                email,
+                applicationId: applicationId as string,
+                applicationType: applicationType as string,
+              },
+              user.uid
+            );
+          }
+        })
+        .catch((error) => {
+          console.log(`application not found: ${error}`);
+        })
+      } else {
+        updateAccount(
+          {
+            name,
+            email,
+          },
+          user.uid
+        );
+      }
+      onSuccess(user.uid);
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(`error creating user: ${errorCode} | ${errorMessage}`);
+      const { code, message } = error;
+      console.log(`error creating user: ${code} | ${message}`);
       onError();
     });
 }

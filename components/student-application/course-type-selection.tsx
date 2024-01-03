@@ -2,6 +2,9 @@ import React from 'react';
 import Typography from '../utility-components/typography';
 import constants from '@/utilities/constants/constants';
 import Link from 'next/link';
+import routes from '@/utilities/constants/routes';
+
+const { SUBSCRIPTION_PLANS } = routes;
 
 const {
     OR,
@@ -38,7 +41,7 @@ export default function CourseTypeSelection() {
             </Typography>
             <Typography isHeader={false} additionalClasses='text-center'>
                 {OR} <br/>
-                <Link href='/subscription-plans' className='cursor-pointer'>
+                <Link href={SUBSCRIPTION_PLANS} className='cursor-pointer'>
                     {SUBSCRIBE_TO_ONLINE_COURSES}
                 </Link>
             </Typography>
