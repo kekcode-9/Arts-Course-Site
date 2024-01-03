@@ -6,21 +6,22 @@ import { CourseContext, HOME_ROUTES } from "@/utilities/store";
 import gsap from "gsap";
 import Typography from "./typography";
 import constants from "@/utilities/constants/constants";
-
-const { NAME_HEADER } = constants;
+import { HeaderSection } from "../home/hero";
 
 const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 
-const HeroHeader = dynamicImports(HERO, "HeaderSection", "heroMiddleColUpper");
-const CoursesMiddleCol = dynamicImports(COURSES_ADVERT, "MiddleColumn", "coursesMiddleCol");
-const ResourcesWrapper = dynamicImports(RESOURCES_ADVERT, "ResourcesWrapper", "resourcesMiddleCol");
+const HeroApplySection = dynamicImports("hero", "ApplySection");
+const CoursesMiddleCol = dynamicImports(COURSES_ADVERT, "MiddleColumn", "CoursesMiddleCol");
+const ResourcesWrapper = dynamicImports(RESOURCES_ADVERT, "ResourcesWrapper", "ResourcesWrapper");
+
+const { NAME_HEADER } = constants;
 
 function SplashScreen() {
   const { state } = useContext(CourseContext);
   const { isSplashScreen } = state;
   return (
-      <Typography isHeader={true} isSplash={isSplashScreen} >
-          {NAME_HEADER}
+      <Typography isHeader={true} isSplash={isSplashScreen} additionalClasses="relative z-20" >
+        {NAME_HEADER}
       </Typography>
   )
 }
@@ -53,7 +54,7 @@ export default function MiddleColumn({
       case RESOURCES_ADVERT:
         return ResourcesWrapper;
       default:
-        return HeroHeader;
+        return <HeaderSection/>;
     }
   };
 
@@ -133,10 +134,11 @@ export default function MiddleColumn({
   return (
     <div
       ref={divRef}
-      className={`
+      className={`middle-col
       ${position}
       ${flex}
-      w-full h-full
+      w-full 
+      h-full min-h-[770px]
       ${additionalClasses}
       overflow-clip
       `}
@@ -168,7 +170,7 @@ export default function MiddleColumn({
           scale-y-0 origin-bottom
       `}
       >
-        {route === HERO && showLowerContent && dynamicImports("hero", "ApplySection")}
+        {route === HERO && showLowerContent && HeroApplySection}
       </div>
     </div>
   );

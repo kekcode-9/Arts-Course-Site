@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -15,14 +15,19 @@ const config: Config = {
       },
     },
     fontFamily: {
-      'serif': ['Vollkorn']
+      'serif': ['Vollkorn'],
+      'sans': ['Lato']
     },
     colors: {
       'burnt-orange': '#772F06',
       'neutral-dark-gray-bg': '#181818',
       'white': '#FFFFFF',
       'black': '#000000',
-      'dirty-white': '#E7DFDF'
+      'orange': '#ff743d',
+      'error-red': '#ff1800',
+      'dirty-white': '#E7DFDF',
+      'gray-500': '#828282',
+      'transparent': 'transparent'
     },
     minHeight: {
       '1/2': '50%',

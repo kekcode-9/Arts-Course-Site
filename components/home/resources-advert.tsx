@@ -126,6 +126,15 @@ export function ResourcesWrapper() {
       className="container-div
       relative lg:z-10 flex flex-col items-center gap-2
       w-full h-full"
+      initial={screen.width < 920 && {
+        opacity: 0
+      }}
+      animate={screen.width < 920 && {
+        opacity: 1,
+        transition: {
+          duration: 0.3
+        }
+      }}
       exit={{
         opacity: 0,
         transition: {
@@ -219,7 +228,8 @@ export function ResourcesAdvertLargeLeftCol() {
       <motion.div
         ref={lineDivRef}
         className="absolute bottom-0 
-        w-[1px] h-screen 
+        w-[1px] 
+        h-screen min-h-[770px]
         scale-y-0
         bg-white"
         exit={{

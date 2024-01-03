@@ -6,6 +6,7 @@ type TypographyProps = {
     children: React.ReactNode;
     additionalClasses?: string;
     isHeader: boolean;
+    isInputLabel?: boolean;
     size?: string;
     isSplash?: boolean;
     animateEntrance?: boolean;
@@ -15,15 +16,17 @@ export default function Typography({
     children,
     additionalClasses,
     isHeader,
+    isInputLabel,
     size,
     isSplash,
     animateEntrance
 }: TypographyProps) {
     const headerRef = useRef<HTMLHeadingElement | null>(null);
     const pRef = useRef<HTMLParagraphElement | null>(null);
+    const spanRef = useRef<HTMLSpanElement | null>(null);
 
     useEffect(() => {
-        if (pRef.current, animateEntrance) {
+        if (pRef.current && animateEntrance) {
             gsap.fromTo(pRef.current, {
                 translateY: '20px',
                 opacity: 0
@@ -32,8 +35,26 @@ export default function Typography({
                 opacity: 1,
                 duration: 0.3
             })
+        } else if (spanRef.current && animateEntrance) {
+            gsap.fromTo(spanRef.current, {
+                translateY: '20px',
+                opacity: 0
+            }, {
+                translateY: '0px',
+                opacity: 1,
+                duration: 0.3
+            })
+        } else if (headerRef.current && animateEntrance) {
+            gsap.fromTo(headerRef.current, {
+                translateY: '20px',
+                opacity: 0
+            }, {
+                translateY: '0px',
+                opacity: 1,
+                duration: 0.3
+            })
         }
-    }, [pRef, animateEntrance])
+    }, [pRef, spanRef, headerRef, animateEntrance])
 
     useEffect(() => {
         if (headerRef.current && isHeader && isSplash) {
@@ -49,6 +70,7 @@ export default function Typography({
     }, [headerRef.current, isHeader, isSplash]);
 
   return !isHeader ? (
+    !isInputLabel ?
     <p
         ref={pRef}
         className={`
@@ -58,14 +80,25 @@ export default function Typography({
         `}
     >
         {children}
-    </p>
+    </p> :
+    <span
+        ref={spanRef}
+        className={`
+        ${size || 'text-base md:text-lg lg:text-xl'}
+        ${additionalClasses}
+        ${animateEntrance && 'opacity-0'} font-sans
+        `}
+    >
+        {children}
+    </span>
   ) : (
-    <h1
+    <h1 
         ref={headerRef}
         className={`
         ${size || 'text-[2rem] md:text-[2.5rem] font-medium'}
         ${additionalClasses}
         ${isSplash && 'opacity-0'}
+        ${animateEntrance && 'opacity-0'}
         `}
     >
         {children}

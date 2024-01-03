@@ -10,6 +10,10 @@ const {
   INSTRUCTORS
 } = HOME_ROUTES;
 
+const ResourcesWrapper = dynamicImports(RESOURCES_ADVERT, 'ResourcesWrapper', 'ResourcesWrapper');
+const CourseAdvertMobile = dynamicImports(COURSES_ADVERT, "CourseAdvertMobile", "CourseAdvertMobile");
+const InstructorMobileDevices = dynamicImports(INSTRUCTORS, "InstructorMobileDevices", "InstructorMobileDevices");
+
 export default function MobileContent() {
   const { state } = useContext(CourseContext);
   const { route } = state;
@@ -17,11 +21,11 @@ export default function MobileContent() {
   const getContent = () => {
     switch(route) {
       case COURSES_ADVERT:
-        return dynamicImports(COURSES_ADVERT, 'CourseAdvertMobile');
+        return CourseAdvertMobile;
       case RESOURCES_ADVERT:
-        return dynamicImports(RESOURCES_ADVERT, 'ResourcesWrapper');
+        return ResourcesWrapper;
       case INSTRUCTORS:
-        return dynamicImports(INSTRUCTORS, 'InstructorMobileDevices');
+        return InstructorMobileDevices;
       default:
         return <></>
     }
@@ -29,8 +33,8 @@ export default function MobileContent() {
 
   return (
     <section
-      className='relative flex flex-col items-center lg:hidden 
-      h-full max-md:max-h-[calc(100vh-6rem)] md:max-lg:max-h-[calc(100vh-6rem)]'
+      className='relative flex flex-col items-center justify-end lg:hidden 
+      h-full max-md:max-h-[calc(100vh-6rem)] md:max-lg:max-h-[calc(100vh-6rem)] min-h-[calc(632px-6rem)]'
     >
       {
         getContent()

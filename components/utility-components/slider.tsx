@@ -42,7 +42,6 @@ export default function Slider({
           key={index}
           src={`/${imageFile}-${index}.webp`}
           alt='drawing-in-studio-1'
-          quality={100}
           fill
           objectFit='cover'
           loading='lazy'

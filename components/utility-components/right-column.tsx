@@ -14,6 +14,7 @@ const CoursesRightImage = dynamicImports(COURSES_ADVERT, "CourseAdvertLargeRight
 
 export default function RightColumn() {
   const [showImage, setShowImage] = useState(false);
+
   const { state } = useContext(CourseContext);
   const { showBoth, route, lastRoute, isSplashScreen } = state;
   const divRef = useRef<HTMLDivElement | null>(null);
@@ -43,7 +44,7 @@ export default function RightColumn() {
         delay: (lastRoute !== HERO ? 0.5 : 0),
         duration: 0.5
       })
-    } else if (lastRoute === COURSES_ADVERT) {
+    } else if (lastRoute === COURSES_ADVERT && lastRoute !== route) {
       const tl = gsap.timeline();
       tl.to(lowerDivRef.current, {
         background: (route !== HERO ? 'transparent' : 'white'),
@@ -53,7 +54,7 @@ export default function RightColumn() {
       tl.set(lowerDivRef.current, {
         scaleY: 1
       })
-    } else if (route === INSTRUCTORS) {
+    } else if (route === INSTRUCTORS && lastRoute !== route) {
       setTimeout(() => {
         gsap.set(divRef.current, {
           position: 'absolute',
@@ -62,7 +63,7 @@ export default function RightColumn() {
           width: '33.33%'
         })
       }, 500);
-    } else if (lastRoute === INSTRUCTORS) {
+    } else if (lastRoute === INSTRUCTORS && lastRoute !== route) {
       setTimeout(() => {
         gsap.set(divRef.current, {
           position: 'static',
@@ -76,9 +77,10 @@ export default function RightColumn() {
   return (
     <div
       ref={divRef}
-      className={`w-full
+      className={`right-col
         flex flex-col
-        h-screen
+        w-full
+        h-screen min-h-[770px]
       `}
     >
       <HeaderLinks
