@@ -4,7 +4,7 @@ type TypographyProps = {
     children: React.ReactNode,
     additionalClasses?: string,
     isHeader: boolean
-}
+} 
 
 export default function Typography({
     children,
