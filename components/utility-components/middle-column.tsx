@@ -1,8 +1,8 @@
-"use client";
+'use client'
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import dynamicImports from "@/utilities/dynamic-imports";
-import { CourseContext, HOME_ROUTES } from "@/utilities/store";
+import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 import gsap from "gsap";
 import Typography from "./typography";
 import constants from "@/utilities/constants/constants";

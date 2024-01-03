@@ -10,6 +10,9 @@ import constants from '@/utilities/constants/constants';
 import FruitBasket from '@/public/fruit-basket.webp';
 import BackAnatomy from '@/public/back-anatomy.webp';
 import ValuesOfHead from '@/public/values-of-head.webp';
+import routes from '@/utilities/constants/routes';
+
+const { STUDENT_APPLICATION, INSTRUCTOR_APPLICATION } = routes;
 
 const { 
     OR, 
@@ -54,14 +57,14 @@ export function ApplySection () {
                 </Typography>
             </span>
             <span ref={spanRefs[1]}>
-                <Link href='/student-application'>
+                <Link href={STUDENT_APPLICATION}>
                     <CTA label={ APPLY_NOW } primary={true} />
                 </Link>
             </span>
             <span ref={spanRefs[2]}>
                 <Typography isHeader={false}>
                     { OR } <br/> 
-                    <Link href='/instructor-application'>
+                    <Link href={INSTRUCTOR_APPLICATION}>
                         <span className='underline'> { ARE_YOU_INSTRUCTOR } </span> ?
                     </Link>
                 </Typography>

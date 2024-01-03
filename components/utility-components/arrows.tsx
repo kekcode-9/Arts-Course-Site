@@ -4,7 +4,7 @@ import DownArrowRect from './svg-utilities/down-arrow-rect';
 import DownArrowTallRect from './svg-utilities/down-arrow-tall-rect';
 import DownArrowCircular from './svg-utilities/down-arrow-circular';
 import UpArrowcircular from './svg-utilities/up-arrow-circular';
-import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { CourseContext, HOME_ROUTES } from '@/utilities/stores/courseContextStore';
 import { ACTIONS } from '@/utilities/constants/actions';
 
 const ROUTES = Object.values(HOME_ROUTES);
@@ -12,7 +12,7 @@ const {
     UPDATE_ROUTE,
     SET_SHOWBOTH,
     SET_ISLAST
-} = ACTIONS;
+} = ACTIONS.HOME_ROUTE_ACTIONS;
 
 export default function Arrows() {
     const { state, dispatch } = useContext(CourseContext);

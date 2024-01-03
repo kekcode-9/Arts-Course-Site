@@ -1,7 +1,7 @@
 'use client'
 import React, { useContext } from 'react';
 import MobileFooter from './mobile-footer';
-import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { CourseContext, HOME_ROUTES } from '@/utilities/stores/courseContextStore';
 import dynamicImports from '@/utilities/dynamic-imports';
 
 const {

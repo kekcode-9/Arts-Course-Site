@@ -1,6 +1,5 @@
-"use client";
-import React, { useState, useRef, useEffect } from "react";
-import gsap from "gsap";
+'use client'
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typography from "./typography";
 import DropdownArrow from "./svg-utilities/dropdown-arrow";
@@ -80,7 +79,7 @@ type InputProps = {
 };
 
 // type InputElementProps = Omit<InputProps, "label">;
-type InputElementProps = Omit<InputProps, "mandatory">;
+type InputElementProps = InputProps;
 
 function InputElement({
   inputType,
@@ -88,13 +87,15 @@ function InputElement({
   selectedValue,
   onFocus,
   onValueChange,
-  label
+  label,
+  mandatory
 }: InputElementProps) {
   return (
     <motion.input
       type={inputType || "text"}
+      required={mandatory}
       className={`
-      ${inputType !== "date" ? "w-[20rem] md:w-[30rem]" : "w-48"} h-12 
+      ${(inputType !== "date" && inputType !== "number") ? "w-[20rem] md:w-[30rem]" : "w-48"} h-12 
       px-[0.5rem]
       border-[1px] border-gray-500 rounded-md 
       font-sans 
@@ -129,7 +130,6 @@ function InputElement({
 export default function BasicInput({
   label,
   inputType,
-  onFocus,
   isDropdownInput,
   onValueChange,
   mandatory
@@ -141,6 +141,7 @@ export default function BasicInput({
         inputType={inputType} 
         isDropdownInput={false} 
         label={label} 
+        mandatory={mandatory}
       />
     </InputWrapper>
   );
@@ -188,6 +189,7 @@ export function DropdownInput<T>({
         selectedValue={selectedValue}
         label={label}
         onValueChange={() => {}}
+        mandatory={mandatory}
       />
       <AnimatePresence>
         {showDropdown && (

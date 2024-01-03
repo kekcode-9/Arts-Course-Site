@@ -1,15 +1,16 @@
 import React from 'react';
-import StudentForm from '@/components/student-application/student-form';
+import StudentApplicationHome from '@/components/student-application/application-home';
 
 export default function StudentApplication() {
+
   return (
     <section
         className={`
-        flex flex-col items-center
-        w-screen h-max
+          flex flex-col items-center
+          w-screen h-max min-h-full
         `}
     >
-        <StudentForm/>
+      <StudentApplicationHome/>
     </section>
   )
 }
