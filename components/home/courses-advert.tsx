@@ -1,5 +1,5 @@
-"use client";
-import React, { useEffect, useState, useRef, useContext, useCallback } from "react";
+'use client'
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import gsap from "gsap";
@@ -11,7 +11,7 @@ import Logo from "../utility-components/logo";
 import constants from "@/utilities/constants/constants";
 import DownArrowPlain from "../utility-components/svg-utilities/down-arrow-plain";
 import Skeletons from "@/public/skeletons.png";
-import { CourseContext, HOME_ROUTES } from "@/utilities/store";
+import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 
 const { HERO } = HOME_ROUTES;
 

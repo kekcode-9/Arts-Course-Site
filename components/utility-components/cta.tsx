@@ -8,6 +8,7 @@ type CTAProps = {
     primary: boolean;
     canPlay?: boolean | null;
     submitButton?: boolean;
+    longButton?: boolean;
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
@@ -16,6 +17,7 @@ export default function CTA({
     primary,
     canPlay,
     submitButton,
+    longButton,
     onClick
 }: CTAProps) {
   const bgDivRef = useRef<HTMLDivElement | null>(null);
@@ -34,12 +36,11 @@ export default function CTA({
   return (
     <button
         className={`
-        relative
-        flex items-center justify-center 
-        w-52 
-        h-[48px] 
-        text-xl ${primary ? 'text-neutral-dark-gray-bg' : 'text-white'} 
-        cursor-pointer 
+          relative
+          flex items-center justify-center 
+          ${longButton ? 'w-[20rem] md:w-[30rem] h-[54px]' : 'w-52 h-[48px]'} 
+          text-xl ${primary ? 'text-neutral-dark-gray-bg' : 'text-white'} 
+          cursor-pointer 
         `}
         type={submitButton ? 'submit' : 'button'}
         onClick={(e) => {

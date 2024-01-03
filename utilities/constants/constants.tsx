@@ -51,12 +51,15 @@ export default {
         }
     ],
     // student application form
-    "APPLY_FOR": "Apply for",
-    "IN_PERSON_CLASSES": "In Person Classes",
-    "ONLINE_INTERACTIVE_CLASSES": "Online interactive live classes",
-    "SUBSCRIBE_TO_ONLINE_COURSES": (<><u>Subscribe</u> to our pre-recorded online courses</>),
+    APPLY_FOR: "Apply for",
+    IN_PERSON_CLASSES: "In Person Classes",
+    ONLINE_INTERACTIVE_CLASSES: "Online interactive live classes",
+    SUBSCRIBE_TO_ONLINE_COURSES: (<><u>Subscribe</u> to our pre-recorded online courses</>),
+    APPLICATION_SUCCESSFUL: "Application submitted successfully !",
+    LOG_IN_FOR_STATUS: "Log in to see your application status",
+    BACK_TO_HOME: "Go back to home page",
     // Student application form labels
-    "STUDENT_FORM_LABELS": {
+    STUDENT_FORM_LABELS: {
         NAME: 'Full name',
         EMAIL: 'Email id',
         DOB: 'Date of Birth',
@@ -74,20 +77,20 @@ export default {
         SLOT: 'Pick a slot'
     },
     // Application form inputs
-    "DEGREE_LIST": {
+    DEGREE_LIST: {
         HIGH_SCHOOL: 'High School',
         VOCATIONAL: 'Vocational qualification',
         BACHELORS: 'Bachelors',
         MASTERS: 'Masters',
         HIGHER: 'Doctorate or higher'
     },
-    "SKILL_LEVEL": {
+    SKILL_LEVEL: {
         BEGINNER: 'Beginner',
         ART_SCHOOL: 'Attended / Attending Art School',
         SELF_LEARNER: 'Self Learner',
         PROFESSIONAL: 'Professional Artist'
     },
-    "COURSES": {
+    COURSES: {
         ANATOMY: {
             name: 'Human Anatomy for Artists with Safique Hussain',
             slots: [
@@ -116,6 +119,20 @@ export default {
                 'Starting from January 17th, 2024 - Every Wed 12 am - 3 pm'
             ]
         }
+    },
+    // login / signup
+    DONT_HAVE_ACCOUNT: "Don't have an account ?",
+    SIGN_UP: 'Sign up',
+    MEMBER_ALREADY: 'Are you a member already ?',
+    LOGIN_FORM_LABELS: {
+        EMAIL: 'Email',
+        PASSWORD: 'Password',
+        FORGOT_PASSWORD: 'Forgot password ?'
+    },
+    SIGN_UP_FORM_LABELS: {
+        NAME: 'Full name',
+        EMAIL: 'Email',
+        CREATE_PASSWORD: 'Create password',
+        REENTER_PASSWORD: 'Re-enter password'
     }
-
 } as const;

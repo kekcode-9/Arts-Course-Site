@@ -1,9 +1,9 @@
-"use client";
+'use client'
 import React, { useEffect, useRef, useContext } from "react";
 import gsap from "gsap";
 import Link from "next/link";
 import constants from "@/utilities/constants/constants";
-import { CourseContext, homeRoutesType, HOME_ROUTES } from "@/utilities/store";
+import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 
 const { LOG_IN, MENU } = constants;
 
@@ -61,10 +61,10 @@ export default function HeaderLinks({
             lg:-translate-y-full
         `}
     >
-      <Link href={""} className="lg:col-end-3 lg:text-right">
+      <Link href={"/"} className="lg:col-end-3 lg:text-right">
         {LOG_IN}
       </Link>
-      <Link href={""} className="lg:col-end-4 lg:text-right">
+      <Link href={"/"} className="lg:col-end-4 lg:text-right">
         {MENU}
       </Link>
     </div>

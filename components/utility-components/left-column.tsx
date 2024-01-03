@@ -1,8 +1,8 @@
-"use client";
+'use client'
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import { CourseContext, HOME_ROUTES } from "@/utilities/store";
+import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 import dynamicImports from "@/utilities/dynamic-imports";
 // import { ResourcesAdvertLargeLeftCol as ResourcesLeftCol } from "../home/resources-advert";
 

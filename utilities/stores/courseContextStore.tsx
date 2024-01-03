@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useReducer, Dispatch } from "react";
-import { ACTIONS } from "./constants/actions";
+import { ACTIONS } from "../constants/actions";
 
 // possible values for the 'route' state
 export const HOME_ROUTES = {
@@ -31,9 +31,11 @@ const initialState: initialStateType = {
     isLast: false
 }
 
+const { HOME_ROUTE_ACTIONS } = ACTIONS;
+
 // create the type of the action parameter for reducer
 type actionType = {
-    type: (typeof ACTIONS)[keyof (typeof ACTIONS)];
+    type: (typeof HOME_ROUTE_ACTIONS)[keyof (typeof HOME_ROUTE_ACTIONS)];
     payload?: any
 }
 
@@ -42,7 +44,7 @@ const {
     SET_SHOWBOTH,
     SET_ISLAST,
     SET_UNSET_SPLASH_SCREEN
-} = ACTIONS;
+} = HOME_ROUTE_ACTIONS;
 
 // create the reducer
 function reducer (state: initialStateType, action: actionType) {

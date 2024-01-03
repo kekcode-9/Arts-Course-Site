@@ -43,7 +43,7 @@ export type studentApplicationFormType<T, S extends {[key: string]: string[]}> =
     email: string;
     dob: string;
     education: (typeof DEGREE_LIST)[keyof typeof DEGREE_LIST];
-    portfolio: string | null;
+    portfolio: URL | null;
     skill: artSchoolInfoType | professionInfoType | otherSkillInfoType;
     course: T[keyof T];
     slot: S[keyof S][number];

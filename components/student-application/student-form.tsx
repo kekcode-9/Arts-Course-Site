@@ -1,6 +1,6 @@
-"use client";
+'use client'
 import React, { useCallback, useEffect, useState } from "react";
-import CourseTypeSelection from "./course-type-selection";
+import Link from "next/link";
 import BasicInput, {
   FormWrapper,
   DropdownInput,
@@ -13,8 +13,18 @@ import {
   artSchoolInfoType,
   professionInfoType
 } from "@/utilities/types";
+import { addDocumentToDB } from "@/firebase/firestore-access";
 
-const { DEGREE_LIST, SKILL_LEVEL, COURSES, STUDENT_FORM_LABELS } = constants;
+const { 
+  DEGREE_LIST, 
+  SKILL_LEVEL, 
+  COURSES, 
+  STUDENT_FORM_LABELS,
+  APPLICATION_SUCCESSFUL,
+  BACK_TO_HOME,
+  LOG_IN_FOR_STATUS,
+  LOG_IN
+} = constants;
 
 const {
   NAME,
@@ -34,8 +44,37 @@ const {
   SLOT
 } = STUDENT_FORM_LABELS;
 
+function SubmissionSuccessPage({
+  applicationId
+}: {applicationId: string}) {
+
+  return (
+    <div
+      className="flex flex-col gap-8 items-center"
+    >
+      <Typography isHeader={true} animateEntrance={true} additionalClasses="text-center">
+        {APPLICATION_SUCCESSFUL}
+      </Typography>
+      <Typography isHeader={false} animateEntrance={true} additionalClasses="text-center">
+        {LOG_IN_FOR_STATUS}
+      </Typography>
+      <Link href={{
+        pathname: '/login-signup',
+        query: {
+          applicationId
+        }
+      }}>
+        <CTA primary={true} longButton={true} label={LOG_IN} />
+      </Link>
+      <Link href='/'>
+        <CTA primary={false} longButton={true} label={BACK_TO_HOME} />
+      </Link>
+    </div>
+  )
+}
+
 /**
- * coourses is a key value pair where each pair indicates a course
+ * courses is a key value pair where each pair indicates a course
  */
 const courses: {
   [key: string]: string;
@@ -58,8 +97,20 @@ Object.entries(COURSES).forEach(([key, value]) => {
   allSlots[key] = value.slots.concat();
 });
 
+/**
+   * ApplicationType explanation:
+   * it is an object i.e. set of {key: value} pairs where -->
+   *      each key is optional and belongs from the set of keys available on the ApplicationType
+   *      each value is of the type corresponding to the key OR it is undefined
+   */
+export type ApplicationType = {
+  [key in keyof studentApplicationFormType<typeof courses, typeof allSlots>]?:
+    studentApplicationFormType<typeof courses, typeof allSlots>[key];
+}
+
 export default function StudentForm() {
   // component states
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [showDegreeDiv, setShowDegreeDiv] = useState(false);
   const [showProfessionDiv, setShowProfessionDiv] = useState(false);
   const [mandatoryChecklist, setMandatoryChecklist] = useState<{
@@ -71,17 +122,9 @@ export default function StudentForm() {
   const [availableSlots, setAvailableSlots] = useState<{
     [key: string]: string;
   }>({"": "",});
-  /**
-   * studentApplicationForm type explanation:
-   * it is an object i.e. set of {key: value} pairs where -->
-   *      each key is optional and belongs from the set of keys available on the studentApplicationFormType
-   *      each value is of the type corresponding to the key OR it is undefined
-   */
-  const [studentApplicationForm, setStudentApplicationForm] = useState<{
-    [key in keyof studentApplicationFormType<typeof courses, typeof allSlots>]?:
-      | studentApplicationFormType<typeof courses, typeof allSlots>[key]
-      | undefined;
-  }>();
+  const [studentApplicationForm, setStudentApplicationForm] = useState<ApplicationType | undefined>();
+  const [applicationId, setApplicationId] = useState<string | undefined>();
+
 
   const BASIC = 'basic';
   const DROPDOWN = 'dropdown';
@@ -384,144 +427,158 @@ export default function StudentForm() {
         })
       }
     });
-    if (unchecked.length > 0) {
+    updateUncheckedFields(unchecked);
+    setSubmissionSuccess(true);
+    if (!unchecked.length) {
+      addDocumentToDB(
+        'student_applications', 
+        studentApplicationForm as ApplicationType,
+        (id?: string) => setApplicationId(id)
+      );
+      setSubmissionSuccess(true);
+    } else {
       e.preventDefault();
     }
-    updateUncheckedFields(unchecked);
-  }, [mandatoryChecklist]);
+  }, [mandatoryChecklist, studentApplicationForm]);
 
   return (
     <div
-      className="flex flex-col items-center justify-center gap-12
-      w-screen h-fit 
-      max-sm:px-8 pt-8 pb-10rem md:pt-16 md:pb-[14rem]
-    "
+      className={`
+        flex flex-col items-center justify-center gap-12
+        w-screen
+        ${submissionSuccess ? 'h-screen' : 'h-fit'} 
+        max-sm:px-8 pt-8 pb-[10rem] md:pt-16 md:pb-[14rem]
+      `}
     >
-      <FormWrapper>
-        <Typography isHeader={true} animateEntrance={true} >
-          Student Application Form
-        </Typography>
-        {
-          Object.entries(formFields).map(([fieldName, fieldSpecs]) => {
-            const { label, inputType, fieldType, dropdownList, mandatory } = fieldSpecs;
-            return (
-              fieldType === BASIC ? 
-              <span
-                className={`
-                  w-fit
-                  ${uncheckedFields?.includes(fieldName) && 'text-error-red'}
-                `}
-              >
-                <BasicInput 
-                  key={fieldName}
-                  mandatory={mandatory}
-                  inputType={inputType} 
-                  label={label}
-                  onValueChange={(selectedValue) => {
-                    onChange(
-                      [label, selectedValue],
-                      studentApplicationForm,
-                      fieldName
-                    );
-                  }}
-                />
-              </span> :
-              dropdownList && 
-              <>
+      {
+        submissionSuccess ?
+        <SubmissionSuccessPage applicationId={applicationId as string} /> :
+        <FormWrapper>
+          <Typography isHeader={true} animateEntrance={true} >
+            Student Application Form
+          </Typography>
+          {
+            Object.entries(formFields).map(([fieldName, fieldSpecs]) => {
+              const { label, inputType, fieldType, dropdownList, mandatory } = fieldSpecs;
+              return (
+                fieldType === BASIC ? 
                 <span
                   className={`
                     w-fit
                     ${uncheckedFields?.includes(fieldName) && 'text-error-red'}
                   `}
                 >
-                  <DropdownInput 
+                  <BasicInput 
                     key={fieldName}
                     mandatory={mandatory}
-                    label={label} 
-                    dropdownList={dropdownList} 
-                    onChange={(item: [string, string]) =>
-                      onChange(item, studentApplicationForm, fieldName)
-                    }
+                    inputType={inputType} 
+                    label={label}
+                    onValueChange={(selectedValue) => {
+                      onChange(
+                        [label, selectedValue],
+                        studentApplicationForm,
+                        fieldName
+                      );
+                    }}
                   />
-                </span>
-                {
-                  showDegreeDiv &&
-                  <>
-                    {
-                      ('schoolInfoFields' in fieldSpecs) &&
-                      Object.entries(fieldSpecs.schoolInfoFields)
-                      .map(([infoField, infoFieldSpecs]) => {
-                        return (
-                          infoFieldSpecs.fieldType === BASIC && 
-                          <span
-                            className={`
-                              w-fit
-                              ${uncheckedFields?.includes(infoField) && 'text-error-red'}
-                            `}
-                          >
-                            <BasicInput 
-                              key={infoField}
-                              mandatory={mandatory}
-                              inputType={infoFieldSpecs.inputType} 
-                              label={infoFieldSpecs.label}
-                              onValueChange={(selectedValue) => {
-                                onSchoolInfoUpdate(
-                                  infoField as keyof artSchoolInfoType, 
-                                  selectedValue, 
-                                  studentApplicationForm)
-                              }}
-                            />
-                          </span>
-                        )
-                      })
-                    }
-                  </>
-                }
-                {
-                  showProfessionDiv &&
-                  <>
-                    {
-                      ('professionalInfoFields' in fieldSpecs) &&
-                      Object.entries(fieldSpecs.professionalInfoFields)
-                      .map(([infoField, infoFieldSpecs]) => {
-                        return (
-                          infoFieldSpecs.fieldType === BASIC && 
-                          <span
-                            className={`
-                              w-fit
-                              ${uncheckedFields?.includes(infoField) && 'text-error-red'}
-                            `}
-                          >
-                            <BasicInput 
-                              key={infoField}
-                              mandatory={mandatory}
-                              inputType={infoFieldSpecs.inputType} 
-                              label={infoFieldSpecs.label}
-                              onValueChange={(selectedValue) => {
-                                onProfessionInfoUpdate(
-                                  infoField as keyof professionInfoType, 
-                                  selectedValue, 
-                                  studentApplicationForm)
-                              }}
-                            />
-                          </span>
-                        )
-                      })
-                    }
-                  </>
-                }
-              </>
-            )
-          })
-        }
-        <CTA
-          submitButton={true}
-          primary={true}
-          label="Submit Application"
-          canPlay={true}
-          onClick={handleSubmit}
-        />
-      </FormWrapper>
+                </span> :
+                dropdownList && 
+                <>
+                  <span
+                    className={`
+                      w-fit
+                      ${uncheckedFields?.includes(fieldName) && 'text-error-red'}
+                    `}
+                  >
+                    <DropdownInput 
+                      key={fieldName}
+                      mandatory={mandatory}
+                      label={label} 
+                      dropdownList={dropdownList} 
+                      onChange={(item: [string, string]) =>
+                        onChange(item, studentApplicationForm, fieldName)
+                      }
+                    />
+                  </span>
+                  {
+                    showDegreeDiv &&
+                    <>
+                      {
+                        ('schoolInfoFields' in fieldSpecs) &&
+                        Object.entries(fieldSpecs.schoolInfoFields)
+                        .map(([infoField, infoFieldSpecs]) => {
+                          return (
+                            infoFieldSpecs.fieldType === BASIC && 
+                            <span
+                              className={`
+                                w-fit
+                                ${uncheckedFields?.includes(infoField) && 'text-error-red'}
+                              `}
+                            >
+                              <BasicInput 
+                                key={infoField}
+                                mandatory={mandatory}
+                                inputType={infoFieldSpecs.inputType} 
+                                label={infoFieldSpecs.label}
+                                onValueChange={(selectedValue) => {
+                                  onSchoolInfoUpdate(
+                                    infoField as keyof artSchoolInfoType, 
+                                    selectedValue, 
+                                    studentApplicationForm)
+                                }}
+                              />
+                            </span>
+                          )
+                        })
+                      }
+                    </>
+                  }
+                  {
+                    showProfessionDiv &&
+                    <>
+                      {
+                        ('professionalInfoFields' in fieldSpecs) &&
+                        Object.entries(fieldSpecs.professionalInfoFields)
+                        .map(([infoField, infoFieldSpecs]) => {
+                          return (
+                            infoFieldSpecs.fieldType === BASIC && 
+                            <span
+                              className={`
+                                w-fit
+                                ${uncheckedFields?.includes(infoField) && 'text-error-red'}
+                              `}
+                            >
+                              <BasicInput 
+                                key={infoField}
+                                mandatory={mandatory}
+                                inputType={infoFieldSpecs.inputType} 
+                                label={infoFieldSpecs.label}
+                                onValueChange={(selectedValue) => {
+                                  onProfessionInfoUpdate(
+                                    infoField as keyof professionInfoType, 
+                                    selectedValue, 
+                                    studentApplicationForm)
+                                }}
+                              />
+                            </span>
+                          )
+                        })
+                      }
+                    </>
+                  }
+                </>
+              )
+            })
+          }
+          <CTA
+            submitButton={true}
+            primary={true}
+            label="Submit Application"
+            canPlay={true}
+            onClick={handleSubmit}
+          />
+        </FormWrapper>
+      }
     </div>
   );
 }
