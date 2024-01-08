@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { createUser, logoutUser } from '@/firebase/firebase-auth';
+import { createUser, logoutUser } from '@/lib/firebase/firebase-auth';
 import BasicInput, { FormWrapper } from '../utility-components/form-inputs';
 import CTA from '../utility-components/cta';
 import routes from '@/utilities/constants/routes';
@@ -32,7 +32,7 @@ export default function SignupForm() {
     const handleSubmit = useCallback(() => {
         const { name, email, password} = signupInfo as signUpInfoType;
         createUser(name, email, password, 
-            (uid) => router.push(USER(uid as string)),
+            (uid, userName) => router.push(USER(userName as string)),
             () => alert('ayo error'),
             applicationId as string, 
             applicationType as string

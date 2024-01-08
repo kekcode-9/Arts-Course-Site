@@ -6,6 +6,16 @@ export default {
     APPLY_NOW: 'Apply now',
     EXPLORE_ALL_COURSES: 'Explore all courses',
     SEE_ALL_INSTRUCTORS: 'See all instructors',
+    // menu items
+    MENU_ITEMS: {
+        COURSES: 'Course catalogue',
+        THREED_MODELS: '3d models',
+        REFERENCES: 'Reference images',
+        WORKSHOPS: 'Workshops',
+        BLOG: 'Blog',
+        HELP: 'Help',
+        FEEDBACK: 'Feedback & Suggestions'
+    },
     // Hero page
     NAME_HEADER: (<>Esner <br/> Academy</>),
     HERO_OBJECTIVE: 'Kickstart your career as a professional artist with our structured curriculum, personal feedback and thousands of lessons curated with care.',
@@ -13,7 +23,7 @@ export default {
     ARE_YOU_INSTRUCTOR: 'Are you an instructor',
     // Header links
     LOG_IN: 'Log in',
-    MENU: 'menu',
+    MENU: 'Explore',
     // Courses advert
     WE_OFFER: 'At Esner Academy we offer',
     IN_PERSON_COURSES: 'In-person courses at our studio',
@@ -29,25 +39,25 @@ export default {
             image: '/bauman-instructor-1.jpg',
             name: 'Stephen Bauman',
             experties: 'Drawing, Painting',
-            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
         },
         {
             image: '/bauman-instructor-1.jpg',
             name: 'Stephen Bauman',
             experties: 'Drawing, Painting',
-            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
         },
         {
             image: '/bauman-instructor-1.jpg',
             name: 'Stephen Bauman',
             experties: 'Drawing, Painting',
-            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
         },
         {
             image: '/bauman-instructor-1.jpg',
             name: 'Stephen Bauman',
             experties: 'Drawing, Painting',
-            work: 'Former Director of Anatomy & Ecorche in Sweden and USA'
+            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
         }
     ],
     // student application form
@@ -64,15 +74,15 @@ export default {
         EMAIL: 'Email id',
         DOB: 'Date of Birth',
         EDUCATION: 'Highest level of education',
-        PORTFOLIO: 'Portfolio link',
-        SKILL: 'Where are you at in your art journey ?',
-        SCHOOL_NAME: 'Name of School',
-        DEGREE: 'Degree',
-        PROJECT: 'Project links',
-        COMPANY: 'Name of company',
-        ROLE: 'Current role',
-        YOE: 'Years of experience',
-        PURPOSE: 'How would this course help you in your career ?',
+        PORTFOLIO: 'Portfolio link', // needed for in person only
+        SKILL: 'Where are you at in your art journey ?', // needed for in person only
+        SCHOOL_NAME: 'Name of School', // needed for in person only
+        DEGREE: 'Degree', // needed for in person only
+        PROJECT: 'Project links', // needed for in person only
+        COMPANY: 'Name of company', // needed for in person only
+        ROLE: 'Current role', // needed for in person only
+        YOE: 'Years of experience', // needed for in person only
+        PURPOSE: 'How would this course help you in your career ?', // needed for in person only
         COURSE: 'Select a course',
         SLOT: 'Pick a slot'
     },
@@ -90,7 +100,7 @@ export default {
         SELF_LEARNER: 'Self Learner',
         PROFESSIONAL: 'Professional Artist'
     },
-    COURSES: {
+    COURSES_IN_PERSON: {
         ANATOMY: {
             name: 'Human Anatomy for Artists with Safique Hussain',
             slots: [

@@ -11,7 +11,7 @@ import Logo from "../utility-components/logo";
 import routes from "@/utilities/constants/routes";
 import constants from "@/utilities/constants/constants";
 import DownArrowPlain from "../utility-components/svg-utilities/down-arrow-plain";
-import Skeletons from "@/public/skeletons.png";
+import SummerBreeze from "@/public/summer-breeze-lena-rivo.webp";
 import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 
 const { HERO } = HOME_ROUTES;
@@ -214,12 +214,12 @@ export function CourseAdvertLargeRightImage() {
 
   return (
     <MotionImage
-      src={Skeletons}
-      alt="back anatomy sketch"
+      src={SummerBreeze}
+      alt="Summer Breeze by Lena Rivo"
       fill
       loading="lazy"
       placeholder="blur"
-      className="object-contain"
+      className="object-cover"
       initial={{
         opacity: 0,
       }}
@@ -258,8 +258,8 @@ export function CourseAdvertMobile() {
       }}
     >
       <Image
-        src={Skeletons}
-        alt="skeletons"
+        src={SummerBreeze}
+        alt="Summer Breeze by Lena Rivo"
         placeholder="blur"
         fill
         objectFit="cover"

@@ -1,4 +1,7 @@
 export const ACTIONS = {
+    COMMON_ACTIONS: {
+        SET_MENU_STATE: 'SET_MENU_STATE'
+    },
     HOME_ROUTE_ACTIONS: {
         UPDATE_ROUTE: 'UPDATE_ROUTE',
         SET_SHOWBOTH: 'SET_SHOWBOTH',

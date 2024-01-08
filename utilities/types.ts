@@ -5,6 +5,7 @@ const {
     SKILL_LEVEL
 } = constants;
 
+// Types for student application form
 /**
  * artSchoolInfoType is a type showing what information is expected to be provided by
  * an applicant who is attending or has attended an art school
@@ -48,3 +49,19 @@ export type studentApplicationFormType<T, S extends {[key: string]: string[]}> =
     course: T[keyof T];
     slot: S[keyof S][number];
 };
+
+
+// Types for courses
+export type CourseLevelTypes = 'Beginner' | 'Intermediate' | 'Advance';
+
+export type CourseType = {
+    title: string;
+    from: string;
+    category: string;
+    level: CourseLevelTypes;
+    videos: number;
+    duration: string;
+    rating: number;
+    reviewsCount: number;
+    thumbnail: URL;
+}

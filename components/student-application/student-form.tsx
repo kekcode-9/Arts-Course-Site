@@ -13,9 +13,10 @@ import {
   artSchoolInfoType,
   professionInfoType
 } from "@/utilities/types";
-import { addDocumentToDB } from "@/firebase/firestore-access";
+import { addDocumentToDB } from "@/lib/firebase/firestore-access";
 import routes from "@/utilities/constants/routes";
 import dbCollections from "@/utilities/constants/dbCollections";
+import EasterLilly from "../utility-components/svg-utilities/easeter-lilly";
 
 const { STUDENT_APPLICATIONS } = dbCollections;
 
@@ -24,7 +25,7 @@ const { LOGIN_SIGNUP, ROOT } = routes;
 const { 
   DEGREE_LIST, 
   SKILL_LEVEL, 
-  COURSES, 
+  COURSES_IN_PERSON, 
   STUDENT_FORM_LABELS,
   APPLICATION_SUCCESSFUL,
   BACK_TO_HOME,
@@ -76,6 +77,11 @@ function SubmissionSuccessPage({
       <Link href={ROOT}>
         <CTA primary={false} longButton={true} label={BACK_TO_HOME} />
       </Link>
+      <span 
+        className="absolute -z-30 bottom-0 left-0 opacity-30"
+      >
+        <EasterLilly/>
+      </span>
     </div>
   )
 }
@@ -86,7 +92,7 @@ function SubmissionSuccessPage({
 const courses: {
   [key: string]: string;
 } = {};
-Object.entries(COURSES).forEach(([key, value]) => {
+Object.entries(COURSES_IN_PERSON).forEach(([key, value]) => {
   courses[key] = value.name;
 });
 
@@ -97,7 +103,7 @@ Object.entries(COURSES).forEach(([key, value]) => {
 const allSlots: {
   [key: string]: string[];
 } = {};
-Object.entries(COURSES).forEach(([key, value]) => {
+Object.entries(COURSES_IN_PERSON).forEach(([key, value]) => {
   /**
    * using concat since value.slots has all readonly items but slots[key] is of type string[] which is mutable
    */
