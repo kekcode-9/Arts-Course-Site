@@ -45,20 +45,13 @@ export default function MenuContent() {
   const { menuOn } = state;
   const pathName = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
-  const totalMenuItems = Object.keys(constants.MENU_ITEMS).length;
-  const menuItemRefs: React.RefObject<HTMLSpanElement>[] = new Array(
-    totalMenuItems
-  )
-    .fill("")
-    .map(() => useRef<HTMLSpanElement>(null));
+  const menuItemRefs: React.MutableRefObject<HTMLSpanElement[]> = useRef([]);
 
   useEffect(() => {
     if (menuRef.current) {
-      const menuRefCurrents = menuItemRefs.map((ref) => ref.current);
-
       if (!menuOn) {
         const tl = gsap.timeline();
-        tl.to(menuRefCurrents, {
+        tl.to(menuItemRefs.current, {
           opacity: 0,
           duration: 0.2,
           stagger: 0.02
@@ -75,7 +68,7 @@ export default function MenuContent() {
       }
       
       const itemsEntranceTimer = menuOn && setTimeout(() => {
-        gsap.to(menuRefCurrents, {
+        gsap.to(menuItemRefs.current, {
           opacity: 1,
           duration: 0.5,
           stagger: 0.07
@@ -118,7 +111,11 @@ export default function MenuContent() {
           {learning.map((item, i) => {
             return (
               <span
-                ref={menuItemRefs[i]}
+                ref={(ele) => {
+                  if (ele) {
+                    menuItemRefs.current[i] = ele;
+                  }
+                }}
                 className="hover:border-b-[1px] hover:border-b-white 
                   transition-all opacity-0"
               >
@@ -158,7 +155,11 @@ export default function MenuContent() {
           {resources.map((item, i) => {
             return (
               <span
-                ref={menuItemRefs[3 + i]}
+                ref={(ele) => {
+                  if (ele) {
+                    menuItemRefs.current[3 + i] = ele;
+                  }
+                }}
                 className="hover:border-b-[1px] hover:border-b-white 
                   transition-all opacity-0"
               >
@@ -198,7 +199,11 @@ export default function MenuContent() {
           {reachingOut.map((item, i) => {
             return (
               <span
-                ref={menuItemRefs[ 5 + i ]}
+                ref={(ele) => {
+                  if (ele) {
+                    menuItemRefs.current[5 + i] = ele;
+                  }
+                }}
                 className="hover:border-b-[1px] hover:border-b-white 
                   transition-all opacity-0"
               >
