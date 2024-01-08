@@ -1,5 +1,5 @@
 import React from 'react';
-import StudentApplicationHome from '@/components/student-application/application-home';
+import StudentApplicationWrapper from '@/components/student-application/wrapper';
 
 export default function StudentApplication() {
 
@@ -10,7 +10,7 @@ export default function StudentApplication() {
           w-screen h-max min-h-full
         `}
     >
-      <StudentApplicationHome/>
+      <StudentApplicationWrapper/>
     </section>
   )
 }

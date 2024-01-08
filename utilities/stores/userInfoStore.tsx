@@ -1,8 +1,10 @@
+'use client'
 import React, { createContext, useReducer, Dispatch } from "react";
 import { ACTIONS } from "../constants/actions";
 
 type initialStateType = {
     userId: string,
+    userFullName: string,
     userName: string,
     userEmail: string,
     userApplicationType?: string,
@@ -11,8 +13,9 @@ type initialStateType = {
 
 const initialState: initialStateType = {
     userId: '',
+    userFullName: '',
     userName: '',
-    userEmail: ''
+    userEmail: '',
 }
 
 const { USER_ACTIONS } = ACTIONS;
@@ -28,17 +31,24 @@ function reducer (state: initialStateType, action: actionType) {
 
     switch(type) {
         case ADD_CURRENT_USER:
-            return {
-                ...state,
-                userId: payload.userId,
-                userName: payload.userName,
-                userEmail: payload.userEmail
+            {
+                const finalState : initialStateType = {
+                    ...state,
+                    userId: payload.uid,
+                    userFullName: payload.name,
+                    userName: payload.userName,
+                    userEmail: payload.userEmail
+                };
+                return finalState;
             }
         case ADD_APPLICATION_DATA:
-            return {
-                ...state,
-                userApplicationType: payload.applicationType,
-                userApplicationId: payload.applicationId
+            {
+                const finalState: initialStateType = {
+                    ...state,
+                    userApplicationType: payload.applicationType,
+                    userApplicationId: payload.applicationId
+                };
+                return finalState;
             }
         default:
             return state;

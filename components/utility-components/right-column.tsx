@@ -6,6 +6,7 @@ import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStor
 import HeaderLinks from "./header-links";
 import Arrows from "./arrows";
 import dynamicImports from "@/utilities/dynamic-imports";
+import MenuContent from "./menu-utility/menu-content";
 
 const { HERO, COURSES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 
@@ -94,6 +95,7 @@ export default function RightColumn() {
           scale-y-0 origin-bottom
         `}
       >
+        <MenuContent/>
         <AnimatePresence>
           {showImage && imageContent()}
         </AnimatePresence>

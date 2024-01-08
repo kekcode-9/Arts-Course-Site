@@ -36,9 +36,9 @@ export default function CTA({
   return (
     <button
         className={`
-          relative
+          relative z-10
           flex items-center justify-center 
-          ${longButton ? 'w-[20rem] md:w-[30rem] h-[54px]' : 'w-52 h-[48px]'} 
+          ${longButton ? 'w-[20rem] md:w-[30rem] h-[3.375rem]' : 'w-52 h-12'} 
           text-xl ${primary ? 'text-neutral-dark-gray-bg' : 'text-white'} 
           cursor-pointer 
         `}
@@ -49,7 +49,7 @@ export default function CTA({
     >
       {label}
       <motion.div 
-        className={`absolute -z-20
+        className={`absolute -z-[2]
         w-full h-full
         ${primary ? 'bg-neutral-dark-gray-bg' : 'bg-white'}
         `} 
@@ -63,7 +63,7 @@ export default function CTA({
       />
       <motion.div 
         ref={bgDivRef}
-        className={`absolute -z-10
+        className={`absolute -z-[1]
         w-full h-full
         scale-y-0
         ${primary ? 'bg-white' : 'bg-burnt-orange'}

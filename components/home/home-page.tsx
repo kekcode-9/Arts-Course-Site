@@ -13,6 +13,7 @@ import {
 } from "@/utilities/stores/courseContextStore";
 import { ACTIONS } from "@/utilities/constants/actions";
 import SplashGif from "@/public/splash.gif";
+import MenuContent from "../utility-components/menu-utility/menu-content";
 
 const { HERO } = HOME_ROUTES;
 
@@ -178,7 +179,15 @@ export default function HomePage() {
 
   return (
     <>
-      <span ref={topRef} className="observer-span-top absolute z-20" />
+      <span 
+        ref={topRef} 
+        className="observer-span-top absolute z-20" 
+      />
+      <span
+        className="lg:hidden relative z-[11]"
+      >
+        <MenuContent/>
+      </span>
       {route === HERO ? <HeroMobileDevices /> : <MobileContent />}
       <AssembledContentLarge />
       <span

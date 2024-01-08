@@ -19,7 +19,7 @@ type CardProps = {
     tl?: gsap.core.Timeline;
 }
 
-function Card({
+function InstructorCard({
     cardItem,
     tl
 }: CardProps) {
@@ -27,7 +27,7 @@ function Card({
         image,
         name,
         experties,
-        work
+        experience
     } = cardItem;
     const [ flexDirection, setFlexDirection ] = useState('flex-row');
     const cardRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +67,8 @@ function Card({
             ref={cardRef}
             className={`flex ${flexDirection} gap-4 
             ${flexDirection==='flex-row' ? 'items-center' : 'items-start'} justify-center 
-            w-max h-max
+            w-max h-max 
+            font-sans font-semibold
             opacity-0`}
         >
             <div
@@ -95,18 +96,18 @@ function Card({
                     <Typography isHeader={false}>
                         {name},
                     </Typography>
-                    <Typography isHeader={false} size='text-base font-light' additionalClasses='underline'>
+                    <Typography isHeader={false} size='text-base' additionalClasses='underline'>
                         {experties}
                     </Typography>
                 </div>
                 <Typography 
                     isHeader={false} 
-                    size='text-base font-light' 
+                    size='text-base' 
                     additionalClasses={`max-w-[17.875rem]  
                     text-left
                     text-dirty-white`}
                 >
-                    {work}
+                    {experience}
                 </Typography>
             </div>
         </div>
@@ -138,7 +139,7 @@ function InstructorCards({
             {
                 INSTRUCTORS.map((instructor, i) => {
                     return (
-                        <Card cardItem={instructor} tl={tl} key={i} />
+                        <InstructorCard cardItem={instructor} tl={tl} key={i} />
                     )
                 })
             }
