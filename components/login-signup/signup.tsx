@@ -31,6 +31,7 @@ export default function SignupForm() {
     }, [])
 
     const handleSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
         const unFilled: string[] = [];
 
         if (!signupInfo) {
@@ -185,7 +186,6 @@ export default function SignupForm() {
                 />
             </span>
             <CTA
-                submitButton={true}
                 primary={true}
                 label={SIGN_UP}
                 longButton={true}
