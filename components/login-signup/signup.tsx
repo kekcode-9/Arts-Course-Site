@@ -30,7 +30,7 @@ export default function SignupForm() {
         logoutUser();
     }, [])
 
-    const handleSubmit = useCallback(() => {
+    const handleSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const unFilled: string[] = [];
 
         if (!signupInfo) {
@@ -63,6 +63,7 @@ export default function SignupForm() {
             (uid, userName) => router.push(USER(userName as string)),
             (error) => {
                 alert(`User creation failed with error: ${error}`);
+                e.preventDefault();
                 // setTimeout(() => router.push(ROOT), 3000)
             },
             applicationId as string, 
