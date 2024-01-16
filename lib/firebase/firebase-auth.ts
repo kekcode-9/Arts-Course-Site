@@ -95,7 +95,7 @@ export function createUser(
   email: string,
   password: string,
   onSuccess: (uid?: string, userName?: string) => void,
-  onError: () => void,
+  onError: (e: Error) => void,
   applicationId?: string,
   applicationType?: string
 ) {
@@ -145,6 +145,6 @@ export function createUser(
     .catch((error) => {
       const { code, message } = error;
       console.log(`error creating user: ${code} | ${message}`);
-      onError();
+      onError(error);
     });
 }

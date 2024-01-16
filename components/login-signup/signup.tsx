@@ -61,9 +61,9 @@ export default function SignupForm() {
 
         createUser(name, email, password, 
             (uid, userName) => router.push(USER(userName as string)),
-            () => {
-                alert('Could not create user. Please try after a while');
-                setTimeout(() => router.push(ROOT), 3000)
+            (error) => {
+                alert(`User creation failed with error: ${error}`);
+                // setTimeout(() => router.push(ROOT), 3000)
             },
             applicationId as string, 
             applicationType as string
