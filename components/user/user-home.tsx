@@ -128,9 +128,10 @@ function CardsRow ({
         overflow-x-scroll'
       >
         {
-          new Array(14).fill('').map(() => {
+          new Array(14).fill('').map((item, i) => {
             return (
               <MiniCard
+                key={i}
                 cardTitle='dummy card title'
                 quickInfo='dummy quick info'
                 secondaryInfo='dummy secondary info'

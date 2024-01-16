@@ -470,11 +470,12 @@ export default function StudentForm() {
             Student Application Form
           </Typography>
           {
-            Object.entries(formFields).map(([fieldName, fieldSpecs]) => {
+            Object.entries(formFields).map(([fieldName, fieldSpecs], i) => {
               const { label, inputType, fieldType, dropdownList, mandatory } = fieldSpecs;
               return (
                 fieldType === BASIC ? 
                 <span
+                  key={i}
                   className={`
                     w-fit
                     ${uncheckedFields?.includes(fieldName) && 'text-error-red'}
@@ -497,6 +498,7 @@ export default function StudentForm() {
                 dropdownList && 
                 <>
                   <span
+                    key={i}
                     className={`
                       w-fit
                       ${uncheckedFields?.includes(fieldName) && 'text-error-red'}
@@ -518,10 +520,11 @@ export default function StudentForm() {
                       {
                         ('schoolInfoFields' in fieldSpecs) &&
                         Object.entries(fieldSpecs.schoolInfoFields)
-                        .map(([infoField, infoFieldSpecs]) => {
+                        .map(([infoField, infoFieldSpecs], j) => {
                           return (
                             infoFieldSpecs.fieldType === BASIC && 
                             <span
+                              key={j}
                               className={`
                                 w-fit
                                 ${uncheckedFields?.includes(infoField) && 'text-error-red'}
@@ -551,10 +554,11 @@ export default function StudentForm() {
                       {
                         ('professionalInfoFields' in fieldSpecs) &&
                         Object.entries(fieldSpecs.professionalInfoFields)
-                        .map(([infoField, infoFieldSpecs]) => {
+                        .map(([infoField, infoFieldSpecs], i) => {
                           return (
                             infoFieldSpecs.fieldType === BASIC && 
                             <span
+                              key={i}
                               className={`
                                 w-fit
                                 ${uncheckedFields?.includes(infoField) && 'text-error-red'}
