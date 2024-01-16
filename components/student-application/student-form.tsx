@@ -444,8 +444,7 @@ export default function StudentForm() {
     if (!unchecked.length) {
       addDocumentToDB(
         STUDENT_APPLICATIONS, 
-        studentApplicationForm as ApplicationType,
-        (id?: string) => setApplicationId(id)
+        studentApplicationForm as ApplicationType
       );
       setSubmissionSuccess(true);
     } else {

@@ -25,13 +25,19 @@ export async function addDocumentToDB(
   collectionName: string,
   document: any,
   onSuccess?: (id?: string) => void,
-  onError?: () => void
+  onError?: (e: any) => void
 ) {
   try {
     // addDoc(collection(db, <collectionName>), {...data})
     const docRef = await addDoc(collection(db, collectionName), document);
     console.log(`docRef is: ${JSON.stringify(docRef.id)}`);
+    if (docRef) {
+      onSuccess && onSuccess();
+    } else {
+      onError && onError('no docRef');
+    }
   } catch (e) {
+    onError && onError(e);
     console.log(`addDocumentToDB failed with error: ${e}`);
   }
 }
