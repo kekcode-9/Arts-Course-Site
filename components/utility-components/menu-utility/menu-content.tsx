@@ -7,15 +7,59 @@ import { CourseContext } from "@/utilities/stores/courseContextStore";
 import constants from "@/utilities/constants/constants";
 import Typography from "../typography";
 import routes from "@/utilities/constants/routes";
+import Link from "next/link";
+import { ACTIONS } from "@/utilities/constants/actions";
 
-const { ROOT } = routes;
+const { SET_MENU_STATE } = ACTIONS.COMMON_ACTIONS;
+
+const { 
+  ROOT, 
+  COURSES: CourseRoute,
+  WORKSHOPS: WorkshopRoute,
+  BLOGS: BlogsRoute,
+  MODELS: ModelsRoute,
+  REFERENCES: ReferenceRoute,
+  HELP: HelpRoute,
+  FEEDBACK: FeedbackRoute
+} = routes;
 
 const { COURSES, WORKSHOPS, THREED_MODELS, REFERENCES, BLOG, HELP, FEEDBACK } =
   constants.MENU_ITEMS;
 
-const learning = [COURSES, WORKSHOPS, BLOG];
-const resources = [THREED_MODELS, REFERENCES];
-const reachingOut = [HELP, FEEDBACK];
+const learning = [
+  {
+    label: COURSES,
+    route: CourseRoute
+  },
+  {
+    label: WORKSHOPS,
+    route: WorkshopRoute
+  },
+  {
+    label: BLOG,
+    route: BlogsRoute
+  }
+];
+const resources = [
+  {
+    label: THREED_MODELS,
+    route: ModelsRoute
+  }, 
+  {
+    label: REFERENCES,
+    route: ReferenceRoute
+  }
+];
+const reachingOut = [
+  {
+    label: HELP,
+    route: HelpRoute
+  }, 
+  {
+    label: FEEDBACK,
+    route: FeedbackRoute
+  }
+];
 
 type MenuColumnProps = {
   children: React.ReactNode;
@@ -41,15 +85,15 @@ function MenuColumn({ children }: MenuColumnProps) {
 }
 
 export default function MenuContent() {
-  const { state } = useContext(CourseContext);
-  const { menuOn } = state;
+  const { state, dispatch } = useContext(CourseContext);
+  const { explore } = state;
   const pathName = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const menuItemRefs: React.MutableRefObject<HTMLSpanElement[]> = useRef([]);
 
   useEffect(() => {
     if (menuRef.current) {
-      if (!menuOn) {
+      if (!explore) {
         const tl = gsap.timeline();
         tl.to(menuItemRefs.current, {
           opacity: 0,
@@ -67,7 +111,7 @@ export default function MenuContent() {
         });
       }
       
-      const itemsEntranceTimer = menuOn && setTimeout(() => {
+      const itemsEntranceTimer = explore && setTimeout(() => {
         gsap.to(menuItemRefs.current, {
           opacity: 1,
           duration: 0.5,
@@ -79,7 +123,14 @@ export default function MenuContent() {
         itemsEntranceTimer && clearTimeout(itemsEntranceTimer);
       }
     }
-  }, [menuOn, menuRef.current]);
+  }, [explore, menuRef.current]);
+
+  const closeMenu = () => {
+    dispatch({
+      type: SET_MENU_STATE,
+      payload: false
+    })
+  }
 
   return (
     <div
@@ -96,7 +147,7 @@ export default function MenuContent() {
         } 
         p-8 md:px-16 
         scale-y-0
-        bg-black
+        bg-black lg:border-2 lg:border-white
       `}
     >
       <div
@@ -109,26 +160,33 @@ export default function MenuContent() {
       >
         <MenuColumn>
           {learning.map((item, i) => {
+            const { label, route } = item;
+
             return (
-              <span
-                ref={(ele) => {
-                  if (ele) {
-                    menuItemRefs.current[i] = ele;
-                  }
-                }}
-                className="hover:border-b-[1px] hover:border-b-white 
-                  transition-all opacity-0"
+              <Link href={route}
+                key={`learning-${i}`}
+                onClick={closeMenu}
               >
-                <Typography isHeader={false} additionalClasses="cursor-pointer">
-                  {item}
-                </Typography>
-              </span>
+                <span
+                  ref={(ele) => {
+                    if (ele) {
+                      menuItemRefs.current[i] = ele;
+                    }
+                  }}
+                  className="hover:border-b-[1px] hover:border-b-white 
+                    transition-all opacity-0"
+                >
+                  <Typography isHeader={false} additionalClasses="cursor-pointer">
+                    {label}
+                  </Typography>
+                </span>
+              </Link>
             );
           })}
         </MenuColumn>
         <AnimatePresence>
           {
-            menuOn &&
+            explore &&
             <motion.div
               className={`
               ${pathName === ROOT && "md:w-[48px] md:h-[1px]"}
@@ -153,26 +211,33 @@ export default function MenuContent() {
         </AnimatePresence>
         <MenuColumn>
           {resources.map((item, i) => {
+            const { label, route } = item;
+
             return (
-              <span
-                ref={(ele) => {
-                  if (ele) {
-                    menuItemRefs.current[3 + i] = ele;
-                  }
-                }}
-                className="hover:border-b-[1px] hover:border-b-white 
-                  transition-all opacity-0"
+              <Link href={route}
+                key={`resources-${i}`}  
+                onClick={closeMenu}
               >
-                <Typography isHeader={false} additionalClasses="cursor-pointer">
-                  {item}
-                </Typography>
-              </span>
+                <span
+                  ref={(ele) => {
+                    if (ele) {
+                      menuItemRefs.current[3 + i] = ele;
+                    }
+                  }}
+                  className="hover:border-b-[1px] hover:border-b-white 
+                    transition-all opacity-0"
+                >
+                  <Typography isHeader={false} additionalClasses="cursor-pointer">
+                    {label}
+                  </Typography>
+                </span>
+              </Link>
             );
           })}
         </MenuColumn>
         <AnimatePresence>
           {
-            menuOn &&
+            explore &&
             <motion.div
               className={`
               ${pathName === ROOT && "md:w-[48px] md:h-[1px]"}
@@ -197,20 +262,27 @@ export default function MenuContent() {
         </AnimatePresence>
         <MenuColumn>
           {reachingOut.map((item, i) => {
+            const { label, route } = item;
+
             return (
-              <span
-                ref={(ele) => {
-                  if (ele) {
-                    menuItemRefs.current[5 + i] = ele;
-                  }
-                }}
-                className="hover:border-b-[1px] hover:border-b-white 
-                  transition-all opacity-0"
+              <Link href={route}
+                key={`reachingOut-${i}`}
+                onClick={closeMenu}
               >
-                <Typography isHeader={false} additionalClasses="cursor-pointer">
-                  {item}
-                </Typography>
-              </span>
+                <span
+                  ref={(ele) => {
+                    if (ele) {
+                      menuItemRefs.current[5 + i] = ele;
+                    }
+                  }}
+                  className="hover:border-b-[1px] hover:border-b-white 
+                    transition-all opacity-0"
+                >
+                  <Typography isHeader={false} additionalClasses="cursor-pointer">
+                    {label}
+                  </Typography>
+                </span>
+              </Link>
             );
           })}
         </MenuColumn>

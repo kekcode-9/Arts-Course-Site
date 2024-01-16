@@ -6,5 +6,11 @@ export default {
     SUBSCRIPTION_PLANS: '/online-subscription-courses',
     ONLINE_INTERACTIVE_COURSES: '/online-interactive-courses',
     LOGIN_SIGNUP: '/login-signup',
-    USER: (userName: string) => `/user/${userName}`
+    USER: (userName: string) => `/user/${userName}`,
+    WORKSHOPS: '/workshops',
+    BLOGS: '/blogs',
+    MODELS: '/models',
+    REFERENCES: '/picture-references',
+    HELP: '/help',
+    FEEDBACK: '/feedback'
 } as const

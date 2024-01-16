@@ -43,7 +43,8 @@ export default function RightColumn() {
         background: 'white',
         scaleY: 1.08,
         delay: (lastRoute !== HERO ? 0.5 : 0),
-        duration: 0.5
+        duration: 0.5,
+        onComplete: () => setShowImage(true)
       })
     } else if (lastRoute === COURSES_ADVERT && lastRoute !== route) {
       const tl = gsap.timeline();

@@ -3,25 +3,32 @@ import React, { createContext, useReducer, Dispatch } from "react";
 import { ACTIONS } from "../constants/actions";
 
 type initialStateType = {
-    userId: string,
-    userFullName: string,
-    userName: string,
-    userEmail: string,
-    userApplicationType?: string,
-    userApplicationId?: string
+    userId: string | undefined;
+    userFullName: string | undefined;
+    userName: string | undefined;
+    userEmail: string | undefined;
+    userApplicationType?: string | undefined;
+    userApplicationId?: string | undefined;
+    userMenu: boolean;
 }
 
 const initialState: initialStateType = {
-    userId: '',
-    userFullName: '',
-    userName: '',
-    userEmail: '',
+    userId: undefined,
+    userFullName: undefined,
+    userName: undefined,
+    userEmail: undefined,
+    userMenu: false
 }
 
 const { USER_ACTIONS } = ACTIONS;
-const { ADD_APPLICATION_DATA, ADD_CURRENT_USER } = USER_ACTIONS;
+const { 
+    ADD_APPLICATION_DATA, 
+    ADD_CURRENT_USER,
+    REMOVE_USER,
+    SET_USER_MENU_STATE
+} = USER_ACTIONS;
 
-type actionType = {
+export type actionType = {
     type: (typeof USER_ACTIONS)[keyof (typeof USER_ACTIONS)];
     payload?: any
 }
@@ -29,7 +36,14 @@ type actionType = {
 function reducer (state: initialStateType, action: actionType) {
     const { type, payload } = action;
 
-    switch(type) {
+    switch(type) {   
+        case SET_USER_MENU_STATE: {
+            const finalState: initialStateType = {
+                ...state,
+                userMenu: payload
+            }
+            return finalState;
+        }
         case ADD_CURRENT_USER:
             {
                 const finalState : initialStateType = {
@@ -48,6 +62,19 @@ function reducer (state: initialStateType, action: actionType) {
                     userApplicationType: payload.applicationType,
                     userApplicationId: payload.applicationId
                 };
+                return finalState;
+            }
+        case REMOVE_USER: 
+            {
+                const finalState: initialStateType = {
+                    ...state,
+                    userId: undefined,
+                    userFullName: undefined,
+                    userName: undefined,
+                    userEmail: undefined,
+                    userApplicationType: undefined,
+                    userApplicationId: undefined
+                }
                 return finalState;
             }
         default:

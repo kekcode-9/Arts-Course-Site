@@ -441,8 +441,6 @@ export default function StudentForm() {
       }
     });
     updateUncheckedFields(unchecked);
-    setApplicationId('wWUQy5wadkAO9o8u70W2'); // REMOVE BEFORE COMMIT
-    setSubmissionSuccess(true); // REMOVE BEFORE COMMIT
     if (!unchecked.length) {
       addDocumentToDB(
         STUDENT_APPLICATIONS, 

@@ -128,7 +128,6 @@ export function createUser(
                 console.log(`application not found: ${error}`);
               });
           } else {
-            console.log(`about to update to db`)
             updateAccount(
               true,
               {

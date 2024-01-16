@@ -6,6 +6,12 @@ export default {
     APPLY_NOW: 'Apply now',
     EXPLORE_ALL_COURSES: 'Explore all courses',
     SEE_ALL_INSTRUCTORS: 'See all instructors',
+    // profile menu items
+    USER_MENU_ITEMS: {
+        LOG_OUT: 'Log out',
+        CHECK_APPLICATION_STATUS: 'Check application status',
+        MY_COURSES: 'My courses'
+    },
     // menu items
     MENU_ITEMS: {
         COURSES: 'Course catalogue',
@@ -135,6 +141,7 @@ export default {
     SIGN_UP: 'Sign up',
     MEMBER_ALREADY: 'Are you a member already ?',
     CREATE_A_NEW_ACCOUNT: 'Create a new account',
+    PASSWORD_REQUIREMENT: 'Password must have at least 8 characters, an uppercase, a lowercase, a numeric and a special character',
     LOGIN_FORM_LABELS: {
         EMAIL: 'Email',
         PASSWORD: 'Password',
@@ -145,5 +152,9 @@ export default {
         EMAIL: 'Email',
         CREATE_PASSWORD: 'Create password',
         REENTER_PASSWORD: 'Re-enter password'
-    }
+    },
+    // course levels
+    ADVANCE: 'Advance',
+    INTERMEDIATE: 'Intermediate',
+    BEGINNER: 'Beginner'
 } as const;

@@ -63,5 +63,17 @@ export type CourseType = {
     duration: string;
     rating: number;
     reviewsCount: number;
-    thumbnail: URL;
+    thumbnail: string;
 }
+
+export type CourseFilterTypes = {
+    rating?: string;
+    level?: string;
+    category?: string;
+}
+
+export type FilterArrayType = {
+    field: string,
+    operator: string,
+    value: string | number | boolean
+  }[]

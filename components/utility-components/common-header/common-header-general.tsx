@@ -6,6 +6,10 @@ import SearchBar from '../search-bar';
 import Menu from '../menu-utility/menu';
 import constants from '@/utilities/constants/constants';
 import Typography from '../typography';
+import routes from '@/utilities/constants/routes';
+import Link from 'next/link';
+
+const { LOGIN_SIGNUP } = routes;
 
 const { LOG_IN, APPLY_NOW } = constants;
 
@@ -30,12 +34,16 @@ function LeftSection () {
 function RightSection () {
     return (
         <>
-            <Typography 
-                isHeader={false}
-                additionalClasses='whitespace-nowrap font-sans'
+            <Link
+                href={LOGIN_SIGNUP}
             >
-                {LOG_IN}
-            </Typography>
+                <Typography 
+                    isHeader={false}
+                    additionalClasses='whitespace-nowrap font-sans cursor-pointer'
+                >
+                    {LOG_IN}
+                </Typography>
+            </Link>
             <Menu/>
         </>
     )

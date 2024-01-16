@@ -1,13 +1,25 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { 
+  useCallback, 
+  useEffect, 
+  useRef, 
+  useState, 
+  useContext 
+} from "react";
 import gsap from "gsap";
 import SearchIcon from "./svg-utilities/search-icon";
 import Typography from "./typography";
+import { CourseContext } from "@/utilities/stores/courseContextStore";
+import { ACTIONS } from "@/utilities/constants/actions";
+
+const { SET_SEARCH_QUERY } = ACTIONS.COMMON_ACTIONS;
 
 export default function SearchBar() {
+  const { dispatch } = useContext(CourseContext);
   const inputRef = useRef<HTMLInputElement>(null);
   const spanRef = useRef<HTMLSpanElement>(null);
   const [inputRestingWidth, setInputRestingWidth] = useState(0);
+  const [searchQueryExists, setSearchQueryExists] = useState(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -19,7 +31,7 @@ export default function SearchBar() {
     (focused: boolean) => {
       if (inputRef.current && screen.width > 1273) {
         gsap.to(inputRef.current, {
-          width: focused ? "30rem" : `${inputRestingWidth}px`,
+          width: focused ? "22rem" : `${inputRestingWidth}px`,
         });
       } else if (
         inputRef.current &&
@@ -39,19 +51,29 @@ export default function SearchBar() {
     [inputRef.current, spanRef.current, inputRestingWidth]
   );
 
+  const onSearchEnter = (searchString: string) => {
+    dispatch({
+      type: SET_SEARCH_QUERY,
+      payload: searchString
+    })
+  }
+
   return (
     <div className="relative z-0">
-      <span
-        ref={spanRef}
-        className="absolute -z-[1]
-            flex items-center gap-2
-            h-full"
-      >
-        <SearchIcon />
-        <Typography isHeader={false} additionalClasses="hidden xl:inline">
-          Search courses
-        </Typography>
-      </span>
+      {
+        !searchQueryExists &&
+        <span
+          ref={spanRef}
+          className="absolute -z-[1]
+              flex items-center gap-2
+              h-full"
+        >
+          <SearchIcon />
+          <Typography isHeader={false} additionalClasses="hidden xl:inline">
+            Search courses
+          </Typography>
+        </span>
+      }
       <input
         ref={inputRef}
         type="text"
@@ -67,6 +89,14 @@ export default function SearchBar() {
             focus-visible:outline-none"
         onFocus={() => onInputFocus(true)}
         onBlur={() => onInputFocus(false)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && inputRef.current) {
+            onSearchEnter(inputRef.current.value);
+            // inputRef.current.value = '';
+            setSearchQueryExists(true);
+            inputRef.current.blur();
+          }
+        }}
       />
     </div>
   );

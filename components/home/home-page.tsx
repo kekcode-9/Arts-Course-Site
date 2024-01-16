@@ -14,6 +14,9 @@ import {
 import { ACTIONS } from "@/utilities/constants/actions";
 import SplashGif from "@/public/splash.gif";
 import MenuContent from "../utility-components/menu-utility/menu-content";
+import webStorageItems from "@/utilities/constants/web-storage-items";
+
+const { IS_SPLASH_OVER } = webStorageItems;
 
 const { HERO } = HOME_ROUTES;
 
@@ -48,7 +51,7 @@ function AssembledContentLarge() {
       <RightColumn />
       {isSplashScreen &&
         isWindowAvailable &&
-        sessionStorage.getItem("isSplashOver") !== "true" && (
+        sessionStorage.getItem(IS_SPLASH_OVER) !== "true" && (
           <>
             <div
               className="overlay-div
@@ -157,13 +160,13 @@ export default function HomePage() {
      * on first loading time and not during current tab reloads.
      * Splashscreen will be shown if the app is opened on another tab.
      */
-    if (sessionStorage.getItem("isSplashOver") !== "true") {
+    if (sessionStorage.getItem(IS_SPLASH_OVER) !== "true") {
       const splashScreenTimeout = setTimeout(() => {
         dispatch({
           type: SET_UNSET_SPLASH_SCREEN,
           payload: false,
         });
-        sessionStorage.setItem("isSplashOver", "true");
+        sessionStorage.setItem(IS_SPLASH_OVER, "true");
       }, 2000);
 
       return () => {

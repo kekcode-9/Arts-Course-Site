@@ -7,6 +7,7 @@ import DropdownArrow from "./svg-utilities/dropdown-arrow";
 type InputWrapperProps = {
   children: React.ReactNode;
   label?: string;
+  secondaryLabel?: string;
   isDropdown?: boolean;
   onBlur?: () => void;
   mandatory: boolean;
@@ -15,6 +16,7 @@ type InputWrapperProps = {
 function InputWrapper({ 
   children, 
   label, 
+  secondaryLabel,
   isDropdown, 
   onBlur,
   mandatory
@@ -47,6 +49,17 @@ function InputWrapper({
           }
         </Typography>
       )}
+      {
+        secondaryLabel &&
+        <Typography 
+          isHeader={false}
+          size="text-sm"
+          additionalClasses="w-[20rem] md:w-[30rem] text-dirty-white"
+          animateEntrance={true}
+        >
+          {secondaryLabel}
+        </Typography>
+      }
       {children}
       {isDropdown && (
         <motion.span 
@@ -70,6 +83,7 @@ function InputWrapper({
 
 type InputProps = {
   label: string;
+  secondaryLabel?: string;
   inputType?: string | null;
   onFocus?: () => void;
   isDropdownInput?: boolean;
@@ -129,13 +143,18 @@ function InputElement({
 
 export default function BasicInput({
   label,
+  secondaryLabel,
   inputType,
   isDropdownInput,
   onValueChange,
   mandatory
 }: InputProps) {
   return (
-    <InputWrapper label={label} mandatory={mandatory} >
+    <InputWrapper 
+      label={label} 
+      secondaryLabel={secondaryLabel}
+      mandatory={mandatory} 
+    >
       <InputElement 
         onValueChange={onValueChange} 
         inputType={inputType} 

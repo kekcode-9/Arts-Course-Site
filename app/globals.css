@@ -15,3 +15,18 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+.content-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.courses-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.pills-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

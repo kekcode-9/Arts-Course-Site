@@ -1,5 +1,6 @@
 'use client'
 import React, { useContext } from 'react';
+import { motion } from 'framer-motion';
 import { HeaderLogo } from '../logo';
 import CommonHeaderSkeleton from './common-header-skeleton';
 import ProfileMarker from '@/components/user/profile-marker';
@@ -8,29 +9,45 @@ import SearchBar from '../search-bar';
 import { UserContext } from '@/utilities/stores/userInfoStore';
 import Menu from '../menu-utility/menu';
 import constants from '@/utilities/constants/constants';
+import UserMenu from '@/components/user/user-menu';
 
 const { APPLY_NOW } = constants;
 
 function LeftSection () {
   const { state } = useContext(UserContext);
-  const { userApplicationId } = state;
+  const { userApplicationId, userId } = state;
 
   return (
     <>
       <HeaderLogo/>
       {
-        (!userApplicationId && userApplicationId != undefined) &&
-        <span
-          className='cta-span max-lg:hidden'
-        >
-          <CTA label={APPLY_NOW} primary={true} />
-        </span>
+        userId &&
+        <>
+          {
+            !userApplicationId &&
+            <span
+              className='cta-span max-lg:hidden'
+            >
+              <CTA 
+                label={APPLY_NOW} 
+                primary={true} 
+                headerButton={true}
+              />
+            </span>
+          }
+          <motion.span
+            className='searchbar-span max-sm:hidden'
+            initial={{
+              opacity: 0
+            }}
+            animate={{
+              opacity: 1
+            }}
+          >
+            <SearchBar/>
+          </motion.span>
+        </>
       }
-      <span
-        className='searchbar-span max-sm:hidden'
-      >
-        <SearchBar/>
-      </span>
     </>
   )
 }
@@ -52,6 +69,7 @@ export default function CommonHeaderProtected() {
         leftSection={<LeftSection/>}
         rightSection={<RightSection/>}
       />
+      <UserMenu/>
     </>
   )
 }

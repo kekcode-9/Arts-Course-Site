@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useReducer, Dispatch } from "react";
+import { CourseType, CourseFilterTypes } from "../types";
 import { ACTIONS } from "../constants/actions";
 
 // possible values for the 'route' state
@@ -20,7 +21,10 @@ type initialStateType = {
   lastRoute: homeRoutesType;
   showBoth: boolean;
   isLast: boolean;
-  menuOn: boolean;
+  explore: boolean;
+  courses?: CourseType[];
+  courseFilters?: CourseFilterTypes;
+  searchQuery?: string;
 };
 
 // create the initial state
@@ -30,23 +34,29 @@ const initialState: initialStateType = {
   route: HOME_ROUTES.HERO,
   showBoth: false,
   isLast: false,
-  menuOn: false,
+  explore: false,
 };
 
-const { HOME_ROUTE_ACTIONS, COMMON_ACTIONS } = ACTIONS;
+const { HOME_ROUTE_ACTIONS, COMMON_ACTIONS, COURSE_ACTIONS } = ACTIONS;
 
 // create the type of the action parameter for reducer
 type actionType = {
   type:
     | (typeof HOME_ROUTE_ACTIONS)[keyof typeof HOME_ROUTE_ACTIONS]
-    | (typeof COMMON_ACTIONS)[keyof typeof COMMON_ACTIONS];
+    | (typeof COMMON_ACTIONS)[keyof typeof COMMON_ACTIONS]
+    | (typeof COURSE_ACTIONS) [keyof typeof COURSE_ACTIONS]
   payload?: any;
 };
 
 const { UPDATE_ROUTE, SET_SHOWBOTH, SET_ISLAST, SET_UNSET_SPLASH_SCREEN } =
   HOME_ROUTE_ACTIONS;
 
-const { SET_MENU_STATE } = COMMON_ACTIONS;
+const { 
+  SET_MENU_STATE, 
+  SET_SEARCH_QUERY
+} = COMMON_ACTIONS;
+
+const { UPDATE_COURSE_FILTERS } = COURSE_ACTIONS;
 
 // create the reducer
 function reducer(state: initialStateType, action: actionType) {
@@ -55,7 +65,7 @@ function reducer(state: initialStateType, action: actionType) {
     case SET_MENU_STATE: {
       const finalState: initialStateType = {
         ...state,
-        menuOn: payload
+        explore: payload
       }
       return finalState;
     }
@@ -90,6 +100,22 @@ function reducer(state: initialStateType, action: actionType) {
             isLast: payload,
         }
         return finalState;
+    }
+    case UPDATE_COURSE_FILTERS: {
+      const finalState: initialStateType = {
+        ...state,
+        courseFilters: {
+          ...payload
+        }
+      }
+      return finalState;
+    }
+    case SET_SEARCH_QUERY: {
+      const finalState: initialStateType = {
+        ...state,
+        searchQuery: payload
+      }
+      return finalState;
     }
     default:
       return state;
