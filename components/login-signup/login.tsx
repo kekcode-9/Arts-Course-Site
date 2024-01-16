@@ -114,7 +114,6 @@ export default function LoginForm() {
         </Typography>
       </div>
       <CTA
-        submitButton={true}
         primary={true}
         label={LOG_IN}
         longButton={true}

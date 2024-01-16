@@ -31,7 +31,6 @@ export default function SignupForm() {
     }, [])
 
     const handleSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault()
         const unFilled: string[] = [];
 
         if (!signupInfo) {
