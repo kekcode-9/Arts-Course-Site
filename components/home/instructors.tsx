@@ -228,7 +228,8 @@ export function InstructorCards({ tl, getAll }: InstructorCardsProps) {
         instructor-cards-wrapper
         flex flex-wrap gap-6 sm:gap-8 max-lg:justify-start
         w-full h-fit max-h-[55vh]
-        max-lg:px-12 ${getAll ? 'px-8 md:px-16 pr-8 md:pr-16' : 'lg:pr-[6.5rem]'} pb-16
+        max-sm:px-8 max-lg:px-16 lg:pr-[4.5rem] xl:pr-[6.5rem] 
+        ${getAll ? 'px-8 md:px-16 pr-8 md:pr-16' : 'lg:pr-[6.5rem]'} pb-16
         overflow-scroll
       `}
       exit={{
@@ -364,12 +365,14 @@ export function InstructorMobileDevices() {
       <div
         className="flex flex-col md:flex-row items-start md:items-center justify-between 
         w-full
-        px-12"
+        max-sm:px-8 max-lg:px-16 lg:pr-[4.5rem] xl:pr-[6.5rem]"
       >
         <Header />
-        <Typography isHeader={false} additionalClasses="underline">
-          {SEE_ALL_INSTRUCTORS}
-        </Typography>
+        <Link href={routes.INSTRUCTORS}>
+          <Typography isHeader={false} additionalClasses="underline">
+            {SEE_ALL_INSTRUCTORS}
+          </Typography>
+        </Link>
       </div>
       <InstructorCards />
     </motion.div>

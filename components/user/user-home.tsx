@@ -57,7 +57,6 @@ type MiniCardProps = {
   quickInfo?: React.ReactNode | string;
   cardTitle?: string;
   secondaryInfo?: string;
-  link?: string;
   blurDataURL: string;
 };
 
@@ -66,102 +65,99 @@ function MiniCard({
   quickInfo,
   cardTitle,
   secondaryInfo,
-  link,
   blurDataURL
 }: MiniCardProps) {
   const MotionImage = motion(CldImage);
 
   return (
-    <Link href={link || ":"} target="_blank">
+    <div
+      className="mini-card 
+      flex flex-col flex-shrink-0
+      items-start
+      w-[15rem] h-[15rem] 
+      rounded-md overflow-clip
+      cursor-pointer
+      bg-white text-neutral-dark-gray-bg 
+      hover:scale-105 transition-all"
+    >
       <div
-        className="mini-card 
-        flex flex-col flex-shrink-0
-        items-start
-        w-[15rem] h-[15rem] 
-        rounded-md overflow-clip
-        cursor-pointer
-        bg-white text-neutral-dark-gray-bg 
-        hover:scale-105 transition-all"
+        className={`
+          mini-card-image
+          relative
+          w-full ${cardTitle ? 'h-[60%]' : 'h-full'}
+          ${(!cardTitle && !quickInfo) && 'border-2 border-white'}
+        `}
       >
-        <div
-          className={`
-            mini-card-image
-            relative
-            w-full ${cardTitle ? 'h-[60%]' : 'h-full'}
-            ${(!cardTitle && !quickInfo) && 'border-2 border-white'}
-          `}
-        >
-          <MotionImage
-            src={image}
-            alt="dummyImage"
-            fill
-            className="object-cover"
-            blurDataURL={blurDataURL}
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-              transition: {
-                duration: 1,
-              },
-            }}
-          />
-          {
-            !cardTitle && quickInfo &&
-            (
-              <div
-                className="absolute bottom-0
-                w-full h-[30%] 
-                p-4
-                bg-white text-black"
-              >
-                <Typography isHeader={false} size="text-base" additionalClasses="line-clamp-2">
-                  {quickInfo}
-                </Typography>
-              </div>
-            )
-          }
-        </div>
+        <MotionImage
+          src={image}
+          alt="dummyImage"
+          fill
+          className="object-cover"
+          blurDataURL={blurDataURL}
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+            transition: {
+              duration: 1,
+            },
+          }}
+        />
         {
-          cardTitle &&
-          <div
-            className="flex flex-col items-start gap-2
-            p-4"
-          >
-            <div className="card-title">
-              <Typography isHeader={false} size="text-base" additionalClasses="line-clamp-1">
-                {cardTitle}
+          !cardTitle && quickInfo &&
+          (
+            <div
+              className="absolute bottom-0
+              w-full h-[30%] 
+              p-4
+              bg-white text-black"
+            >
+              <Typography isHeader={false} size="text-base" additionalClasses="line-clamp-2">
+                {quickInfo}
               </Typography>
             </div>
-            {secondaryInfo && (
-              <div
-                className="secondary-info
-                text-gray-500 font-medium"
-              >
-                <Typography isHeader={false} size="text-base">
-                  {secondaryInfo}
-                </Typography>
-              </div>
-            )}
-            {quickInfo && (
-              <div
-                className="quick-info
-                text-gray-500 font-medium"
-              >
-                {React.isValidElement(quickInfo) ? (
-                  quickInfo
-                ) : (
-                  <Typography isHeader={false} size="text-base">
-                    {quickInfo}
-                  </Typography>
-                )}
-              </div>
-            )}
-          </div>
+          )
         }
       </div>
-    </Link>
+      {
+        cardTitle &&
+        <div
+          className="flex flex-col items-start gap-2
+          p-4"
+        >
+          <div className="card-title">
+            <Typography isHeader={false} size="text-base" additionalClasses="line-clamp-1">
+              {cardTitle}
+            </Typography>
+          </div>
+          {secondaryInfo && (
+            <div
+              className="secondary-info
+              text-gray-500 font-medium"
+            >
+              <Typography isHeader={false} size="text-base">
+                {secondaryInfo}
+              </Typography>
+            </div>
+          )}
+          {quickInfo && (
+            <div
+              className="quick-info
+              text-gray-500 font-medium"
+            >
+              {React.isValidElement(quickInfo) ? (
+                quickInfo
+              ) : (
+                <Typography isHeader={false} size="text-base">
+                  {quickInfo}
+                </Typography>
+              )}
+            </div>
+          )}
+        </div>
+      }
+    </div>
   );
 }
 
@@ -205,14 +201,15 @@ function CardsRow({ rowHeader, cardsType, documentsArray, onImageClick }: CardsR
               const { thumbnail, title, from, link, blurDataURL } = cardItem;
   
               return (
-                <MiniCard
-                  key={`${cardsType}-${i}`}
-                  image={thumbnail}
-                  cardTitle={title}
-                  quickInfo={from}
-                  link={link}
-                  blurDataURL={blurDataURL}
-                />
+                <Link href={link} target="_blank">
+                  <MiniCard
+                    key={`${cardsType}-${i}`}
+                    image={thumbnail}
+                    cardTitle={title}
+                    quickInfo={from}
+                    blurDataURL={blurDataURL}
+                  />
+                </Link>
               )
             }
 
@@ -257,7 +254,7 @@ export default function Home() {
 
     getCurrentUser((user) => {
       if (!user && atUserHome && pathName.includes('/user')) {
-        router.push(routes.ROOT);
+        router.push(ROOT);
       }
     });
     // get courses

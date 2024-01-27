@@ -32,7 +32,7 @@ export default function UserRegistrationWrapper() {
       className="relative
       flex items-center justify-center
       w-screen 
-      h-screen min-h-[53rem]"
+      h-screen min-h-fit lg:min-h-[53rem]"
     >
       <motion.div
         className={`
@@ -130,21 +130,11 @@ export default function UserRegistrationWrapper() {
       <div
         className={`form-div
           relative
-          flex flex-col gap-12 items-center justify-center
+          flex flex-col lg:flex-col-reverse gap-8 items-center justify-center
           w-screen lg:w-[70%]
           h-full
         `}
       >
-        <div
-            className="relative
-            flex items-center justify-center
-            w-screen sm:w-fit 
-            h-fit
-            p-[2rem] 
-            backdrop-blur-sm"
-        >
-            {hasAccount ? <LoginForm /> : <SignupForm />}
-        </div>
         {hasAccount ? (
           <Typography
             isHeader={false}
@@ -165,12 +155,22 @@ export default function UserRegistrationWrapper() {
           </Typography>
         )}
         <div
+            className="relative
+            flex items-center justify-center
+            w-screen sm:w-fit 
+            h-fit
+            px-[2rem] 
+            backdrop-blur-sm"
+        >
+            {hasAccount ? <LoginForm /> : <SignupForm />}
+        </div>
+        <div
             className={`
                 image-div
                 lg:hidden
                 absolute -z-10
                 w-screen 
-                h-full min-h-[53rem]
+                h-screen lg:min-h-[53rem]
             `}
         >
             <MotionImage

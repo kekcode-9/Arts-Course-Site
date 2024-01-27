@@ -29,7 +29,7 @@ import {
 import buildQueriesArray from "@/utilities/query-builder";
 import ImageViewer from "../utility-components/image-viewer";
 
-const { UPDATE_FILTERS } = ACTIONS.COMMON_ACTIONS;
+const { UPDATE_FILTERS, SET_SEARCH_QUERY } = ACTIONS.COMMON_ACTIONS;
 
 const { REFERENCES, REFERENCE_CATEGORIES } = dbCollections;
 
@@ -208,6 +208,11 @@ export default function ReferenceCatalogue() {
   }, [searchQuery, filters, updateURLFromContext]);
 
   useEffect(() => {
+    dispatch({
+      type: SET_SEARCH_QUERY,
+      payload: undefined
+    });
+    
     if (pillSkeleRefs.current) {
       gsap.to(pillSkeleRefs.current, {
         opacity: 0.2,
@@ -322,7 +327,7 @@ export default function ReferenceCatalogue() {
         <div
           className="flex flex-col
             w-full h-full
-            pb-16"
+            max-sm:pb-24 pb-16"
         >
           <div
             className="references-wrapper

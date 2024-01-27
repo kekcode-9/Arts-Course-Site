@@ -27,7 +27,7 @@ import { ACTIONS } from "@/utilities/constants/actions";
 import buildQueriesArray from "@/utilities/query-builder";
 import Link from "next/link";
 
-const { UPDATE_FILTERS } = ACTIONS.COMMON_ACTIONS;
+const { UPDATE_FILTERS, SET_SEARCH_QUERY } = ACTIONS.COMMON_ACTIONS;
 
 const { ADVANCE, INTERMEDIATE, BEGINNER } = constants;
 
@@ -472,6 +472,11 @@ export default function CourseCatalogue() {
   }, [searchQuery, filters, updateURLFromContext])
 
   useEffect(() => {
+    dispatch({
+      type: SET_SEARCH_QUERY,
+      payload: undefined
+    });
+    
     if (pillSkeleRefs.current) {
       gsap.to(pillSkeleRefs.current, {
         opacity: 0.2,
@@ -501,6 +506,7 @@ export default function CourseCatalogue() {
     getAllDocumentsInCollection(COURSE_CATEGORIES)
       .then((allDocs) => setCategories(allDocs))
       .catch((err) => console.log(`error fetching course categories: ${err}`));
+
   }, []);
 
   const onCategoryChange = useCallback(
@@ -581,7 +587,7 @@ export default function CourseCatalogue() {
         <div
           className="flex flex-col
           w-full h-full 
-          pb-8 sm:pb-16"
+          max-sm:pb-24 pb-16"
         >
           {/*<span>
             <Typography isHeader={false}>

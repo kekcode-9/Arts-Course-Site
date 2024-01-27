@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -67,10 +62,10 @@ function AssembledContentLarge() {
           <>
             <div
               className="overlay-div
-                        absolute -z-10
-                        w-screen 
-                        h-screen min-h-[770px]
-                        bg-neutral-dark-gray-bg opacity-50"
+                absolute -z-10
+                w-screen 
+                h-screen min-h-[770px]
+                bg-neutral-dark-gray-bg opacity-50"
             />
             <Image
               src={SplashGif}
@@ -208,7 +203,7 @@ export default function HomePage() {
       dispatch({
         type: RESET_ROUTE,
       });
-    }
+    };
   }, []);
 
   return (

@@ -45,7 +45,7 @@ export default function ModelsCatalogue() {
             flex flex-col gap-12
             w-screen 
             h-screen lg:h-full
-            pt-[8.5rem] sm:pt-[10.5rem] pb-16"
+            pt-[8.5rem] sm:pt-[10.5rem] max-sm:pb-24 pb-16"
         >
             <div
                 className="flex flex-col
