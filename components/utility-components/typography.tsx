@@ -10,6 +10,7 @@ type TypographyProps = {
     size?: string;
     isSplash?: boolean;
     animateEntrance?: boolean;
+    animateDelay?: number;
     onClick?: () => void;
 }
 
@@ -21,6 +22,7 @@ export default function Typography({
     size,
     isSplash,
     animateEntrance,
+    animateDelay,
     onClick
 }: TypographyProps) {
     const headerRef = useRef<HTMLHeadingElement | null>(null);
@@ -35,7 +37,8 @@ export default function Typography({
             }, {
                 translateY: '0px',
                 opacity: 1,
-                duration: 0.3
+                duration: 0.3,
+                delay: animateDelay
             })
         } else if (spanRef.current && animateEntrance) {
             gsap.fromTo(spanRef.current, {
@@ -44,7 +47,8 @@ export default function Typography({
             }, {
                 translateY: '0px',
                 opacity: 1,
-                duration: 0.3
+                duration: 0.3,
+                delay: animateDelay
             })
         } else if (headerRef.current && animateEntrance) {
             gsap.fromTo(headerRef.current, {
@@ -76,9 +80,9 @@ export default function Typography({
     <p
         ref={pRef}
         className={`
-        ${size || 'text-base md:text-lg lg:text-xl'}
-        ${additionalClasses}
-        ${animateEntrance && 'opacity-0'}
+            ${size || 'text-base md:text-lg lg:text-xl'}
+            ${additionalClasses}
+            ${animateEntrance && 'opacity-0'} font-sans font-medium
         `}
         onClick={onClick}
     >
@@ -87,9 +91,9 @@ export default function Typography({
     <span
         ref={spanRef}
         className={`
-        ${size || 'text-base md:text-lg lg:text-xl'}
-        ${additionalClasses}
-        ${animateEntrance && 'opacity-0'} font-sans
+            ${size || 'text-base md:text-lg lg:text-xl'}
+            ${additionalClasses}
+            ${animateEntrance && 'opacity-0'} font-sans
         `}
     >
         {children}
@@ -100,8 +104,7 @@ export default function Typography({
         className={`
         ${size || 'text-[2rem] md:text-[2.5rem] font-medium'}
         ${additionalClasses}
-        ${isSplash && 'opacity-0'}
-        ${animateEntrance && 'opacity-0'}
+        ${(isSplash || animateEntrance) && 'opacity-0'}
         `}
     >
         {children}

@@ -58,10 +58,14 @@ export default function Arrows() {
   return (
     <div 
         className='Arrows
-        lg:absolute lg:bottom-[4.25rem] lg:grid lg:grid-cols-4
+        lg:absolute lg:bottom-[4.25rem]
         w-max lg:w-full lg:h-max'
     >
-        <div className='hidden lg:flex lg:flex-col items-end gap-6 col-end-4'>
+        <div 
+          className='hidden 
+          lg:flex lg:flex-col items-end gap-6 col-end-4 
+          lg:pr-[4.5rem] xl:pr-[6.5rem]'
+        >
             {showBoth ?
             <>
                 <DownArrowRect up={true} onClick={onArrowUp} />
