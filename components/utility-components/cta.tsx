@@ -57,7 +57,7 @@ export default function CTA({
           flex items-center justify-center 
           ${
             longButton ? 
-            'w-[20rem] md:w-[30rem] h-[3.375rem]' : 
+            'w-[20rem] h-12 md:w-[30rem] md:h-[3.375rem]' : 
             (headerButton ? 'w-[10rem] xl:w-52 h-12' : 'w-52 h-12')
           } 
           text-xl ${primary ? 'text-neutral-dark-gray-bg' : 'text-white'} 

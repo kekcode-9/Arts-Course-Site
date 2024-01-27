@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -11,8 +11,6 @@ import Typography from "@/components/utility-components/typography";
 import constants from "@/utilities/constants/constants";
 import DarkArt from "@/public/henrickaau-art-dark.webp";
 import LightArt from "@/public/henrikaau-art-light.webp";
-
-
 
 const {
   DONT_HAVE_ACCOUNT,
@@ -30,7 +28,7 @@ export default function UserRegistrationWrapper() {
   return (
     <div
       className="relative
-      flex items-center justify-center
+      flex lg:items-center justify-center
       w-screen 
       h-screen min-h-fit lg:min-h-[53rem]"
     >
@@ -43,10 +41,10 @@ export default function UserRegistrationWrapper() {
             ${hasAccount ? "text-white" : "text-neutral-dark-gray-bg"}
         `}
         initial={{
-            backgroundColor: "transparent"
+          backgroundColor: "transparent",
         }}
         animate={{
-            backgroundColor: "#772F06"
+          backgroundColor: "#772F06",
         }}
       >
         <div
@@ -83,8 +81,8 @@ export default function UserRegistrationWrapper() {
                     top-0 bottom-[50%] left-0 right-0 m-auto
                     w-fit h-fit"
           >
-            <Typography isHeader={true} animateEntrance={true} >
-                {LOGO}
+            <Typography isHeader={true} animateEntrance={true}>
+              {LOGO}
             </Typography>
           </span>
           <Link
@@ -93,48 +91,57 @@ export default function UserRegistrationWrapper() {
           >
             <span
               className={`absolute z-10
-                        bottom-[1.5rem] right-[1.5rem]
-                        cursor pointer
-                        hover:border-b-[1px] 
-                        ${
-                          hasAccount
-                            ? "hover:border-b-white "
-                            : "hover:border-b-neutral-dark-gray-bg"
-                        }
-                        transition-all
-                        `}
+                bottom-[1.5rem] right-[1.5rem]
+                cursor pointer
+                hover:border-b-[1px] 
+                ${
+                  hasAccount
+                    ? "hover:border-b-white "
+                    : "hover:border-b-neutral-dark-gray-bg"
+                }
+                transition-all
+                `}
             >
-              <Typography isHeader={false} animateEntrance={true} >
+              <Typography isHeader={false} animateEntrance={true}>
                 Art by <b>Henrik Aa. Uldalen</b>
               </Typography>
             </span>
           </Link>
         </div>
         <motion.span
-            className="absolute
+          className="absolute
             bottom-[4.5%] left-[48px]"
-            initial={{
-                opacity: 0
-            }}
-            animate={{
-                opacity: 1
-            }}
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
         >
-            <DownArrowCircular 
-                onClick={() => router.back()}
-                fill="fill-neutral-dark-gray-bg"
-                rotate="rotate-90"
-            />
+          <DownArrowCircular
+            onClick={() => router.back()}
+            fill="fill-neutral-dark-gray-bg"
+            rotate="rotate-90"
+          />
         </motion.span>
       </motion.div>
       <div
         className={`form-div
-          relative
-          flex flex-col lg:flex-col-reverse gap-8 items-center justify-center
+          relative z-0
+          flex flex-col lg:flex-col-reverse gap-12 items-center justify-center
           w-screen lg:w-[70%]
-          h-full
+          h-fit
+          max-sm:px-8 max-lg:pt-16 max-lg:pb-[10rem] 
+          max-lg:bg-black
         `}
       >
+        <Typography
+          isHeader={true}
+          animateEntrance
+          additionalClasses="lg:hidden"
+        >
+          {LOGO}
+        </Typography>
         {hasAccount ? (
           <Typography
             isHeader={false}
@@ -155,34 +162,35 @@ export default function UserRegistrationWrapper() {
           </Typography>
         )}
         <div
-            className="relative
+          className="relative
             flex items-center justify-center
             w-screen sm:w-fit 
             h-fit
             px-[2rem] 
             backdrop-blur-sm"
         >
-            {hasAccount ? <LoginForm /> : <SignupForm />}
+          {hasAccount ? <LoginForm /> : <SignupForm />}
         </div>
         <div
-            className={`
-                image-div
-                lg:hidden
-                absolute -z-10
-                w-screen 
-                h-screen lg:min-h-[53rem]
-            `}
+          className={`
+            image-div
+            lg:hidden
+            absolute -z-10
+            w-screen 
+            h-screen
+            top-0 left-0
+          `}
         >
-            <MotionImage
-                src={DarkArt}
-                alt='Art by Henrik Aa. Uldalen'
-                loading="lazy"
-                placeholder="blur"
-                fill
-                className={`
-                    object-cover
-                `}
-            />
+          <MotionImage
+            src={DarkArt}
+            alt="Art by Henrik Aa. Uldalen"
+            loading="lazy"
+            placeholder="blur"
+            fill
+            className={`
+              object-cover
+            `}
+          />
         </div>
       </div>
     </div>
