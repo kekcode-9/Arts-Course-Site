@@ -100,7 +100,8 @@ export default function Instructor() {
     <div
       className="flex justify-center
         w-screen h-screen
-        px-8 md:px-16 pt-[8.5rem] sm:pt-[10.5rem] pb-16"
+        max-sm:px-8 max-lg:px-16 lg:pr-[4.5rem] xl:pr-[6.5rem]
+        pt-[8.5rem] sm:pt-[10.5rem] pb-16"
     >
       {instructor ? (
         <div

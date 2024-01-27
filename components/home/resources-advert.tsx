@@ -87,7 +87,6 @@ function ResourseOverview({
             loading="lazy"
             placeholder="blur"
             quality={100}
-            className="w-auto h-auto"
             onLoad={() => imageInfiniteScroll()}
           />
         </motion.div>
