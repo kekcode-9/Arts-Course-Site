@@ -42,12 +42,11 @@ export default function HeaderLinks({
           translateY: screen.width < 920 ? "0%" : "-25%",
           transformOrigin: "bottom",
         });
-    } else if (lastRoute === COURSES_ADVERT) {
-      route === HERO &&
-        gsap.to(headerRef.current, {
-          translateY: "0%",
-          duration: 0.5,
-        });
+    } else if (lastRoute !== route && route === HERO) {
+      gsap.to(headerRef.current, {
+        translateY: "0%",
+        duration: 0.5,
+      });
     }
   }, [headerRef.current, route, lastRoute]);
   

@@ -1,10 +1,11 @@
-"use server"
+"use server";
 import db from "./firebase.config";
 import {
   doc,
   getDoc,
   setDoc,
   addDoc,
+  updateDoc,
   collection,
   getDocs,
   DocumentData,
@@ -12,14 +13,29 @@ import {
   where,
   WhereFilterOp,
   QueryFieldFilterConstraint,
+  QueryOrderByConstraint,
+  QueryCompositeFilterConstraint,
+  QueryLimitConstraint,
   orderBy,
   or,
+  limit,
   documentId,
 } from "firebase/firestore";
 import dbCollections from "@/utilities/constants/dbCollections";
 import { FilterArrayType } from "@/utilities/types";
 
 const { COURSE_CATEGORIES } = dbCollections;
+
+export async function updateDocument(
+  collectionName: string,
+  docId: string,
+  updatedData: {
+    [key: string]: string | number | boolean;
+  }
+) {
+  const docRef = doc(db, collectionName, docId);
+  await updateDoc(docRef, updatedData);
+}
 
 export async function addDocumentToDB(
   collectionName: string,
@@ -29,12 +45,15 @@ export async function addDocumentToDB(
 ) {
   try {
     // addDoc(collection(db, <collectionName>), {...data})
-    const docRef = await addDoc(collection(db, collectionName), document);
-    console.log(`docRef is: ${JSON.stringify(docRef.id)}`);
+    const docRef = await addDoc(collection(db, collectionName), {
+      ...document,
+      createdAt: new Date().toDateString()
+    });
     if (docRef) {
       onSuccess && onSuccess();
+      return JSON.stringify(docRef);
     } else {
-      onError && onError('no docRef');
+      onError && onError("no docRef");
     }
   } catch (e) {
     onError && onError(e);
@@ -45,34 +64,75 @@ export async function addDocumentToDB(
 export async function setDocumentInDB(
   collectionName: string,
   docId: string,
-  document: any
+  document: any,
 ) {
-  try {
-    await setDoc(doc(db, collectionName, docId), document);
-  } catch (e) {
-    console.log(`setDocumentInDB failed with error: ${e}`);
-  }
+  return new Promise((resolve, reject) => {
+    setDoc(doc(db, collectionName, docId), document)
+    .then(() => {
+      resolve('');
+    })
+    .catch(() => {
+      reject('setDocumentInDB could not set doc in firestore db')
+    })
+  })
 }
 
 export async function getDocumentFromDB(
   collectionName: string,
   docId: string,
-  callback?: () => void
 ) {
   const docRef = doc(db, collectionName, docId);
   const docSnapshot = await getDoc(docRef);
-  if (docSnapshot.exists()) {
-    return docSnapshot.data();
-  }
+  return new Promise<DocumentData>((resolve, reject) => {
+    if (docSnapshot.exists()) {
+      resolve(docSnapshot.data());
+    } else {
+      reject('Could not get document from DB')
+    }
+  })
 }
 
-export async function getDocumentsWithTextSearch(
+export async function getRefsWithTextSearch(
   collectionName: string,
-  searchType: "courses" | "refs" | "models",
   searchTokens: string[],
   queries?: FilterArrayType
 ) {
-  let collectionWithKeywords = searchType === "courses" && COURSE_CATEGORIES;
+  /**
+   * queries can only have a "category" field
+   * search the collection for documents where category matches the one in queries
+   * and keywords contain any of the searchTokens
+   */
+  const refQuery = queries && queries[0];
+  const whereArr: QueryFieldFilterConstraint[] = [];
+  if (refQuery) {
+    whereArr.push(where(refQuery.field, `${refQuery.operator}` as WhereFilterOp, refQuery.value));
+  }
+  whereArr.push(where('keywords', 'array-contains-any', searchTokens));
+
+  const q = query(
+    collection(db, collectionName),
+    ...whereArr
+  );
+
+  const snapshot = await getDocs(q);
+
+  const allDocs: DocumentData[] = [];
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    allDocs.push({
+      ...data,
+      id: doc.id,
+    });
+  });
+  return allDocs;
+}
+
+export async function getCoursesWithTextSearch(
+  collectionName: string,
+  searchTokens: string[],
+  queries?: FilterArrayType
+) {
+  let collectionWithKeywords = COURSE_CATEGORIES;
   const keywordsCollectionRef = collection(
     db,
     collectionWithKeywords as string
@@ -97,9 +157,6 @@ export async function getDocumentsWithTextSearch(
       where(query.field, `${query.operator}` as WhereFilterOp, query.value)
     );
   });
-  // whereArr.push(
-  //   where(documentId(), 'in', matchedDocIds)
-  // );
 
   const combinedQuery = query(
     mainCollectionRef,
@@ -122,7 +179,10 @@ export async function getDocumentsWithTextSearch(
 export async function getDocumentsWithQuery(
   collectionName: string,
   queries: FilterArrayType,
-  useOR?: boolean
+  orderByField?: string,
+  orderDirection?: "asc" | "desc",
+  useOR?: boolean,
+  limitBy?: number
 ) {
   const whereArr: QueryFieldFilterConstraint[] = [];
   queries.forEach((query) => {
@@ -130,17 +190,30 @@ export async function getDocumentsWithQuery(
       where(query.field, `${query.operator}` as WhereFilterOp, query.value)
     );
   });
-  const combinedQuery = !useOR
-    ? query(
-        collection(db, collectionName),
-        ...whereArr,
-        orderBy("rating", "desc")
-      )
-    : query(
-        collection(db, collectionName),
-        or(...whereArr),
-        orderBy("rating", "desc")
-      );
+  const criteria: (
+    QueryOrderByConstraint
+    | QueryLimitConstraint
+  )[] = [];
+
+  if (orderByField) {
+    criteria.push(orderBy(orderByField, orderDirection || "desc"));
+  }
+
+  if (limitBy) {
+    criteria.push(limit(limitBy));
+  }
+
+  const combinedQuery = useOR ? query(
+    collection(db, collectionName),
+    or(...whereArr),
+    ...criteria
+  ) :
+  query(
+    collection(db, collectionName),
+    ...whereArr,
+    ...criteria
+  )
+
   const snapshot = await getDocs(combinedQuery);
   const allDocs: DocumentData[] = [];
   snapshot.forEach((doc) => {
@@ -152,9 +225,15 @@ export async function getDocumentsWithQuery(
   return allDocs;
 }
 
-export async function getAllDocumentsInCollection(collectionName: string) {
+export async function getAllDocumentsInCollection(
+  collectionName: string,
+  limitBy?: number
+) {
   const collectionRef = collection(db, collectionName);
-  const snapshot = await getDocs(collectionRef);
+  const q = limitBy && query(collectionRef, limit(limitBy));
+
+  const snapshot =
+    limitBy && q ? await getDocs(q) : await getDocs(collectionRef);
   const allDocs: DocumentData[] = [];
   snapshot.forEach((doc) => {
     allDocs.push({

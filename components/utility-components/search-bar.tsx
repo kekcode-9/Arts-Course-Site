@@ -1,20 +1,25 @@
 "use client";
-import React, { 
-  useCallback, 
-  useEffect, 
-  useRef, 
-  useState, 
-  useContext 
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useContext,
 } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import SearchIcon from "./svg-utilities/search-icon";
 import Typography from "./typography";
 import { CourseContext } from "@/utilities/stores/courseContextStore";
 import { ACTIONS } from "@/utilities/constants/actions";
+import routes from "@/utilities/constants/routes";
+
+const { COURSES, REFERENCES } = routes;
 
 const { SET_SEARCH_QUERY } = ACTIONS.COMMON_ACTIONS;
 
 export default function SearchBar() {
+  const pathname = usePathname();
   const { dispatch } = useContext(CourseContext);
   const inputRef = useRef<HTMLInputElement>(null);
   const spanRef = useRef<HTMLSpanElement>(null);
@@ -54,14 +59,13 @@ export default function SearchBar() {
   const onSearchEnter = (searchString: string) => {
     dispatch({
       type: SET_SEARCH_QUERY,
-      payload: searchString
-    })
-  }
+      payload: searchString,
+    });
+  };
 
   return (
     <div className="relative z-0">
-      {
-        !searchQueryExists &&
+      {!searchQueryExists && (
         <span
           ref={spanRef}
           className="absolute -z-[1]
@@ -70,10 +74,13 @@ export default function SearchBar() {
         >
           <SearchIcon />
           <Typography isHeader={false} additionalClasses="hidden xl:inline">
-            Search courses
+            Search{" "}
+            {pathname === COURSES
+              ? "courses"
+              : pathname === REFERENCES && "reference image"}
           </Typography>
         </span>
-      }
+      )}
       <input
         ref={inputRef}
         type="text"
@@ -88,11 +95,18 @@ export default function SearchBar() {
             bg-transparent 
             focus-visible:outline-none"
         onFocus={() => onInputFocus(true)}
-        onBlur={() => onInputFocus(false)}
+        onBlur={() => {
+          onInputFocus(false);
+          if (inputRef?.current?.value) {
+            setSearchQueryExists(true);
+          } else {
+            setSearchQueryExists(false);
+          }
+        }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' && inputRef.current) {
+          if (e.key === "Enter" && inputRef.current) {
             onSearchEnter(inputRef.current.value);
-            // inputRef.current.value = '';
+            inputRef.current.value = '';
             setSearchQueryExists(true);
             inputRef.current.blur();
           }

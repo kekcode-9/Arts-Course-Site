@@ -116,7 +116,7 @@ export default function LeftColumn() {
     if (
       upperDivRef.current &&
       lowerDivRef.current &&
-      lastRoute === HERO &&
+      // lastRoute === HERO &&
       route === HERO &&
       !isSplashScreen
     ) {
@@ -150,20 +150,18 @@ export default function LeftColumn() {
         upperDivExitAnimationHero(tl);
 
         lowerDivTransitionCourses(tl);
-      } else if (lastRoute === COURSES_ADVERT) {
-        if (route === HERO) {
-          setShowContent(false);
-          const tl = gsap.timeline();
-          gsap.set(upperDivRef.current, {
-            display: "flex",
-            scaleY: 0,
-          });
-          upperDivEntryAnimationHero(tl);
+      } else if (route === HERO) {
+        setShowContent(false);
+        const tl = gsap.timeline();
+        gsap.set(upperDivRef.current, {
+          display: "flex",
+          scaleY: 0,
+        });
+        upperDivEntryAnimationHero(tl);
 
-          lowerDivEntryAnimationHero(true, tl);
-        } else {
-          lowerDivTransitionResources();
-        }
+        lowerDivEntryAnimationHero(true, tl);
+      } else if (lastRoute === COURSES_ADVERT && route === RESOURCES_ADVERT) {
+        lowerDivTransitionResources();
       } else if (lastRoute === RESOURCES_ADVERT) {
         gsap.to(lowerDivRef.current, {
           display: "block",

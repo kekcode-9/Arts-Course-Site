@@ -1,5 +1,4 @@
 import React from 'react';
-import UserContentWrapper from '@/components/user/user-content-wrapper';
 
 export default function UserLayout({
     children,
@@ -7,8 +6,8 @@ export default function UserLayout({
     children: React.ReactNode
   }) {
   return (
-    <UserContentWrapper>
+    <div className='user-content-wrapper w-screen h-screen bg-neutral-dark-gray-bg'>
       {children}
-    </UserContentWrapper>
+    </div>
   )
 }

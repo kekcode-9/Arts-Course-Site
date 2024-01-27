@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useState } from "react";
 import CourseTypeSelection from "./course-type-selection";
 import StudentForm from "./student-form";

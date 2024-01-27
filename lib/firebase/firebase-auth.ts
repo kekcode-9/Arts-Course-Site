@@ -5,21 +5,21 @@ import {
   onAuthStateChanged,
   signOut,
   updateProfile,
+  sendPasswordResetEmail,
 } from "firebase/auth";
-import { setDocumentInDB, getDocumentFromDB } from "./firestore-access";
+import {
+  setDocumentInDB,
+  getDocumentFromDB,
+  getDocumentsWithQuery,
+} from "./firestore-access";
 import { auth } from "./firebase.config";
 import dbCollections from "@/utilities/constants/dbCollections";
+import { FilterArrayType } from "@/utilities/types";
+import webStorageItems from "@/utilities/constants/web-storage-items";
 
-const { STUDENT_APPLICATIONS, USERS } = dbCollections;
+const { APPLICATION_EXISTS } = webStorageItems;
 
-/**
- * 1. store newly created user to database with their name
- * 2. show sign up success and error components
- * 3. add password validation
- * 4. add login
- * 5. add forgot password
- * 6. verify email on sign up
- */
+const { STUDENT_APPLICATIONS, INSTRUCTOR_APPLICATIONS, USERS } = dbCollections;
 
 type updateProfileDataType = {
   name?: string;
@@ -32,11 +32,17 @@ type updateProfileDataType = {
 export function updateAccount(
   isNew: boolean,
   document: { [key in keyof updateProfileDataType]: string },
-  id: string
+  id: string,
+  callback?: () => void
 ) {
-  console.log(`isNew: ${isNew}`)
   if (isNew) {
-    setDocumentInDB(USERS, id, document);
+    setDocumentInDB(USERS, id, document)
+      .then(() => {
+        callback && callback();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   } else {
     getDocumentFromDB(USERS, id).then((docData) => {
       if (docData) {
@@ -44,7 +50,17 @@ export function updateAccount(
           ...docData,
           ...document,
         };
-        setDocumentInDB(USERS, id, updatedDocument);
+        /**
+         * if updated document has no application id then
+         * look for application that matches updatedDocument.email
+         */
+        setDocumentInDB(USERS, id, updatedDocument)
+          .then(() => {
+            callback && callback();
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     });
   }
@@ -56,11 +72,112 @@ export function getCurrentUser(
   onAuthStateChanged(auth, (user) => callback(user));
 }
 
+function findMatchingApplication(
+  email: string,
+  uid: string,
+  isNew: boolean,
+  onSuccessCallback: () => void,
+  name?: string,
+  userName?: string
+) {
+  const query = {
+    field: "email",
+    operator: "==",
+    value: email,
+  };
+  getDocumentsWithQuery(STUDENT_APPLICATIONS, [query])
+    .then((allDocs) => {
+      if (allDocs.length) {
+        localStorage.setItem(APPLICATION_EXISTS, "true");
+        const applicationDoc = allDocs[0];
+        const { id } = applicationDoc;
+        !isNew
+          ? updateAccount(
+              isNew,
+              {
+                applicationId: id,
+                applicationType: STUDENT_APPLICATIONS,
+              },
+              uid,
+              onSuccessCallback
+            )
+          : updateAccount(
+              isNew,
+              {
+                name,
+                userName,
+                email,
+                applicationId: id,
+                applicationType: STUDENT_APPLICATIONS,
+              },
+              uid,
+              onSuccessCallback
+            );
+      } else {
+        // check if an instructor application exists for the user
+        getDocumentsWithQuery(INSTRUCTOR_APPLICATIONS, [query])
+          .then((allDocs) => {
+            if (allDocs.length) {
+              localStorage.setItem(APPLICATION_EXISTS, "true");
+              const applicationDoc = allDocs[0];
+              const { id } = applicationDoc;
+              !isNew
+                ? updateAccount(
+                    isNew,
+                    {
+                      applicationId: id,
+                      applicationType: INSTRUCTOR_APPLICATIONS,
+                    },
+                    uid,
+                    onSuccessCallback
+                  )
+                : updateAccount(
+                    isNew,
+                    {
+                      name,
+                      userName,
+                      email,
+                      applicationId: id,
+                      applicationType: INSTRUCTOR_APPLICATIONS,
+                    },
+                    uid,
+                    onSuccessCallback
+                  );
+            } else {
+              if (isNew) {
+                updateAccount(
+                  isNew,
+                  {
+                    name,
+                    userName,
+                    email,
+                  },
+                  uid,
+                  onSuccessCallback
+                );
+              } else {
+                onSuccessCallback && onSuccessCallback();
+              }
+              localStorage.setItem(APPLICATION_EXISTS, "false");
+            }
+          })
+          .catch((error) => {
+            onSuccessCallback && onSuccessCallback();
+          });
+      }
+    })
+    .catch((error) => {
+      onSuccessCallback && onSuccessCallback();
+    });
+}
+
 export async function loginUser(
   email: string,
   password: string,
   applicationId?: string,
-  applicationType?: string
+  applicationType?: string,
+  onSuccessCallback?: (displayName: string) => void,
+  onErrorCallback?: (message: string) => void
 ): Promise<any> {
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -70,19 +187,32 @@ export async function loginUser(
     );
     const user = userCredential.user;
     if (applicationId && applicationType) {
+      localStorage.setItem(APPLICATION_EXISTS, "true");
       updateAccount(
         false,
         {
           applicationId: applicationId as string,
           applicationType: applicationType as string,
         },
-        user.uid
+        user.uid,
+        () => onSuccessCallback && onSuccessCallback(user.displayName as string)
+      );
+    } else {
+      /**
+       * check both student and instructor collections for
+       * an application with matching email.
+       */
+      findMatchingApplication(
+        email,
+        user.uid,
+        false,
+        () => onSuccessCallback && onSuccessCallback(user.displayName as string)
       );
     }
-    return user;
+    //return user;
   } catch (error) {
     console.log(`error signing in: ${error}`);
-    return error;
+    onErrorCallback && onErrorCallback(JSON.stringify(error));
   }
 }
 
@@ -108,7 +238,7 @@ export function createUser(
       })
         .then(() => {
           if (applicationId && applicationType) {
-            getDocumentFromDB(STUDENT_APPLICATIONS, applicationId)
+            getDocumentFromDB(applicationType, applicationId)
               .then((docData) => {
                 if (docData && docData.email === email) {
                   updateAccount(
@@ -120,7 +250,8 @@ export function createUser(
                       applicationId: applicationId as string,
                       applicationType: applicationType as string,
                     },
-                    user.uid
+                    user.uid,
+                    () => onSuccess(user.uid, userName)
                   );
                 }
               })
@@ -128,17 +259,19 @@ export function createUser(
                 console.log(`application not found: ${error}`);
               });
           } else {
-            updateAccount(
+            /**
+             * find matching application then update account with it
+             */
+            findMatchingApplication(
+              email,
+              user.uid,
               true,
-              {
-                name,
-                userName,
-                email,
-              },
-              user.uid
+              () => onSuccess(user.uid, userName),
+              name,
+              userName
             );
           }
-          onSuccess(user.uid, userName);
+          // onSuccess(user.uid, userName);
         })
         .catch((error) => alert(`Account creation failed: ${error}`));
     })
@@ -147,4 +280,33 @@ export function createUser(
       console.log(`error creating user: ${code} | ${message}`);
       onError(error);
     });
+}
+
+export function resetForgottenPassword(email: string) {
+  return new Promise((resolve, reject) => {
+    getDocumentsWithQuery(USERS, [
+      {
+        field: "email",
+        operator: "==",
+        value: email,
+      },
+    ] as FilterArrayType)
+      .then((allDocs) => {
+        if (!allDocs.length) {
+          reject("no user found with this email id");
+        } else {
+          sendPasswordResetEmail(auth, email)
+            .then(() => {
+              return resolve("");
+            })
+            .catch((error) => {
+              reject(error.message);
+            });
+        }
+      })
+      .catch((error) => {
+        console.log(`error - ${error.message}`);
+        reject(error.message);
+      });
+  });
 }

@@ -4,30 +4,30 @@ import React, {
   useEffect, 
   useState, 
   useContext, 
-  Suspense 
+  useRef
 } from "react";
+import gsap from "gsap";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DocumentData } from "firebase/firestore";
 import {
   getAllDocumentsInCollection,
   getDocumentsWithQuery,
-  getDocumentsWithTextSearch,
+  getCoursesWithTextSearch,
 } from "@/lib/firebase/firestore-access";
 import { CldImage } from "next-cloudinary";
-import { CourseType, CourseFilterTypes, FilterArrayType } from "@/utilities/types";
+import { CourseType, FilterTypes, FilterArrayType } from "@/utilities/types";
 import Typography from "../utility-components/typography";
 import StarIcon from "../utility-components/svg-utilities/star-icon";
 import Pill from "../utility-components/pill";
 import dbCollections from "@/utilities/constants/dbCollections";
 import FilterIcon from "../utility-components/svg-utilities/filter-icon";
 import constants from "@/utilities/constants/constants";
-import routes from "@/utilities/constants/routes";
 import { CourseContext } from "@/utilities/stores/courseContextStore";
 import { ACTIONS } from "@/utilities/constants/actions";
+import buildQueriesArray from "@/utilities/query-builder";
+import Link from "next/link";
 
-const { UPDATE_COURSE_FILTERS } = ACTIONS.COURSE_ACTIONS;
-
-const { COURSES } = routes;
+const { UPDATE_FILTERS } = ACTIONS.COMMON_ACTIONS;
 
 const { ADVANCE, INTERMEDIATE, BEGINNER } = constants;
 
@@ -48,6 +48,18 @@ function CardSkeleton ({
   imageHeight,
   textLineCount
 }: CardSkeletonProps) {
+  const refItems: React.MutableRefObject<HTMLSpanElement[]> = useRef([]);
+
+  useEffect(() => {
+    if (refItems.current) {
+      gsap.to(refItems.current, {
+        opacity: 0.3,
+        repeat: -1,
+        yoyo: true
+      })
+    }
+  }, [])
+
   return (
     <div
       className={`
@@ -58,13 +70,18 @@ function CardSkeleton ({
       `}
     >
       <div
+        ref={(ele) => {
+          if (ele) {
+            refItems.current[0] = ele;
+          }
+        }}
         className={`
           card-image
           relative
           w-full ${imageHeight || 'h-1/2'} 
           bg-dirty-white opacity-60
         `}
-      ></div>
+      />
       <div
         className="flex flex-col items-start gap-4
         p-4"
@@ -73,6 +90,11 @@ function CardSkeleton ({
           new Array(textLineCount).fill('').map((item, i) => {
             return (
               <div
+                ref={(ele) => {
+                  if(ele) {
+                    refItems.current[i+1] = ele;
+                  }
+                }}
                 key={i}
                 className={`
                   ${!i ? 'w-full' : 'w-1/2'}
@@ -104,93 +126,96 @@ function CourseCard({ course }: CourseCardType) {
     rating,
     reviewsCount,
     thumbnail,
+    link
   } = course;
 
   return (
-    <div
-      className="course-card
-          w-[18rem] lg:w-[21rem] 
-          h-[23.5rem] 
-          rounded-md overflow-clip
-          cursor-pointer
-          font-sans
-          text-neutral-dark-gray-bg 
-          bg-white 
-          hover:scale-[1.07] transition-all"
-    >
+    <Link href={link} target="_blank">
       <div
-        className="card-image
-          relative
-          w-full h-1/2"
+        className="course-card
+        w-[18rem] lg:w-[21rem] 
+        h-[23.5rem] 
+        rounded-md overflow-clip
+        cursor-pointer
+        font-sans
+        text-neutral-dark-gray-bg 
+        bg-white 
+        hover:scale-[1.07] transition-all"
       >
-        <CldImage
-          src={thumbnail}
-          alt="test"
-          fill
-          loading="lazy"
-          className="object-cover"
-        />
-      </div>
-      <div
-        className="card-body
-          flex flex-col items-start gap-2
-          w-full h-1/2 
-          p-4
-          bg-[linear-gradient(109deg,_#FFF_15.49%,_#FAF4EE_98.28%)]"
-      >
-        <span className="card-header w-full">
-          <Typography
-            isHeader={false}
-            size="text-base"
-            additionalClasses="w-full 
-              text-ellipsis overflow-hidden whitespace-nowrap"
-          >
-            <b>{title}</b>
-          </Typography>
-        </span>
-        <Typography
-          isHeader={false}
-          size="text-base"
-          additionalClasses="text-gray-500"
-        >
-          <b>From:</b> {from}
-        </Typography>
-        <div className="flex gap-1 text-gray-500">
-          <Typography isHeader={false} size="text-base">
-            <b>{videos}</b>
-          </Typography>
-          <Typography
-            isHeader={false}
-            size="text-base"
-            additionalClasses="opacity-60"
-          >
-            |
-          </Typography>
-          <Typography isHeader={false} size="text-base">
-            <b>Duration:</b> {duration}
-          </Typography>
-        </div>
-        <Typography
-          isHeader={false}
-          size="text-base"
-          additionalClasses="text-gray-500"
-        >
-          <b>Level:</b> {level}
-        </Typography>
         <div
-          className="rating-section text-gray-500
-            flex gap-1"
+          className="card-image
+            relative
+            w-full h-1/2"
         >
-          <StarIcon />
-          <Typography isHeader={false} size="text-base">
-            <b>{rating}</b>
+          <CldImage
+            src={thumbnail}
+            alt="course thumbnail"
+            fill
+            loading="lazy"
+            className="object-cover"
+          />
+        </div>
+        <div
+          className="card-body
+            flex flex-col items-start gap-2
+            w-full h-1/2 
+            p-4
+            bg-[linear-gradient(109deg,_#FFF_15.49%,_#FAF4EE_98.28%)]"
+        >
+          <span className="card-header w-full">
+            <Typography
+              isHeader={false}
+              size="text-base"
+              additionalClasses="w-full 
+                text-ellipsis overflow-hidden whitespace-nowrap"
+            >
+              <b>{title}</b>
+            </Typography>
+          </span>
+          <Typography
+            isHeader={false}
+            size="text-base"
+            additionalClasses="text-gray-500"
+          >
+            <b>From:</b> {from}
           </Typography>
-          <Typography isHeader={false} size="text-base">
-            ({reviewsCount} reviews)
+          <div className="flex gap-1 text-gray-500">
+            <Typography isHeader={false} size="text-base">
+              <b>videos:</b> {videos}
+            </Typography>
+            <Typography
+              isHeader={false}
+              size="text-base"
+              additionalClasses="opacity-60"
+            >
+              |
+            </Typography>
+            <Typography isHeader={false} size="text-base">
+              <b>Duration:</b> {duration}
+            </Typography>
+          </div>
+          <Typography
+            isHeader={false}
+            size="text-base"
+            additionalClasses="text-gray-500"
+          >
+            <b>Level:</b> {level}
           </Typography>
+          <div
+            className="rating-section text-gray-500
+              flex gap-1"
+          >
+            <StarIcon />
+            <Typography isHeader={false} size="text-base">
+              <b>{rating}</b>
+            </Typography>
+            <Typography isHeader={false} size="text-base">
+              ({reviewsCount} reviews)
+            </Typography>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -222,9 +247,13 @@ function RatingFilterOptions({
   );
 }
 
-function Filters() {
+function Filters({
+  disabled
+}: {
+  disabled: boolean
+}) {
   const { state, dispatch } = useContext(CourseContext);
-  const { courseFilters } = state;
+  const { filters } = state;
   const searchParams = useSearchParams();
   const rating = searchParams.get("rating");
   const level = searchParams.get("level");
@@ -240,19 +269,19 @@ function Filters() {
   ) => {
     if (!remove) {
       dispatch({
-        type: UPDATE_COURSE_FILTERS,
+        type: UPDATE_FILTERS,
         payload: {
-          ...courseFilters,
+          ...filters,
           ...updatedFilters,
         },
       });
     } else if (remove && filterToRemove) {
       const newFilters = {
-        ...courseFilters,
+        ...filters,
       };
       delete newFilters[filterToRemove];
       dispatch({
-        type: UPDATE_COURSE_FILTERS,
+        type: UPDATE_FILTERS,
         payload: {
           ...newFilters,
         },
@@ -283,27 +312,30 @@ function Filters() {
   );
 
   return (
-    <div className="relative">
+    <div className={`
+      relative
+      ${disabled ? 'opacity-50' : 'opacity-100'}
+    `}>
       <div
         className="lg:hidden 
-              flex justify-end
-              w-full h-fit
-              cursor-pointer"
-        onClick={() => setShowFiltersOnMobile(!showFiltersOnMobile)}
+          flex justify-end
+          w-full h-fit
+          cursor-pointer"
+        onClick={() => !disabled && setShowFiltersOnMobile(!showFiltersOnMobile)}
       >
         <FilterIcon />
       </div>
       <div
         className={`
-                course-catalogue-filters 
-                max-lg:absolute max-lg:z-20 max-lg:right-0
-                ${showFiltersOnMobile ? "flex flex-col gap-4" : "hidden"}
-                lg:flex lg:flex-col lg:gap-6
-                lg:w-max 
-                max-lg:p-6 lg:pr-12
-                max-lg:mt-2
-                max-lg:bg-black
-              `}
+          course-catalogue-filters 
+          max-lg:absolute max-lg:z-20 max-lg:right-0
+          ${showFiltersOnMobile ? "flex flex-col gap-4" : "hidden"}
+          lg:flex lg:flex-col lg:gap-6
+          lg:w-max 
+          max-lg:p-6 lg:pr-12
+          max-lg:mt-2
+          max-lg:bg-black
+        `}
       >
         <div className="flex flex-col gap-4">
           <Typography isHeader={false}>
@@ -317,7 +349,7 @@ function Filters() {
                   key={currentRating}
                   starCount={currentRating}
                   active={rating === `${currentRating}`}
-                  onRatingSelect={() => onRatingSelect(`${currentRating}`)}
+                  onRatingSelect={() => !disabled && onRatingSelect(`${currentRating}`)}
                 />
               );
             })}
@@ -334,24 +366,24 @@ function Filters() {
                 <div
                   key={i}
                   className={`level-filter-option
-                            w-fit
-                            pb-[2px]
-                            cursor-pointer
-                          `}
-                  onClick={() => onLevelSelect(currentLevel)}
+                    w-fit
+                    pb-[2px]
+                    cursor-pointer
+                  `}
+                  onClick={() => !disabled && onLevelSelect(currentLevel)}
                 >
                   <Typography isHeader={false}>{currentLevel}</Typography>
                   <div
                     className={`
-                              max-lg:hidden
-                              ${
-                                level === currentLevel
-                                  ? "scale-x-1"
-                                  : "scale-x-0"
-                              }
-                              w-full h-[1px] bg-white
-                              transition-all origin-left
-                            `}
+                      max-lg:hidden
+                      ${
+                        level === currentLevel
+                          ? "scale-x-1"
+                          : "scale-x-0"
+                      }
+                      w-full h-[1px] bg-white
+                      transition-all origin-left
+                    `}
                   />
                 </div>
               );
@@ -366,27 +398,18 @@ function Filters() {
 export default function CourseCatalogue() {
   const { state, dispatch } = useContext(CourseContext);
   const router = useRouter();
-  const { courseFilters, searchQuery } = state;
+  const { filters, searchQuery } = state;
+
   const searchParams = useSearchParams();
   const category = searchParams.get("category");
   const rating = searchParams.get("rating");
   const level = searchParams.get("level");
+
   const [courses, setCourses] = useState<DocumentData[]>();
   const [categories, setCategories] = useState<DocumentData[]>();
   const [updateURLFromContext, setUpdateURLFromContext] = useState(false);
-  
 
-  const buildQueriesArray = (filters: CourseFilterTypes) => {
-    return Object.entries(filters).map(
-      ([key, value]) => {
-        return {
-          field: `${key}`,
-          operator: key !== "rating" ? "==" : ">=",
-          value: key !== "rating" ? value : Number(value),
-        };
-      }
-    );
-  }
+  const pillSkeleRefs: React.MutableRefObject<HTMLDivElement[]> = useRef([]);
 
   const getAllCourses = () => {
     getAllDocumentsInCollection(PRE_RECORDED_COURSES)
@@ -394,7 +417,7 @@ export default function CourseCatalogue() {
       .catch((err) => console.log(`error fetching courses: ${err}`));
   }
 
-  const getCoursesByFilters = (filters: CourseFilterTypes) => {
+  const getCoursesByFilters = (filters: FilterTypes) => {
     let categoryIsAll = false;
 
     if (filters.category && filters.category === 'All') {
@@ -404,7 +427,7 @@ export default function CourseCatalogue() {
 
     if (Object.entries(filters).length > 0) {
       const filterArray: FilterArrayType = buildQueriesArray(filters);
-      getDocumentsWithQuery(PRE_RECORDED_COURSES, filterArray)
+      getDocumentsWithQuery(PRE_RECORDED_COURSES, filterArray, "rating")
         .then((allDocs) => setCourses(allDocs))
         .catch((error) => console.log(`error getting courses: ${error}`));
     } else if (categoryIsAll) {
@@ -412,50 +435,58 @@ export default function CourseCatalogue() {
     }
   }
 
-  const getCoursesBySearch = (searchQuery: string, courseFilters: CourseFilterTypes) => {
-    if (courseFilters.category && courseFilters.category === 'All') {
-      delete courseFilters['category'];
+  const getCoursesBySearch = (searchQuery: string, filters: FilterTypes) => {
+    if (filters.category && filters.category === 'All') {
+      delete filters['category'];
     }
 
-    const filtersArray: FilterArrayType = buildQueriesArray(courseFilters);
-      const searchTokens = searchQuery.split(' ');
-      getDocumentsWithTextSearch(
-        PRE_RECORDED_COURSES, 
-        "courses", 
-        searchTokens,
-        filtersArray
-      )
-        .then((allDocs) => setCourses(allDocs))
-        .catch((error) => console.log(`error finding courses: ${error}`))
+    const filtersArray: FilterArrayType = buildQueriesArray(filters);
+    const searchTokens = searchQuery.split(' ');
+    getCoursesWithTextSearch(
+      PRE_RECORDED_COURSES,
+      searchTokens,
+      filtersArray
+    )
+      .then((allDocs) => setCourses(allDocs))
+      .catch((error) => console.log(`error finding courses: ${error}`))
   }
 
   useEffect(() => {
     let filtersChanged = false;
-    // if courseFilters have changed
+    // if filters have changed
     if (
-      (rating !== courseFilters?.rating ||
-      level !== courseFilters?.level ||
-      category !== courseFilters?.category) &&
+      (rating !== filters?.rating ||
+      level !== filters?.level ||
+      category !== filters?.category) &&
       updateURLFromContext
     ) {
       filtersChanged = true;
-      router.push(`?${new URLSearchParams(courseFilters)}`);
+      router.push(`?${new URLSearchParams(filters)}`);
     }
 
     if (searchQuery) {
-      getCoursesBySearch(searchQuery, courseFilters as CourseFilterTypes);
+      getCoursesBySearch(searchQuery, filters as FilterTypes);
     } else if (filtersChanged) {
-      getCoursesByFilters(courseFilters as CourseFilterTypes);
+      getCoursesByFilters(filters as FilterTypes);
     }
-  }, [searchQuery, courseFilters, updateURLFromContext])
+  }, [searchQuery, filters, updateURLFromContext])
 
   useEffect(() => {
-    const currentParams: CourseFilterTypes = {};
+    if (pillSkeleRefs.current) {
+      gsap.to(pillSkeleRefs.current, {
+        opacity: 0.2,
+        repeat: -1,
+        yoyo: true
+      })
+    }
+
+    // when url search parameters change, update the same to context
+    const currentParams: FilterTypes = {};
     Array.from(searchParams.entries()).forEach(([key, value]) => {
-      currentParams[key as keyof CourseFilterTypes] = value;
+      currentParams[key as keyof FilterTypes] = value;
     });
     dispatch({
-      type: UPDATE_COURSE_FILTERS,
+      type: UPDATE_FILTERS,
       payload: {
         ...currentParams,
       },
@@ -474,26 +505,26 @@ export default function CourseCatalogue() {
 
   const onCategoryChange = useCallback(
     (label: string) => {
-      if (label !== courseFilters?.category) {
+      if (label !== filters?.category) {
         dispatch({
-          type: UPDATE_COURSE_FILTERS,
+          type: UPDATE_FILTERS,
           payload: {
-            ...courseFilters,
+            ...filters,
             category: label,
           },
         });
       }
     },
-    [courseFilters]
+    [filters]
   );
 
   return (
     <div
       className="course-catalogue-wrapper
+      fixed
       flex flex-col gap-12
       w-screen 
       h-screen lg:h-full
-      max-sm:overflow-hidden
       px-8 md:px-16 pt-[10.5rem] pb-16"
     >
       <div
@@ -508,28 +539,49 @@ export default function CourseCatalogue() {
           active={!category || category === "All"}
           onPillSelect={onCategoryChange}
         />
-        {categories?.map((categoryDoc, i) => {
-          return (
-            <Pill
-              key={i}
-              label={categoryDoc.id}
-              active={category === categoryDoc.id}
-              onPillSelect={onCategoryChange}
-            />
-          );
-        })}
+        {
+          categories ?
+          categories?.map((categoryDoc, i) => {
+            return (
+              <Pill
+                key={`pill-${categoryDoc.id}`}
+                label={categoryDoc.id}
+                active={category === categoryDoc.id}
+                onPillSelect={onCategoryChange}
+              />
+            );
+          }) :
+          new Array(7).fill('').map((item, i) => {
+            return (
+              <div
+                ref={(ele) => {
+                  if (ele) {
+                    pillSkeleRefs.current[i] = ele;
+                  }
+                }}
+                key={`pill-${i}`}
+                className="w-[6.5rem] min-w-[64px]
+                h-[2.75rem] md:h-12
+                rounded-[100px]
+                cursor-pointer
+                border-2
+                border-white bg-black"
+              />
+            )
+          })
+        }
       </div>
       <div
         className="flex flex-col lg:flex-row 
           max-lg:gap-6
           justify-between
-          w-full h-full
-          pb-16"
+          w-full h-full pb-16"
       >
-        <Filters />
+        <Filters disabled={!courses} />
         <div
           className="flex flex-col
-          w-full h-fit"
+          w-full h-full 
+          pb-8 sm:pb-16"
         >
           {/*<span>
             <Typography isHeader={false}>
@@ -544,7 +596,7 @@ export default function CourseCatalogue() {
             className="courses-wrapper
                 flex flex-wrap justify-center gap-6 sm:gap-8
                 w-full h-full
-                overflow-y-scroll overflow-x-hidden py-4"
+                overflow-y-auto pt-4"
           >
             {
               courses ?

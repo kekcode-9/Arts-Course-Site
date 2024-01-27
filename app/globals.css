@@ -6,6 +6,12 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+:root::-webkit-scrollbar {
+  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,17 +22,67 @@
   }
 }
 
+.home-content-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.home-content-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
 .content-wrapper {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
+/* hide scrollbar in chrome */
+
+.content-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
 .courses-wrapper {
+  -ms-overflow-style: none; /* hide scrollbar in IE and edge */
+  scrollbar-width: none; /* hide scrollbar in Firefox */
+}
+
+.courses-wrapper::-webkit-scrollbar {
+  display: none
+}
+
+.references-wrapper {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.references-wrapper::-webkit-scrollbar {
+  display: none
 }
 
 .pills-wrapper {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.pills-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.instructor-cards-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.instructor-cards-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.instructor-mobile-wrapper {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.instructor-mobile-wrapper::-webkit-scrollbar {
+  display: none;
 }

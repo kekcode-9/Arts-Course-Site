@@ -12,15 +12,15 @@ import { ACTIONS } from "@/utilities/constants/actions";
 
 const { SET_MENU_STATE } = ACTIONS.COMMON_ACTIONS;
 
-const { 
-  ROOT, 
+const {
+  ROOT,
   COURSES: CourseRoute,
   WORKSHOPS: WorkshopRoute,
   BLOGS: BlogsRoute,
   MODELS: ModelsRoute,
   REFERENCES: ReferenceRoute,
   HELP: HelpRoute,
-  FEEDBACK: FeedbackRoute
+  FEEDBACK: FeedbackRoute,
 } = routes;
 
 const { COURSES, WORKSHOPS, THREED_MODELS, REFERENCES, BLOG, HELP, FEEDBACK } =
@@ -29,36 +29,32 @@ const { COURSES, WORKSHOPS, THREED_MODELS, REFERENCES, BLOG, HELP, FEEDBACK } =
 const learning = [
   {
     label: COURSES,
-    route: CourseRoute
+    route: CourseRoute,
   },
   {
     label: WORKSHOPS,
-    route: WorkshopRoute
+    route: WorkshopRoute,
   },
-  {
-    label: BLOG,
-    route: BlogsRoute
-  }
 ];
 const resources = [
   {
     label: THREED_MODELS,
-    route: ModelsRoute
-  }, 
+    route: ModelsRoute,
+  },
   {
     label: REFERENCES,
-    route: ReferenceRoute
-  }
+    route: ReferenceRoute,
+  },
 ];
 const reachingOut = [
   {
     label: HELP,
-    route: HelpRoute
-  }, 
+    route: HelpRoute,
+  },
   {
     label: FEEDBACK,
-    route: FeedbackRoute
-  }
+    route: FeedbackRoute,
+  },
 ];
 
 type MenuColumnProps = {
@@ -84,12 +80,37 @@ function MenuColumn({ children }: MenuColumnProps) {
   );
 }
 
-export default function MenuContent() {
+export default function MenuContent({
+  adjustHeight
+}: {
+  adjustHeight?: boolean
+}) {
   const { state, dispatch } = useContext(CourseContext);
   const { explore } = state;
   const pathName = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const menuItemRefs: React.MutableRefObject<HTMLSpanElement[]> = useRef([]);
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      if (
+        e.target instanceof HTMLElement &&
+        !e.target?.classList.contains("menu-content") &&
+        !e.target?.classList.contains("menu-link")
+      ) {
+        dispatch({
+          type: SET_MENU_STATE,
+          payload: false,
+        });
+      }
+    };
+
+    document.addEventListener("click", onDocClick);
+
+    return () => {
+      document.removeEventListener("click", onDocClick);
+    };
+  }, []);
 
   useEffect(() => {
     if (menuRef.current) {
@@ -98,39 +119,40 @@ export default function MenuContent() {
         tl.to(menuItemRefs.current, {
           opacity: 0,
           duration: 0.2,
-          stagger: 0.02
-        })
-        .to(menuRef.current, {
+          stagger: 0.02,
+        }).to(menuRef.current, {
           scaleY: 0,
-          transformOrigin: "top"
+          transformOrigin: "top",
         });
       } else {
         gsap.to(menuRef.current, {
           scaleY: 1,
-          transformOrigin: "top"
+          transformOrigin: "top",
         });
       }
-      
-      const itemsEntranceTimer = explore && setTimeout(() => {
-        gsap.to(menuItemRefs.current, {
-          opacity: 1,
-          duration: 0.5,
-          stagger: 0.07
-        })
-      }, 400);
+
+      const itemsEntranceTimer =
+        explore &&
+        setTimeout(() => {
+          gsap.to(menuItemRefs.current, {
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.07,
+          });
+        }, 400);
 
       return () => {
         itemsEntranceTimer && clearTimeout(itemsEntranceTimer);
-      }
+      };
     }
   }, [explore, menuRef.current]);
 
   const closeMenu = () => {
     dispatch({
       type: SET_MENU_STATE,
-      payload: false
-    })
-  }
+      payload: false,
+    });
+  };
 
   return (
     <div
@@ -142,12 +164,16 @@ export default function MenuContent() {
         ${pathName === ROOT ? "lg:justify-end" : "md:justify-end"}
         ${
           pathName === ROOT
-            ? "w-screen h-fit lg:w-full lg:h-full"
+            ? (
+              !adjustHeight ?
+              "w-screen h-fit lg:w-full lg:h-full" :
+              "w-screen h-fit lg:w-full lg:h-[107%]"
+            )
             : "w-screen md:w-fit h-fit"
         } 
         p-8 md:px-16 
         scale-y-0
-        bg-black lg:border-2 lg:border-white
+        bg-black
       `}
     >
       <div
@@ -163,10 +189,7 @@ export default function MenuContent() {
             const { label, route } = item;
 
             return (
-              <Link href={route}
-                key={`learning-${i}`}
-                onClick={closeMenu}
-              >
+              <Link href={route} key={`learning-${i}`} onClick={closeMenu}>
                 <span
                   ref={(ele) => {
                     if (ele) {
@@ -176,7 +199,10 @@ export default function MenuContent() {
                   className="hover:border-b-[1px] hover:border-b-white 
                     transition-all opacity-0"
                 >
-                  <Typography isHeader={false} additionalClasses="cursor-pointer">
+                  <Typography
+                    isHeader={false}
+                    additionalClasses="cursor-pointer"
+                  >
                     {label}
                   </Typography>
                 </span>
@@ -185,8 +211,7 @@ export default function MenuContent() {
           })}
         </MenuColumn>
         <AnimatePresence>
-          {
-            explore &&
+          {explore && (
             <motion.div
               className={`
               ${pathName === ROOT && "md:w-[48px] md:h-[1px]"}
@@ -195,29 +220,26 @@ export default function MenuContent() {
               translate-x-0
               bg-white`}
               initial={{
-                scale: 0
+                scale: 0,
               }}
               animate={{
                 scale: 1,
                 transition: {
-                  delay: 0.6
-                }
+                  delay: 0.6,
+                },
               }}
               exit={{
-                scale: 0
+                scale: 0,
               }}
             />
-          }
+          )}
         </AnimatePresence>
         <MenuColumn>
           {resources.map((item, i) => {
             const { label, route } = item;
 
             return (
-              <Link href={route}
-                key={`resources-${i}`}  
-                onClick={closeMenu}
-              >
+              <Link href={route} key={`resources-${i}`} onClick={closeMenu}>
                 <span
                   ref={(ele) => {
                     if (ele) {
@@ -227,7 +249,10 @@ export default function MenuContent() {
                   className="hover:border-b-[1px] hover:border-b-white 
                     transition-all opacity-0"
                 >
-                  <Typography isHeader={false} additionalClasses="cursor-pointer">
+                  <Typography
+                    isHeader={false}
+                    additionalClasses="cursor-pointer"
+                  >
                     {label}
                   </Typography>
                 </span>
@@ -236,8 +261,7 @@ export default function MenuContent() {
           })}
         </MenuColumn>
         <AnimatePresence>
-          {
-            explore &&
+          {explore && (
             <motion.div
               className={`
               ${pathName === ROOT && "md:w-[48px] md:h-[1px]"}
@@ -246,29 +270,26 @@ export default function MenuContent() {
               translate-x-0
               bg-white`}
               initial={{
-                scale: 0
+                scale: 0,
               }}
               animate={{
                 scale: 1,
                 transition: {
-                  delay: 1
-                }
+                  delay: 1,
+                },
               }}
               exit={{
-                scale: 0
+                scale: 0,
               }}
             />
-          }
+          )}
         </AnimatePresence>
         <MenuColumn>
           {reachingOut.map((item, i) => {
             const { label, route } = item;
 
             return (
-              <Link href={route}
-                key={`reachingOut-${i}`}
-                onClick={closeMenu}
-              >
+              <Link href={route} key={`reachingOut-${i}`} onClick={closeMenu}>
                 <span
                   ref={(ele) => {
                     if (ele) {
@@ -278,7 +299,10 @@ export default function MenuContent() {
                   className="hover:border-b-[1px] hover:border-b-white 
                     transition-all opacity-0"
                 >
-                  <Typography isHeader={false} additionalClasses="cursor-pointer">
+                  <Typography
+                    isHeader={false}
+                    additionalClasses="cursor-pointer"
+                  >
                     {label}
                   </Typography>
                 </span>

@@ -40,7 +40,8 @@ const config: Config = {
       'xl': '1273px',
       'lg': '920px',
       'md': '768px',
-      'sm': '640px'
+      'sm': '640px',
+      'xsm': '550px'
     }
   },
   plugins: [],

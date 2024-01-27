@@ -92,9 +92,16 @@ export default function MiddleColumn({
             setShowUpperContent(true);
           }
         });
-      } else if (lastRoute === COURSES_ADVERT && route === HERO) {
+      } else if (route === HERO && lastRoute !== route) {
         setShowUpperContent(false);
         const tl = gsap.timeline();
+        if (lastRoute === INSTRUCTORS) {
+          // show middle div
+          tl.set(divRef.current, {
+            display: 'block',
+            opacity: 1
+          })
+        }
         tl.set(lowerDivRef.current, {
           display: 'flex',
         });
@@ -113,11 +120,13 @@ export default function MiddleColumn({
           }
         });
       } else if (route === INSTRUCTORS) {
+        // hide middle div
         gsap.to(divRef.current, {
           display: 'none',
           delay: 0.5
         })
-      } else if (lastRoute === INSTRUCTORS) {
+      } else if (lastRoute === INSTRUCTORS && route === RESOURCES_ADVERT) {
+        // show middle div
         const tl = gsap.timeline();
         tl.set(divRef.current, {
           display: 'block',
@@ -155,7 +164,7 @@ export default function MiddleColumn({
           }
           w-full 
           h-1/2
-      `}
+        `}
       >
         <AnimatePresence mode="wait">
           {showUpperContent && route !== INSTRUCTORS && divContent()}

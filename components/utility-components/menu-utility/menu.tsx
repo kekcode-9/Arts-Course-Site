@@ -37,13 +37,13 @@ export default function Menu() {
     <>
         <Typography 
             isHeader={false}
-            additionalClasses='max-lg:hidden cursor-pointer font-sans'
+            additionalClasses='menu-link max-lg:hidden cursor-pointer font-sans'
             onClick={onClick}
         >
             {MENU}
         </Typography>
         <span
-            className='burger-span lg:hidden cursor-pointer'
+            className='menu-link burger-span lg:hidden cursor-pointer'
             onClick={onClick}
         >
             <BurgerMenu/>

@@ -1,17 +1,28 @@
-'use client'
+"use client";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
+import {
+  CourseContext,
+  HOME_ROUTES,
+} from "@/utilities/stores/courseContextStore";
 import HeaderLinks from "./header-links";
 import Arrows from "./arrows";
 import dynamicImports from "@/utilities/dynamic-imports";
 import MenuContent from "./menu-utility/menu-content";
 
-const { HERO, COURSES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
+const { HERO, COURSES_ADVERT, INSTRUCTORS, RESOURCES_ADVERT } = HOME_ROUTES;
 
-const HeroRightImage = dynamicImports(HERO, "HeroLargeRightImage", "HeroRightImage");
-const CoursesRightImage = dynamicImports(COURSES_ADVERT, "CourseAdvertLargeRightImage", "CoursesRightImage");
+const HeroRightImage = dynamicImports(
+  HERO,
+  "HeroLargeRightImage",
+  "HeroRightImage"
+);
+const CoursesRightImage = dynamicImports(
+  COURSES_ADVERT,
+  "CourseAdvertLargeRightImage",
+  "CoursesRightImage"
+);
 
 export default function RightColumn() {
   const [showImage, setShowImage] = useState(false);
@@ -28,50 +39,59 @@ export default function RightColumn() {
       case COURSES_ADVERT:
         return CoursesRightImage;
     }
-  }
+  };
 
   useEffect(() => {
     if (lastRoute === HERO && route === HERO && !isSplashScreen) {
       gsap.to(lowerDivRef.current, {
-        background: 'white',
+        background: "white",
         scaleY: 1,
         duration: 0.5,
-        onComplete: () => setShowImage(true)
-      })
-    } else if (lastRoute !== route && route === COURSES_ADVERT && lowerDivRef.current) {
+        onComplete: () => setShowImage(true),
+      });
+    } else if (
+      lastRoute !== route &&
+      route === COURSES_ADVERT &&
+      lowerDivRef.current
+    ) {
       gsap.to(lowerDivRef.current, {
-        background: 'white',
+        background: "white",
         scaleY: 1.08,
-        delay: (lastRoute !== HERO ? 0.5 : 0),
+        translateY: '0%',
+        delay: lastRoute !== HERO ? 0.5 : 0,
         duration: 0.5,
-        onComplete: () => setShowImage(true)
-      })
+        onComplete: () => setShowImage(true),
+      });
     } else if (lastRoute === COURSES_ADVERT && lastRoute !== route) {
       const tl = gsap.timeline();
       tl.to(lowerDivRef.current, {
-        background: (route !== HERO ? 'transparent' : 'white'),
+        background: route !== HERO ? "transparent" : "white",
         delay: 0.5,
-        duration: 0.3
-      })
-      tl.set(lowerDivRef.current, {
-        scaleY: 1
-      })
+        duration: 0.3,
+      });
+
+      // (route === HERO) ? tl.set(lowerDivRef.current, {
+      //   scaleY: 1,
+      // }) : tl.set(lowerDivRef.current, {
+      //   scaleY: 1,
+      //   translateY: '-7%'
+      // })
     } else if (route === INSTRUCTORS && lastRoute !== route) {
       setTimeout(() => {
         gsap.set(divRef.current, {
-          position: 'absolute',
+          position: "absolute",
           zIndex: 10,
           right: 0,
-          width: '33.33%'
-        })
+          width: "33.33%",
+        });
       }, 500);
     } else if (lastRoute === INSTRUCTORS && lastRoute !== route) {
       setTimeout(() => {
         gsap.set(divRef.current, {
-          position: 'static',
+          position: "static",
           zIndex: 0,
-          width: '100%'
-        })
+          width: "100%",
+        });
       }, 500);
     }
   }, [route, lastRoute, isSplashScreen]);
@@ -96,10 +116,10 @@ export default function RightColumn() {
           scale-y-0 origin-bottom
         `}
       >
-        <MenuContent/>
-        <AnimatePresence>
-          {showImage && imageContent()}
-        </AnimatePresence>
+        <MenuContent
+          adjustHeight={route === RESOURCES_ADVERT || route === INSTRUCTORS}
+        />
+        <AnimatePresence>{showImage && imageContent()}</AnimatePresence>
         <Arrows />
       </div>
     </div>

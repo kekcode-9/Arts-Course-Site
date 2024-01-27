@@ -10,7 +10,8 @@ export default {
     USER_MENU_ITEMS: {
         LOG_OUT: 'Log out',
         CHECK_APPLICATION_STATUS: 'Check application status',
-        MY_COURSES: 'My courses'
+        MY_COURSES: 'My courses',
+        APPLY_AS_INSTRUCTOR: 'Apply as an instructor'
     },
     // menu items
     MENU_ITEMS: {
@@ -40,32 +41,6 @@ export default {
     THREEHUNDRED_3D_MODELS: '300+ 3D models',
     // instructors
     MEET_INSTRUCTORS: 'Meet the instructors',
-    INSTRUCTORS: [
-        {
-            image: '/bauman-instructor-1.jpg',
-            name: 'Stephen Bauman',
-            experties: 'Drawing, Painting',
-            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
-        },
-        {
-            image: '/bauman-instructor-1.jpg',
-            name: 'Stephen Bauman',
-            experties: 'Drawing, Painting',
-            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
-        },
-        {
-            image: '/bauman-instructor-1.jpg',
-            name: 'Stephen Bauman',
-            experties: 'Drawing, Painting',
-            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
-        },
-        {
-            image: '/bauman-instructor-1.jpg',
-            name: 'Stephen Bauman',
-            experties: 'Drawing, Painting',
-            experience: 'Former Director of Anatomy & Ecorche in Sweden and USA'
-        }
-    ],
     // student application form
     APPLY_FOR: "Apply for",
     IN_PERSON_CLASSES: "In Person Classes",
@@ -80,15 +55,15 @@ export default {
         EMAIL: 'Email id',
         DOB: 'Date of Birth',
         EDUCATION: 'Highest level of education',
-        PORTFOLIO: 'Portfolio link', // needed for in person only
-        SKILL: 'Where are you at in your art journey ?', // needed for in person only
-        SCHOOL_NAME: 'Name of School', // needed for in person only
-        DEGREE: 'Degree', // needed for in person only
-        PROJECT: 'Project links', // needed for in person only
-        COMPANY: 'Name of company', // needed for in person only
-        ROLE: 'Current role', // needed for in person only
-        YOE: 'Years of experience', // needed for in person only
-        PURPOSE: 'How would this course help you in your career ?', // needed for in person only
+        PORTFOLIO: 'Portfolio link', 
+        SKILL: 'Where are you at in your art journey ?', 
+        SCHOOL_NAME: 'Name of school', 
+        DEGREE: 'Degree', 
+        PROJECT: 'Project links', 
+        COMPANY: 'Name of company/studio', 
+        ROLE: 'Current role', 
+        YOE: 'Years of experience', 
+        PURPOSE: 'How would this course help you in your career ?', 
         COURSE: 'Select a course',
         SLOT: 'Pick a slot'
     },
@@ -98,13 +73,36 @@ export default {
         VOCATIONAL: 'Vocational qualification',
         BACHELORS: 'Bachelors',
         MASTERS: 'Masters',
-        HIGHER: 'Doctorate or higher'
+        HIGHER: 'Doctorate or higher',
     },
     SKILL_LEVEL: {
         BEGINNER: 'Beginner',
         ART_SCHOOL: 'Attended / Attending Art School',
         SELF_LEARNER: 'Self Learner',
         PROFESSIONAL: 'Professional Artist'
+    },
+    // Instructor Application Form labels
+    INSTRUCTOR_FORM_LABELS: {
+        NAME: 'Full name',
+        EMAIL: 'Email id',
+        DOB: 'Date of Birth',
+        EDUCATION: 'Highest level of education',
+        SCHOOL_NAME: 'Last attended school',
+        PORTFOLIO: 'Portfolio link', 
+        EXPERTIES: 'Subject of experties',
+        EXPERIENCE: 'Work experience',
+        PICK_YOUR_SUBJECT: 'Pick the subjects you want to teach'
+    },
+    ADD_ANOTHER: 'Add another',
+    // Instructor Experience fields
+    INSTRUCTOR_EXPERIENCE_INFO: {
+        STUDIO_NAME: 'Studio/Company',
+        ROLE: 'Role',
+        STARTED_AT: 'Joined at',
+        ENDED_AT: 'Role ended at',
+        DESCRIPTION: 'Describe some highlights of your work',
+        REFERENCE_PERSON: 'Person of reference',
+        ADD_ANOTHER: 'Add another experience'
     },
     COURSES_IN_PERSON: {
         ANATOMY: {
@@ -138,6 +136,9 @@ export default {
     },
     // login / signup
     DONT_HAVE_ACCOUNT: "Don't have an account ?",
+    ENTER_REGISTERED_EMAIL: "Enter your registered email",
+    RESET_MAIL_SENT: "Password reset email has been sent to",
+    RESET_PASSWORD: "Reset password", 
     SIGN_UP: 'Sign up',
     MEMBER_ALREADY: 'Are you a member already ?',
     CREATE_A_NEW_ACCOUNT: 'Create a new account',

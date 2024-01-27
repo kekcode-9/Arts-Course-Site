@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useReducer, Dispatch } from "react";
-import { CourseType, CourseFilterTypes } from "../types";
+import { FilterTypes } from "../types";
 import { ACTIONS } from "../constants/actions";
 
 // possible values for the 'route' state
@@ -22,8 +22,7 @@ type initialStateType = {
   showBoth: boolean;
   isLast: boolean;
   explore: boolean;
-  courses?: CourseType[];
-  courseFilters?: CourseFilterTypes;
+  filters?: FilterTypes;
   searchQuery?: string;
 };
 
@@ -37,26 +36,26 @@ const initialState: initialStateType = {
   explore: false,
 };
 
-const { HOME_ROUTE_ACTIONS, COMMON_ACTIONS, COURSE_ACTIONS } = ACTIONS;
+const { HOME_ROUTE_ACTIONS, COMMON_ACTIONS } = ACTIONS;
 
 // create the type of the action parameter for reducer
 type actionType = {
   type:
     | (typeof HOME_ROUTE_ACTIONS)[keyof typeof HOME_ROUTE_ACTIONS]
-    | (typeof COMMON_ACTIONS)[keyof typeof COMMON_ACTIONS]
-    | (typeof COURSE_ACTIONS) [keyof typeof COURSE_ACTIONS]
+    | (typeof COMMON_ACTIONS)[keyof typeof COMMON_ACTIONS];
   payload?: any;
 };
 
-const { UPDATE_ROUTE, SET_SHOWBOTH, SET_ISLAST, SET_UNSET_SPLASH_SCREEN } =
-  HOME_ROUTE_ACTIONS;
+const {
+  UPDATE_ROUTE,
+  SET_SHOWBOTH,
+  SET_ISLAST,
+  SET_UNSET_SPLASH_SCREEN,
+  SET_HOME_TO_ROOT,
+  RESET_ROUTE,
+} = HOME_ROUTE_ACTIONS;
 
-const { 
-  SET_MENU_STATE, 
-  SET_SEARCH_QUERY
-} = COMMON_ACTIONS;
-
-const { UPDATE_COURSE_FILTERS } = COURSE_ACTIONS;
+const { SET_MENU_STATE, SET_SEARCH_QUERY, UPDATE_FILTERS } = COMMON_ACTIONS;
 
 // create the reducer
 function reducer(state: initialStateType, action: actionType) {
@@ -65,56 +64,79 @@ function reducer(state: initialStateType, action: actionType) {
     case SET_MENU_STATE: {
       const finalState: initialStateType = {
         ...state,
-        explore: payload
-      }
+        explore: payload,
+      };
       return finalState;
     }
     case SET_UNSET_SPLASH_SCREEN: {
-        const finalState: initialStateType = {
-            ...state,
-            isSplashScreen: payload,
-        }
-        return finalState;
-    }
-    case UPDATE_ROUTE: {
-        const updated: initialStateType = {
-            ...state,
-            lastRoute: state.route,
-        }
-        const finalState: initialStateType = {
-            ...updated,
-            route: payload,
-        }
-        return finalState;
-    }
-    case SET_SHOWBOTH: {
-        const finalState: initialStateType = {
-            ...state,
-            showBoth: payload,
-        }
-        return finalState;
-    }
-    case SET_ISLAST: {
-        const finalState: initialStateType = {
-            ...state,
-            isLast: payload,
-        }
-        return finalState;
-    }
-    case UPDATE_COURSE_FILTERS: {
       const finalState: initialStateType = {
         ...state,
-        courseFilters: {
-          ...payload
-        }
+        isSplashScreen: payload,
+      };
+      return finalState;
+    }
+    case UPDATE_ROUTE: {
+      const updated: initialStateType = {
+        ...state,
+        lastRoute: state.route,
+      };
+      const finalState: initialStateType = {
+        ...updated,
+        route: payload,
+      };
+      return finalState;
+    }
+    case RESET_ROUTE: {
+      const finalState: initialStateType = {
+        ...state,
+        lastRoute: HOME_ROUTES.HERO,
+        route: HOME_ROUTES.HERO,
+        showBoth: false,
+        isLast: false
       }
+      return finalState;
+    }
+    case SET_SHOWBOTH: {
+      const finalState: initialStateType = {
+        ...state,
+        showBoth: payload,
+      };
+      return finalState;
+    }
+    case SET_ISLAST: {
+      const finalState: initialStateType = {
+        ...state,
+        isLast: payload,
+      };
+      return finalState;
+    }
+    case SET_HOME_TO_ROOT: {
+      const updated: initialStateType = {
+        ...state,
+        lastRoute: state.route,
+      };
+      const finalState: initialStateType = {
+        ...updated,
+        route: HOME_ROUTES.HERO,
+        showBoth: false,
+        isLast: false,
+      };
+      return finalState;
+    }
+    case UPDATE_FILTERS: {
+      const finalState: initialStateType = {
+        ...state,
+        filters: {
+          ...payload,
+        },
+      };
       return finalState;
     }
     case SET_SEARCH_QUERY: {
       const finalState: initialStateType = {
         ...state,
-        searchQuery: payload
-      }
+        searchQuery: payload,
+      };
       return finalState;
     }
     default:

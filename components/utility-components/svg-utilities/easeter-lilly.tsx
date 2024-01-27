@@ -59,8 +59,8 @@ export default function EasterLilly() {
           y2="312"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="#772F06" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="#772F06" />
         </linearGradient>
         <image
           id="image0_344_198"

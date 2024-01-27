@@ -1,10 +1,16 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
+import { UserContext } from '@/utilities/stores/userInfoStore';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { createUser, logoutUser } from '@/lib/firebase/firebase-auth';
 import BasicInput, { FormWrapper } from '../utility-components/form-inputs';
 import CTA from '../utility-components/cta';
 import routes from '@/utilities/constants/routes';
 import constants from '@/utilities/constants/constants';
+import webStorageItems from '@/utilities/constants/web-storage-items';
+import getUser from '@/utilities/store-action-utilities/user-store-actions';
+import { getCurrentUser } from '@/lib/firebase/firebase-auth';
+
+const { USER_EXISTS } = webStorageItems;
 
 const { USER, ROOT } = routes;
 
@@ -21,13 +27,25 @@ export default function SignupForm() {
     const router = useRouter();
     const applicationId = useSearchParams().get('applicationId');
     const applicationType = useSearchParams().get('applicationType');
+
+    const { state, dispatch } = useContext(UserContext);
+    const { userId } = state;
+
     const [ signupInfo, setSignupInfo ] = useState<signUpInfoType| undefined>();
     const [passwordMissedCases, setPasswordMissedCases] = useState<string[]>([]);
     const [reenteredPassword, setReenteredPassword] = useState<string>();
     const [emptyFields, setEmptyFields] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        logoutUser();
+        if (userId) {
+            getCurrentUser((user) => {
+              if (user) {
+                router.forward();
+              }
+            })
+          }
+        // logoutUser();
     }, [])
 
     const handleSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -54,17 +72,24 @@ export default function SignupForm() {
             return
         }
 
+        setLoading(true);
+
         if (signupInfo?.password !== reenteredPassword) {
             alert('Please re-enter the correct password');
             return
         }
 
         createUser(name, email, password, 
-            (uid, userName) => router.push(USER(userName as string)),
+            (uid, userName) => {
+                localStorage.setItem(USER_EXISTS, 'true');
+                getUser(dispatch);
+                router.push(USER(userName as string));
+            },
             (error) => {
+                localStorage.setItem(USER_EXISTS, 'false');
+                setLoading(false);
                 alert(`User creation failed with error: ${error}`);
                 e.preventDefault();
-                // setTimeout(() => router.push(ROOT), 3000)
             },
             applicationId as string, 
             applicationType as string
@@ -189,6 +214,7 @@ export default function SignupForm() {
                 label={SIGN_UP}
                 longButton={true}
                 onClick={passwordMissedCases.length ? showErrorAlert : handleSubmit}
+                isLoading={loading}
             />
         </FormWrapper>
     )

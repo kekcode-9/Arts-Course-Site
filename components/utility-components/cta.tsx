@@ -11,6 +11,7 @@ type CTAProps = {
     longButton?: boolean;
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     headerButton?: boolean;
+    isLoading?: boolean;
 }
 
 export default function CTA({
@@ -20,6 +21,7 @@ export default function CTA({
     submitButton,
     longButton,
     headerButton,
+    isLoading,
     onClick
 }: CTAProps) {
   const bgDivRef = useRef<HTMLDivElement | null>(null);
@@ -35,6 +37,19 @@ export default function CTA({
     }
   }, [bgDivRef.current, canPlay])
 
+  useEffect(() => {
+    const tween = isLoading && gsap.to(bgDivRef.current, {
+      opacity: 0.4,
+      duration: 1,
+      repeat: -1,
+      yoyo: true,
+    });
+
+    return () => {
+      tween && tween.revert();
+    }
+  }, [isLoading, bgDivRef.current])
+
   return (
     <button
         className={`
@@ -46,7 +61,8 @@ export default function CTA({
             (headerButton ? 'w-[10rem] xl:w-52 h-12' : 'w-52 h-12')
           } 
           text-xl ${primary ? 'text-neutral-dark-gray-bg' : 'text-white'} 
-          cursor-pointer 
+          cursor-pointer  
+          active:scale-[1.03] transition-all
         `}
         type={submitButton ? 'submit' : 'button'}
         onClick={(e) => {

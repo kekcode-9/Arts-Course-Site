@@ -6,7 +6,7 @@ import Typography from '../utility-components/typography';
 import constants from '@/utilities/constants/constants';
 import routes from '@/utilities/constants/routes';
 
-const { SUBSCRIPTION_PLANS } = routes;
+const { COURSES, ONLINE_INTERACTIVE_COURSES } = routes;
 
 const {
     OR,
@@ -97,9 +97,11 @@ export default function CourseTypeSelection({
                     animateDelay={0.3}
                     onClick={onOnlineInteractiveOption}
                 >
-                    <u>
-                        {ONLINE_INTERACTIVE_CLASSES}
-                    </u>
+                    <Link href={ONLINE_INTERACTIVE_COURSES}>
+                        <u>
+                            {ONLINE_INTERACTIVE_CLASSES}
+                        </u>
+                    </Link>
                 </Typography>
             </OptionWrapper>
             <Typography 
@@ -110,7 +112,7 @@ export default function CourseTypeSelection({
             >
                 {OR} <br/>
                 <OptionWrapper>
-                    <Link href={SUBSCRIPTION_PLANS} className='cursor-pointer'>
+                    <Link href={COURSES} className='cursor-pointer'>
                         {SUBSCRIBE_TO_ONLINE_COURSES}
                     </Link>
                 </OptionWrapper>

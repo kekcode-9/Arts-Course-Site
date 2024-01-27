@@ -20,8 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en" className='h-full'>
       <body className={`h-full
-      ${vollkorn.className} text-white 
-      bg-neutral-dark-gray-bg`}>
+        ${vollkorn.className} text-white 
+        bg-neutral-dark-gray-bg`}
+      >
         <UserContextProvider>
           <CourseContextProvider>
             <CommonHeaderWrapper/>

@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useContext } from "react";
 import { UserContext } from "@/utilities/stores/userInfoStore";
 import { CourseContext } from "@/utilities/stores/courseContextStore";
@@ -52,7 +52,7 @@ export default function ProfileMarker() {
         bg-black"
       onClick={onClick}
     >
-      <Typography isHeader={false}>{getNameInitials()}</Typography>
+      <Typography isHeader={false} additionalClasses="pointer-events-none">{getNameInitials()}</Typography>
     </div>
   );
 }

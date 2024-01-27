@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -11,7 +11,6 @@ import Typography from "@/components/utility-components/typography";
 import constants from "@/utilities/constants/constants";
 import DarkArt from "@/public/henrickaau-art-dark.webp";
 import LightArt from "@/public/henrikaau-art-light.webp";
-import routes from "@/utilities/constants/routes";
 
 
 
@@ -130,11 +129,11 @@ export default function UserRegistrationWrapper() {
       </motion.div>
       <div
         className={`form-div
-                relative
-                flex flex-col gap-12 items-center justify-center
-                w-screen lg:w-[70%]
-                h-full
-            `}
+          relative
+          flex flex-col gap-12 items-center justify-center
+          w-screen lg:w-[70%]
+          h-full
+        `}
       >
         <div
             className="relative

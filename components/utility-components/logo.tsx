@@ -1,6 +1,5 @@
-"use client";
+'use client'
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import Typography from "./typography";
 import { getCurrentUser } from "@/lib/firebase/firebase-auth";
@@ -18,9 +17,7 @@ import Link from "next/link";
 
 const { ROOT, USER } = routes;
 
-const { HERO } = HOME_ROUTES;
-const { UPDATE_ROUTE } = ACTIONS.HOME_ROUTE_ACTIONS;
-const { REMOVE_USER } = ACTIONS.USER_ACTIONS;
+const { SET_HOME_TO_ROOT } = ACTIONS.HOME_ROUTE_ACTIONS;
 const { LOGO } = constants;
 const mobileLogoArr = LOGO.split(" ");
 
@@ -31,23 +28,24 @@ export function HeaderLogo() {
 
   useEffect(() => {
     getCurrentUser((user) => {
-      if (user?.uid === userId) {
+      if (user?.uid === userId && userId) {
         setHomeRoute(USER(userName as string));
       } else if(user?.uid && !userId) {
         // no user stored in context but someone is logged in
-        storeUserInContext(user, dispatch, () => {
-          setHomeRoute(USER(user.displayName as string));
-        })
+        // storeUserInContext(user, dispatch, (userData) => {
+        //   setHomeRoute(USER(user.displayName as string));
+        // })
       } else if (!user && userId) {
-        // user has been logged out
-        logoutUser();
-        dispatch({
-          type: REMOVE_USER
-        });
         setHomeRoute(ROOT);
       }
     })
   }, [])
+
+  useEffect(() => {
+    if (!userId) {
+      setHomeRoute(ROOT);
+    }
+  }, [userId])
 
   return (
     <Link
@@ -72,19 +70,19 @@ type LogoProps = {
 
 export default function Logo({ position, bottom, customInset }: LogoProps) {
   const { dispatch } = useContext(CourseContext);
-  const router = useRouter();
+
+  const backToRoot = () => {
+    dispatch({
+      type: SET_HOME_TO_ROOT
+    })
+  }
 
   return (
     <>
       <div
-        className="flex flex-col items-start w-[5rem] lg:hidden cursor-pointer"
-        onClick={() => {
-          router.push(ROOT);
-          dispatch({
-            type: UPDATE_ROUTE,
-            payload: HERO,
-          });
-        }}
+        className="lg:hidden
+        flex flex-col items-start w-[5rem] cursor-pointer"
+        onClick={backToRoot}
       >
         {mobileLogoArr.map((word) => {
           return (
@@ -100,12 +98,7 @@ export default function Logo({ position, bottom, customInset }: LogoProps) {
         })}
       </div>
       <motion.div
-        onClick={() => {
-          dispatch({
-            type: UPDATE_ROUTE,
-            payload: HERO,
-          });
-        }}
+        onClick={backToRoot}
         className={`${position || "absolute"} z-10 hidden lg:block
             ${customInset || `right-0 ${bottom || "bottom-12"} left-0`}  
             w-fit h-fit

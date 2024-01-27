@@ -5,17 +5,22 @@ import dbCollections from "../constants/dbCollections";
 import { ACTIONS } from "../constants/actions";
 import { User } from "firebase/auth";
 import webStorageItems from "../constants/web-storage-items";
+import { DocumentData } from "firebase/firestore";
 
 const { USER_EXISTS } = webStorageItems;
 
 const { USERS } = dbCollections;
 
-const { ADD_CURRENT_USER, ADD_APPLICATION_DATA } = ACTIONS.USER_ACTIONS;
+const { 
+    ADD_CURRENT_USER, 
+    ADD_APPLICATION_DATA, 
+    REMOVE_USER 
+} = ACTIONS.USER_ACTIONS;
 
 export function storeUserInContext (
     user: User,
     dispatch: React.Dispatch<actionType>,
-    callback?: () => void
+    callback?: (userData: DocumentData) => void
 ) {
     getDocumentFromDB(USERS, user.uid)
     .then((userData) => {
@@ -35,21 +40,25 @@ export function storeUserInContext (
                 applicationType: userData?.applicationType || undefined
             }
         })
-        callback && callback();
+        callback && callback(userData as DocumentData);
     })
+    .catch((error) => console.log(`storeUserInContext error - ${error}`))
 }
 
 export default function getUser(
     dispatch: React.Dispatch<actionType>, 
-    callback?: () => void
+    successCallback?: (userData?: DocumentData) => void,
+    errorCallback?: () => void
 ) {
     getCurrentUser((user) => {
         if (user) {
-            storeUserInContext(user, dispatch, callback);
-            localStorage.setItem(USER_EXISTS, 'true');
+            storeUserInContext(user, dispatch, successCallback);
         } else {
             localStorage.setItem(USER_EXISTS, 'false');
-            callback && callback();
+            dispatch({
+                type: REMOVE_USER
+            });
+            errorCallback && errorCallback();
         }
     })
 }
