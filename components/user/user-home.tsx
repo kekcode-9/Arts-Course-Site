@@ -201,9 +201,8 @@ function CardsRow({ rowHeader, cardsType, documentsArray, onImageClick }: CardsR
               const { thumbnail, title, from, link, blurDataURL } = cardItem;
   
               return (
-                <Link href={link} target="_blank">
+                <Link href={link} target="_blank" key={`${cardsType}-${i}`}>
                   <MiniCard
-                    key={`${cardsType}-${i}`}
                     image={thumbnail}
                     cardTitle={title}
                     quickInfo={from}
