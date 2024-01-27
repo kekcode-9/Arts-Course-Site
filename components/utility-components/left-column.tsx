@@ -1,13 +1,13 @@
-"use client";
+'use client'
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import { CourseContext, HOME_ROUTES } from "@/utilities/store";
+import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 import dynamicImports from "@/utilities/dynamic-imports";
-// import { ResourcesAdvertLargeLeftCol as ResourcesLeftCol } from "../home/resources-advert";
 
 const { HERO, COURSES_ADVERT, RESOURCES_ADVERT, INSTRUCTORS } = HOME_ROUTES;
 
+const ObjectiveSection = dynamicImports("hero", "ObjectiveSection");
 const HeroLeftImage = dynamicImports(HERO, "HeroLargeLeftColImage");
 const CoursesLeftCol = dynamicImports(
   COURSES_ADVERT,
@@ -116,7 +116,7 @@ export default function LeftColumn() {
     if (
       upperDivRef.current &&
       lowerDivRef.current &&
-      lastRoute === HERO &&
+      // lastRoute === HERO &&
       route === HERO &&
       !isSplashScreen
     ) {
@@ -150,20 +150,18 @@ export default function LeftColumn() {
         upperDivExitAnimationHero(tl);
 
         lowerDivTransitionCourses(tl);
-      } else if (lastRoute === COURSES_ADVERT) {
-        if (route === HERO) {
-          setShowContent(false);
-          const tl = gsap.timeline();
-          gsap.set(upperDivRef.current, {
-            display: "flex",
-            scaleY: 0,
-          });
-          upperDivEntryAnimationHero(tl);
+      } else if (route === HERO) {
+        setShowContent(false);
+        const tl = gsap.timeline();
+        gsap.set(upperDivRef.current, {
+          display: "flex",
+          scaleY: 0,
+        });
+        upperDivEntryAnimationHero(tl);
 
-          lowerDivEntryAnimationHero(true, tl);
-        } else {
-          lowerDivTransitionResources();
-        }
+        lowerDivEntryAnimationHero(true, tl);
+      } else if (lastRoute === COURSES_ADVERT && route === RESOURCES_ADVERT) {
+        lowerDivTransitionResources();
       } else if (lastRoute === RESOURCES_ADVERT) {
         gsap.to(lowerDivRef.current, {
           display: "block",
@@ -199,7 +197,7 @@ export default function LeftColumn() {
           bg-burnt-orange 
           scale-y-0"
       >
-        {route === HERO && dynamicImports("hero", "ObjectiveSection")}
+        {route === HERO && ObjectiveSection}
       </div>
       <div
         ref={lowerDivRef}

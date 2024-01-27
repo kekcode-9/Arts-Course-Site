@@ -9,12 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "firebase": "^10.7.1",
     "framer-motion": "^10.16.5",
     "gsap": "^3.12.3",
     "next": "13.5.6",
+    "next-cloudinary": "^5.18.0",
+    "plaiceholder": "^3.0.0",
     "react": "^18",
     "react-dom": "^18",
     "react-intersection-observer": "^9.5.3",
+    "react-use-downloader": "^1.2.4",
     "sharp": "^0.32.6"
   },
   "devDependencies": {

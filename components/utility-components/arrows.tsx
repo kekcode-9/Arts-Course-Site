@@ -4,7 +4,7 @@ import DownArrowRect from './svg-utilities/down-arrow-rect';
 import DownArrowTallRect from './svg-utilities/down-arrow-tall-rect';
 import DownArrowCircular from './svg-utilities/down-arrow-circular';
 import UpArrowcircular from './svg-utilities/up-arrow-circular';
-import { CourseContext, HOME_ROUTES } from '@/utilities/store';
+import { CourseContext, HOME_ROUTES } from '@/utilities/stores/courseContextStore';
 import { ACTIONS } from '@/utilities/constants/actions';
 
 const ROUTES = Object.values(HOME_ROUTES);
@@ -12,7 +12,7 @@ const {
     UPDATE_ROUTE,
     SET_SHOWBOTH,
     SET_ISLAST
-} = ACTIONS;
+} = ACTIONS.HOME_ROUTE_ACTIONS;
 
 export default function Arrows() {
     const { state, dispatch } = useContext(CourseContext);
@@ -58,10 +58,14 @@ export default function Arrows() {
   return (
     <div 
         className='Arrows
-        lg:absolute lg:bottom-[4.25rem] lg:grid lg:grid-cols-4
+        lg:absolute lg:bottom-[4.25rem]
         w-max lg:w-full lg:h-max'
     >
-        <div className='hidden lg:flex lg:flex-col items-end gap-6 col-end-4'>
+        <div 
+          className='hidden 
+          lg:flex lg:flex-col items-end gap-6 col-end-4 
+          lg:pr-[4.5rem] xl:pr-[6.5rem]'
+        >
             {showBoth ?
             <>
                 <DownArrowRect up={true} onClick={onArrowUp} />

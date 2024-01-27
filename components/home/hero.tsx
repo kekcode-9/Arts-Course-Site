@@ -7,9 +7,12 @@ import CTA from '../utility-components/cta';
 import Arrows from '../utility-components/arrows';
 import Typography from '../utility-components/typography';
 import constants from '@/utilities/constants/constants';
-import FruitBasket from '@/public/fruit-basket.webp';
-import BackAnatomy from '@/public/back-anatomy.webp';
+import RobertKelleysCowboys from '@/public/robert-kelley-cowboys.webp';
+import BaumansGirls from '@/public/bauman-04.webp';
 import ValuesOfHead from '@/public/values-of-head.webp';
+import routes from '@/utilities/constants/routes';
+
+const { STUDENT_APPLICATION, INSTRUCTOR_APPLICATION } = routes;
 
 const { 
     OR, 
@@ -54,14 +57,14 @@ export function ApplySection () {
                 </Typography>
             </span>
             <span ref={spanRefs[1]}>
-                <Link href='/student-application'>
+                <Link href={STUDENT_APPLICATION}>
                     <CTA label={ APPLY_NOW } primary={true} />
                 </Link>
             </span>
             <span ref={spanRefs[2]}>
                 <Typography isHeader={false}>
                     { OR } <br/> 
-                    <Link href='/instructor-application'>
+                    <Link href={INSTRUCTOR_APPLICATION}>
                         <span className='underline'> { ARE_YOU_INSTRUCTOR } </span> ?
                     </Link>
                 </Typography>
@@ -81,7 +84,7 @@ export function HeaderSection () {
 export function ObjectiveSection () {
     return (
         <Typography
-            additionalClasses='lg:w-full xl:w-1/2 lg:text-left text-center font-extralight px-[3rem] xl:px-[0rem]'
+            additionalClasses='lg:w-full xxl:w-1/2 lg:text-left text-center px-[3rem] xxl:px-[0rem]'
             isHeader={false}
             animateEntrance={true}
         >
@@ -111,8 +114,8 @@ export function HeroLargeLeftColImage () {
     const MotionImage = motion(Image);
     return (
         <MotionImage 
-            src={FruitBasket}
-            alt='fruit basket still life drawing'
+            src={RobertKelleysCowboys}
+            alt='Art by Robert Kelley'
             fill
             objectFit='cover'
             loading='lazy'
@@ -162,8 +165,8 @@ export function HeroLargeRightImage() {
 
     return (
         <MotionImage
-            src={BackAnatomy}
-            alt='back anatomy sketch'
+            src={BaumansGirls}
+            alt='Art by Stephen Bauman'
             fill
             objectFit='cover'
             loading='lazy'

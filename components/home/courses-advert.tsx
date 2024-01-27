@@ -1,5 +1,5 @@
-"use client";
-import React, { useEffect, useState, useRef, useContext, useCallback } from "react";
+'use client'
+import React, { useEffect, useState, useRef, useContext } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import gsap from "gsap";
@@ -8,12 +8,15 @@ import dynamic from "next/dynamic";
 import Typography from "../utility-components/typography";
 import CTA from "../utility-components/cta";
 import Logo from "../utility-components/logo";
+import routes from "@/utilities/constants/routes";
 import constants from "@/utilities/constants/constants";
 import DownArrowPlain from "../utility-components/svg-utilities/down-arrow-plain";
-import Skeletons from "@/public/skeletons.png";
-import { CourseContext, HOME_ROUTES } from "@/utilities/store";
+import SummerBreeze from "@/public/summer-breeze-lena-rivo.webp";
+import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 
 const { HERO } = HOME_ROUTES;
+
+const { COURSES } = routes;
 
 const Slider = dynamic(
   () => import("../../components/utility-components/slider"),
@@ -188,7 +191,7 @@ export function MiddleColumn() {
       >
         {
           showCTA && 
-          <Link href='/courses'>
+          <Link href={COURSES}>
             <CTA label={EXPLORE_ALL_COURSES} primary={false} />
           </Link>
         }
@@ -211,12 +214,12 @@ export function CourseAdvertLargeRightImage() {
 
   return (
     <MotionImage
-      src={Skeletons}
-      alt="back anatomy sketch"
+      src={SummerBreeze}
+      alt="Summer Breeze by Lena Rivo"
       fill
       loading="lazy"
       placeholder="blur"
-      className="object-contain"
+      className="object-cover"
       initial={{
         opacity: 0,
       }}
@@ -255,8 +258,8 @@ export function CourseAdvertMobile() {
       }}
     >
       <Image
-        src={Skeletons}
-        alt="skeletons"
+        src={SummerBreeze}
+        alt="Summer Breeze by Lena Rivo"
         placeholder="blur"
         fill
         objectFit="cover"

@@ -1,15 +1,16 @@
 import React from 'react';
-import StudentForm from '@/components/student-application/student-form';
+import StudentApplicationWrapper from '@/components/student-application/wrapper';
 
 export default function StudentApplication() {
+
   return (
     <section
         className={`
-        flex flex-col items-center
-        w-screen h-max
+          flex flex-col items-center
+          w-screen h-max min-h-full
         `}
     >
-        <StudentForm/>
+      <StudentApplicationWrapper/>
     </section>
   )
 }

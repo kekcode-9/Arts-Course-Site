@@ -27,7 +27,8 @@ const config: Config = {
       'error-red': '#ff1800',
       'dirty-white': '#E7DFDF',
       'gray-500': '#828282',
-      'transparent': 'transparent'
+      'transparent': 'transparent',
+      'golden': '#F8B91A'
     },
     minHeight: {
       '1/2': '50%',
@@ -35,10 +36,12 @@ const config: Config = {
       'fit': 'fit-content'
     },
     screens: {
-      'xl': '1599px',
+      'xxl': '1599px',
+      'xl': '1273px',
       'lg': '920px',
       'md': '768px',
-      'sm': '640px'
+      'sm': '640px',
+      'xsm': '550px'
     }
   },
   plugins: [],
