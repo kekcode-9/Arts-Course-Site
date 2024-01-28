@@ -18,91 +18,108 @@ const { INSTRUCTORS } = dbCollections;
 const { MEET_INSTRUCTORS, SEE_ALL_INSTRUCTORS } = constants;
 
 export function InstructorSkeleton() {
-    const [flexDirection, setFlexDirection] = useState("flex-row");
+  const [flexDirection, setFlexDirection] = useState("flex-row");
 
-    useEffect(() => {
-        const changeFlexDirection = () => {
-          if (screen.width <= 1100) {
-            setFlexDirection("flex-col");
-          } else {
-            setFlexDirection("flex-row");
-          }
-        };
-        changeFlexDirection();
-        if (window) {
-          window.addEventListener("resize", changeFlexDirection);
-        }
-        return () => {
-          window && window.removeEventListener("resize", changeFlexDirection);
-        };
-      }, []);
-    
-    return (
+  const divRefs: React.MutableRefObject<HTMLDivElement[]> = useRef([]);
+
+  useEffect(() => {
+    if (divRefs.current) {
+      gsap.to(divRefs.current, {
+        opacity: 0.3,
+        repeat: -1,
+        yoyo: true,
+      });
+    }
+
+    const changeFlexDirection = () => {
+      if (screen.width <= 1100) {
+        setFlexDirection("flex-col");
+      } else {
+        setFlexDirection("flex-row");
+      }
+    };
+    changeFlexDirection();
+    if (window) {
+      window.addEventListener("resize", changeFlexDirection);
+    }
+    return () => {
+      window && window.removeEventListener("resize", changeFlexDirection);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={(ele) => ele && divRefs.current.push(ele)}
+      className={`instructor-skeleton
+        flex ${flexDirection} gap-4 
+        items-start justify-center 
+        w-fit h-fit 
+        p-4
+        cursor-pointer`}
+    >
+      <div
+        ref={(ele) => ele && divRefs.current.push(ele)}
+        className="relative flex items-start
+          w-[4.5rem] md:w-[6.5rem] 
+          h-[4.5rem] md:h-[6.5rem] 
+          border-4 border-double border-[#C5C5C5]
+          rounded-full 
+          overflow-clip"
+      />
+      <div
+        className={`flex flex-col gap-4 items-start
+          w-[20rem]`}
+      >
         <div
-            className={`instructor-skeleton
-            flex ${flexDirection} gap-4 
-            items-start justify-center 
-            w-fit h-fit 
-            p-4
-            font-semibold
-            cursor-pointer`}
+          className="flex flex-col gap-1 items-start
+            w-full"
         >
-            <div
-                className="relative flex items-start
-                    w-[4.5rem] md:w-[6.5rem] 
-                    h-[4.5rem] md:h-[6.5rem] 
-                    border-4 border-double border-[#C5C5C5]
-                    rounded-full 
-                    overflow-clip"
-            />
-            <div
-                className={`flex flex-col gap-4 items-start
-                w-[20rem]`}
-            >
-                <div className="flex flex-col gap-1 items-start
-                w-full">
-                    <div
-                        className={`
-                            w-[40%]
-                            h-[8px] 
-                            rounded-[20px]
-                            bg-dirty-white
-                            opacity-60
-                        `}
-                    />
-                    <div
-                        className={`
-                            w-full
-                            h-[8px] 
-                            rounded-[20px]
-                            bg-dirty-white
-                            opacity-60
-                        `}
-                    />
-                </div>
-                <div className="flex flex-col items-start gap-2 w-full">
-                    <div
-                        className={`
-                            w-full
-                            h-[12px] 
-                            rounded-[20px]
-                            bg-dirty-white
-                            opacity-60
-                        `}
-                    />
-                    <div
-                        className={`
-                            w-full
-                            h-[12px] 
-                            rounded-[20px]
-                            bg-dirty-white
-                            opacity-60
-                        `}
-                    />
-                </div>
-            </div>
+          <div
+            ref={(ele) => ele && divRefs.current.push(ele)}
+            className={`
+              w-[40%]
+              h-[8px] 
+              rounded-[20px]
+              bg-dirty-white
+              opacity-60
+            `}
+          />
+          <div
+            ref={(ele) => ele && divRefs.current.push(ele)}
+            className={`
+              w-full
+              h-[8px] 
+              rounded-[20px]
+              bg-dirty-white
+              opacity-60
+            `}
+          />
         </div>
-    )
+        <div className="flex flex-col items-start gap-2 w-full">
+          <div
+            ref={(ele) => ele && divRefs.current.push(ele)}
+            className={`
+              w-full
+              h-[12px] 
+              rounded-[20px]
+              bg-dirty-white
+              opacity-60
+            `}
+          />
+          <div
+            ref={(ele) => ele && divRefs.current.push(ele)}
+            className={`
+              w-full
+              h-[12px] 
+              rounded-[20px]
+              bg-dirty-white
+              opacity-60
+            `}
+          />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 type CardProps = {
@@ -115,7 +132,7 @@ export function InstructorCard({ cardItem, id, tl }: CardProps) {
   const { image, name, experties, experience } = cardItem;
   const [flexDirection, setFlexDirection] = useState("flex-row");
   const cardRef = useRef<HTMLDivElement | null>(null);
-  const instructor = name.toLowerCase().split(' ').join('-');
+  const instructor = name.toLowerCase().split(" ").join("-");
 
   useEffect(() => {
     const changeFlexDirection = () => {
@@ -159,7 +176,6 @@ export function InstructorCard({ cardItem, id, tl }: CardProps) {
           items-start justify-center 
           w-max h-max 
           p-4
-          font-semibold
           cursor-pointer
           opacity-0`}
       >
@@ -229,7 +245,7 @@ export function InstructorCards({ tl, getAll }: InstructorCardsProps) {
         flex flex-wrap gap-6 sm:gap-8 max-lg:justify-start
         w-full h-fit max-h-[55vh]
         max-sm:px-8 max-lg:px-16 lg:pr-[4.5rem] xl:pr-[6.5rem] 
-        ${getAll ? 'px-8 md:px-16 pr-8 md:pr-16' : 'lg:pr-[6.5rem]'} pb-16
+        ${getAll ? "px-8 md:px-16 pr-8 md:pr-16" : "lg:pr-[6.5rem]"} pb-16
         overflow-scroll
       `}
       exit={{
@@ -240,22 +256,20 @@ export function InstructorCards({ tl, getAll }: InstructorCardsProps) {
         },
       }}
     >
-      {
-        instructors ?
-        instructors.map((instructor, i) => {
-          return (
-            <InstructorCard
-              cardItem={instructor as InstructorType}
-              id={instructor.id}
-              tl={tl}
-              key={i}
-            />
-          );
-        }):
-        new Array(4).fill('').map((item, i) => {
-            return <InstructorSkeleton key={`skele-${i}`}/>
-        })
-      }
+      {instructors
+        ? instructors.map((instructor, i) => {
+            return (
+              <InstructorCard
+                cardItem={instructor as InstructorType}
+                id={instructor.id}
+                tl={tl}
+                key={i}
+              />
+            );
+          })
+        : new Array(4).fill("").map((item, i) => {
+            return <InstructorSkeleton key={`skele-${i}`} />;
+          })}
     </motion.div>
   );
 }
@@ -263,7 +277,7 @@ export function InstructorCards({ tl, getAll }: InstructorCardsProps) {
 function Header() {
   return (
     <Typography
-      additionalClasses="text-left font-normal md:font-bold"
+      additionalClasses="text-left"
       size="text-2xl md:text-[2rem]"
       isHeader={false}
     >
@@ -310,29 +324,30 @@ export function InstructorLargeLeft() {
           pl-[6.5rem] pt-[1.7rem]
           overflow-clip"
       >
-        <div
-            className="flex flex-col gap-2 items-start"
-        >
-            <motion.div
+        <div className="flex flex-col gap-2 items-start">
+          <motion.div
             ref={headerDivRef}
             className="flex items-center 
                     w-full 
                     min-h-[6rem] md:h-28 lg:h-[7rem]"
             exit={{
-                translateY: "-14px",
-                opacity: 0,
-                transition: {
+              translateY: "-14px",
+              opacity: 0,
+              transition: {
                 duration: 0.5,
-                },
+              },
             }}
+          >
+            <Header />
+          </motion.div>
+          <Link href={routes.INSTRUCTORS}>
+            <Typography
+              isHeader={false}
+              additionalClasses="underline cursor-pointer"
             >
-              <Header />
-            </motion.div>
-            <Link href={routes.INSTRUCTORS}>
-              <Typography isHeader={false} additionalClasses="underline cursor-pointer">
-                  {SEE_ALL_INSTRUCTORS}
-              </Typography>
-            </Link>
+              {SEE_ALL_INSTRUCTORS}
+            </Typography>
+          </Link>
         </div>
         <InstructorCards tl={tl} />
       </div>

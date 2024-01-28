@@ -156,7 +156,7 @@ export default function HomePage() {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
         scrollAction(e);
-      }, 300);
+      }, 500);
     };
 
     if (pathname === routes.ROOT) {
@@ -164,12 +164,16 @@ export default function HomePage() {
     }
     // comment out the stuff above in case of scroll glitches
 
-    const scrollEvent = (e: KeyboardEvent) => {
-      scrollAction(null, e.key);
+    const deboncedScrollEvent = (e: KeyboardEvent) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        scrollAction(null, e.key);
+      }, 500);
     };
-    window.addEventListener("keydown", scrollEvent);
+    window.addEventListener("keydown", deboncedScrollEvent);
+
     return () => {
-      window.removeEventListener("keydown", scrollEvent);
+      window.removeEventListener("keydown", deboncedScrollEvent);
       window.removeEventListener("wheel", debounceWheelScroll);
     };
   }, [scrollAction, onArrowDown, onArrowUp]);

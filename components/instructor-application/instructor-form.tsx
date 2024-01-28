@@ -1,6 +1,7 @@
 "use client";
-import React, { useCallback, useState, useContext } from "react";
-import { UserContext } from "@/utilities/stores/userInfoStore";
+import React, { useCallback, useState } from "react";
+import { motion } from "framer-motion";
+import * as EmailValidator from 'email-validator';
 import BasicInput, {
   FormWrapper,
   DropdownInput,
@@ -355,8 +356,12 @@ export default function InstructorForm() {
       updateUncheckedFields(unchecked);
 
       if (!unchecked.length) {
-        addToForm(formContent as ApplicationType, "basics");
-        setCurrentSection(2);
+        if (EmailValidator.validate(formContent?.email as string)) {
+          addToForm(formContent as ApplicationType, "basics");
+          setCurrentSection(2);
+        } else {
+          alert('Please enter a valid email id')
+        }
       } else {
         alert("Please fill up all the mandatory fields");
       }
@@ -596,6 +601,11 @@ export default function InstructorForm() {
             [lastKey]: [...unchecked],
           });
           alert(`Joining date should precede ending date.`);
+          return false;
+        }
+
+        if (!EmailValidator.validate(lastForm.referencePerson as string)) {
+          alert('Please enter valid email id for reference person');
           return false;
         }
       } else {
@@ -872,28 +882,50 @@ export default function InstructorForm() {
               flex justify-center gap-[4rem]
               w-full"
           >
-            <span
+            <motion.span
               className={`
                   pb-[2px] 
-                  ${currentSection === 1 && "border-b border-b-whit"}
                   cursor-pointer
               `}
+              initial={{
+                borderWidth: 0
+              }}
+              animate={
+                currentSection === 1 ? {
+                  borderBottomWidth: '1px',
+                  transition: {
+                    duration: 0.3
+                  }
+                } : {
+                  borderBottomWidth: '0px'
+                }
+              }
             >
               <Typography isHeader={false} animateEntrance={true}>
                 1
               </Typography>
-            </span>
-            <span
+            </motion.span>
+            <motion.span
               className={`
                   pb-[2px] 
-                  ${currentSection === 2 && "border-b border-b-whit"}
                   cursor-pointer
               `}
+              initial={{
+                borderWidth: 0
+              }}
+              animate={
+                currentSection === 2 && {
+                  borderBottomWidth: '1px',
+                  transition: {
+                    duration: 0.3
+                  }
+                }
+              }
             >
               <Typography isHeader={false} animateEntrance={true}>
                 2
               </Typography>
-            </span>
+            </motion.span>
           </div>
           {currentSection === 1 ? <FormSlideBasic /> : <FormSlideExperience />}
         </FormWrapper>

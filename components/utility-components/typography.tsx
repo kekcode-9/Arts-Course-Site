@@ -8,6 +8,7 @@ type TypographyProps = {
   isHeader: boolean;
   isInputLabel?: boolean;
   size?: string;
+  weight?: string;
   isSplash?: boolean;
   animateEntrance?: boolean;
   animateDelay?: number;
@@ -20,6 +21,7 @@ export default function Typography({
   isHeader,
   isInputLabel,
   size,
+  weight,
   isSplash,
   animateEntrance,
   animateDelay,
@@ -98,7 +100,8 @@ export default function Typography({
         className={`
             ${size || "text-base md:text-lg"}
             ${additionalClasses}
-            ${animateEntrance && "opacity-0"} font-medium 
+            ${weight || 'font-medium'}
+            ${animateEntrance && "opacity-0"} 
         `}
         onClick={onClick}
       >

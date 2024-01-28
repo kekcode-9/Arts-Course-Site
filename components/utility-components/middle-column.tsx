@@ -71,72 +71,70 @@ export default function MiddleColumn({
   }, [lowerDivRef.current, isSplashScreen]);
 
   useEffect(() => {
-    if (upperDivRef.current && lowerDivRef.current) {
-      if (lastRoute === HERO && route === COURSES_ADVERT) {
-        setShowUpperContent(false);
-        setShowLowerContent(false);
-        const tl = gsap.timeline();
-        tl.to(lowerDivRef.current, {
-          scaleY: 0,
-          transformOrigin: 'bottom',
-          duration: 0.5,
-          onComplete: () => {
-            gsap.set(lowerDivRef.current, {
-              display: 'none'
-            });
-          }
-        });
-        tl.to(upperDivRef.current, {
-          height: '100%',
-          onComplete: () => {
-            setShowUpperContent(true);
-          }
-        });
-      } else if (route === HERO && lastRoute !== route) {
-        setShowUpperContent(false);
-        const tl = gsap.timeline();
-        if (lastRoute === INSTRUCTORS) {
-          // show middle div
-          tl.set(divRef.current, {
-            display: 'block',
-            opacity: 1
-          })
+    if (lastRoute === HERO && route === COURSES_ADVERT) {
+      setShowUpperContent(false);
+      setShowLowerContent(false);
+      const tl = gsap.timeline();
+      tl.to(lowerDivRef.current, {
+        scaleY: 0,
+        transformOrigin: 'bottom',
+        duration: 0.5,
+        onComplete: () => {
+          gsap.set(lowerDivRef.current, {
+            display: 'none'
+          });
         }
-        tl.set(lowerDivRef.current, {
-          display: 'flex',
-        });
-        tl.to(upperDivRef.current, {
-          height: '50%',
-          delay: 0.5,
-          onComplete: () => {
-            setShowUpperContent(true);
-          }
-        })
-        tl.to(lowerDivRef.current, {
-          scaleY: 1,
-          duration: 0.5,
-          onComplete: () => {
-            setShowLowerContent(true);
-          }
-        });
-      } else if (route === INSTRUCTORS) {
-        // hide middle div
-        gsap.to(divRef.current, {
-          display: 'none',
-          delay: 0.5
-        })
-      } else if (lastRoute === INSTRUCTORS && route === RESOURCES_ADVERT) {
+      })
+      .to(upperDivRef.current, {
+        height: '100%',
+        onComplete: () => {
+          setShowUpperContent(true);
+        }
+      });
+    } else if (route === HERO && lastRoute !== route) {
+      setShowUpperContent(false);
+      const tl = gsap.timeline();
+      if (lastRoute === INSTRUCTORS) {
         // show middle div
-        const tl = gsap.timeline();
         tl.set(divRef.current, {
           display: 'block',
-          opacity: 0
-        })
-        .to(divRef.current, {
-          opacity: 1,
-          delay: 1
+          opacity: 1
         })
       }
+      tl.set(lowerDivRef.current, {
+        display: 'flex',
+      });
+      tl.to(upperDivRef.current, {
+        height: '50%',
+        delay: 0.5,
+        onComplete: () => {
+          setShowUpperContent(true);
+        }
+      })
+      tl.to(lowerDivRef.current, {
+        scaleY: 1,
+        duration: 0.5,
+        onComplete: () => {
+          setShowLowerContent(true);
+        }
+      });
+    } else if (route === INSTRUCTORS) {
+      // hide middle div
+      gsap.to(divRef.current, {
+        display: 'none',
+        delay: 0.5
+      })
+    } else if (lastRoute === INSTRUCTORS && route === RESOURCES_ADVERT) {
+      // show middle div
+      const tl = gsap.timeline();
+      tl.set(divRef.current, {
+        display: 'block',
+        opacity: 0
+      })
+      .to(divRef.current, {
+        opacity: 1,
+        delay: 1
+      })
     }
   }, [lastRoute, route])
 

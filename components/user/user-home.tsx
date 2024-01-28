@@ -134,7 +134,7 @@ function MiniCard({
           {secondaryInfo && (
             <div
               className="secondary-info
-              text-gray-500 font-medium"
+              text-gray-500"
             >
               <Typography isHeader={false} size="text-base">
                 {secondaryInfo}
@@ -144,7 +144,7 @@ function MiniCard({
           {quickInfo && (
             <div
               className="quick-info
-              text-gray-500 font-medium"
+              text-gray-500"
             >
               {React.isValidElement(quickInfo) ? (
                 quickInfo

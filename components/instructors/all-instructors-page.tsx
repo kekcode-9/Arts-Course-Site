@@ -21,7 +21,7 @@ export default function AllInstructors() {
         pt-[8.5rem] sm:pt-[10.5rem] pb-16'
     >
         <Typography
-            additionalClasses="text-left font-normal md:font-bold
+            additionalClasses="text-left 
             px-8 md:px-16"
             size="text-2xl md:text-[2rem]"
             isHeader={false}

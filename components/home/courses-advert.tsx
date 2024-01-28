@@ -188,7 +188,8 @@ export function MiddleColumn() {
         </Typography>
         <Typography
           isHeader={false}
-          additionalClasses="max-w-[80%] m-auto font-light"
+          additionalClasses="max-w-[80%] m-auto"
+          weight="font-light"
           size="text-4xl"
         >
           {PLUS}

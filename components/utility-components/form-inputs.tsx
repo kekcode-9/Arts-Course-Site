@@ -91,7 +91,7 @@ function InputWrapper({
       {children}
       {isDropdown && (
         <motion.span
-          className="absolute top-[3.2rem] right-[0.5rem]
+          className="absolute top-[3.75rem] right-[0.5rem]
           w-fit h-fit 
           p-2 
           cursor-pointer

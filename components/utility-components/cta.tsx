@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import gsap from 'gsap';
+import Typography from './typography';
 
 type CTAProps = {
     label: string;
@@ -69,7 +70,9 @@ export default function CTA({
           onClick && onClick(e);
         }}
     >
-      {label}
+      <Typography isHeader={false}>
+        {label}
+      </Typography>
       <motion.div 
         className={`absolute -z-[2]
         w-full h-full

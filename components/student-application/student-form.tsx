@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
+import * as EmailValidator from 'email-validator';
 import BasicInput, {
   FormWrapper,
   DropdownInput,
@@ -444,8 +445,13 @@ export default function StudentForm() {
           }
         });
       updateUncheckedFields(unchecked);
-      if (!unchecked.length) {
-        sendDocumentToDB(studentApplicationForm as ApplicationType);
+      if (!unchecked.length && studentApplicationForm !== undefined) {
+        if (EmailValidator.validate(studentApplicationForm.email as string)) {
+          sendDocumentToDB(studentApplicationForm as ApplicationType);
+        } else {
+          e.preventDefault();
+          alert('Please enter valid email.')
+        }
       } else {
         e.preventDefault();
       }
