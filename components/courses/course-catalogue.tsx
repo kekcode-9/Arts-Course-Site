@@ -229,7 +229,12 @@ function RatingFilterOptions({
       className="flex items-center gap-2 cursor-pointer"
       onClick={() => onRatingSelect(starCount)}
     >
-      <span className="flex gap-[2px]">
+      <span className="flex sm:hidden gap-[2px]">
+        {new Array(starCount).fill("").map((item, i) => {
+          return <StarIcon small outline={!active} key={i} fill="white" />;
+        })}
+      </span>
+      <span className="flex max-sm:hidden gap-[2px]">
         {new Array(starCount).fill("").map((item, i) => {
           return <StarIcon outline={!active} key={i} fill="white" />;
         })}

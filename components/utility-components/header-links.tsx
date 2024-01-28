@@ -6,7 +6,6 @@ import constants from "@/utilities/constants/constants";
 import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
 import routes from "@/utilities/constants/routes";
 import Menu from "./menu-utility/menu";
-import MenuContent from "./menu-utility/menu-content";
 import Typography from "./typography";
 
 const { LOGIN_SIGNUP } = routes;
@@ -22,7 +21,6 @@ type HeaderLinksProps = {
 
 export default function HeaderLinks({
   hideOnLarge,
-  height,
 }: HeaderLinksProps) {
   const { state } = useContext(CourseContext);
   const { route, lastRoute, isSplashScreen } = state;
@@ -34,7 +32,7 @@ export default function HeaderLinks({
         duration: 0.5,
       });
     }
-  }, [headerRef.current, isSplashScreen]);
+  }, [headerRef.current, isSplashScreen, hideOnLarge]);
 
   useEffect(() => {
     if (lastRoute !== route && route === COURSES_ADVERT && headerRef.current) {
@@ -56,19 +54,20 @@ export default function HeaderLinks({
       <div
         ref={headerRef}
         className={`header-links-wrapper
-              ${hideOnLarge && "lg:hidden"}
-              relative z-10
-              max-lg:fixed max-lg:z-[100] 
-              flex lg:justify-end
-              max-lg:items-center max-lg:justify-between 
-              w-full
-              min-h-[6rem] md:h-28 lg:h-[25%]
-              lg:pt-[7.75rem] 
-              max-sm:px-8 max-lg:px-16 lg:pr-[4.5rem] xl:pr-[6.5rem]
-              md:text-xl text-lg
-              bg-burnt-orange
-              lg:-translate-y-full
-          `}
+          ${hideOnLarge && "lg:hidden"}
+          relative z-10
+          max-lg:fixed max-lg:z-[100] 
+          flex lg:justify-end
+          max-lg:items-center max-lg:justify-between 
+          w-full
+          min-h-[6rem] md:h-28 lg:h-[25%]
+          lg:pt-[7.75rem] 
+          max-sm:px-8 max-lg:px-16 lg:pr-[4.5rem] xl:pr-[6.5rem]
+          md:text-xl text-lg
+          bg-burnt-orange
+          lg:-translate-y-full
+          ${hideOnLarge && isSplashScreen && '-translate-y-24'}
+        `}
       >
         <Link 
           href={LOGIN_SIGNUP} 

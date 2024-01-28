@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useEffect, useState, useRef, useContext } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -12,7 +12,10 @@ import routes from "@/utilities/constants/routes";
 import constants from "@/utilities/constants/constants";
 import DownArrowPlain from "../utility-components/svg-utilities/down-arrow-plain";
 import SummerBreeze from "@/public/summer-breeze-lena-rivo.webp";
-import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStore";
+import {
+  CourseContext,
+  HOME_ROUTES,
+} from "@/utilities/stores/courseContextStore";
 
 const { HERO } = HOME_ROUTES;
 
@@ -51,26 +54,26 @@ export function MiddleColumn() {
       coursesWrapperRef.current &&
       ctaSpanRef.current
     ) {
-        const tl = gsap.timeline();
-        tl.to(headerSpanRef.current, {
-            opacity: 1,
-            translateY: '0px',
-            duration: 0.3
-        })
+      const tl = gsap.timeline();
+      tl.to(headerSpanRef.current, {
+        opacity: 1,
+        translateY: "0px",
+        duration: 0.3,
+      })
         .to(arrowSpanRef.current, {
-            scaleY: 1,
-            transformOrigin: 'top',
-            duration: 0.3
+          scaleY: 1,
+          transformOrigin: "top",
+          duration: 0.3,
         })
         .to(coursesWrapperRef.current, {
-            opacity: 1,
-            translateY: '0px',
-            duration: 0.3,
+          opacity: 1,
+          translateY: "0px",
+          duration: 0.3,
         })
         .to(ctaSpanRef.current, {
-            opacity: 1,
-            duration: 0.1,
-            onComplete: () => setShowCTA(true)
+          opacity: 1,
+          duration: 0.1,
+          onComplete: () => setShowCTA(true),
         });
     }
   }, [arrowSpanRef.current, coursesWrapperRef.current, ctaSpanRef.current]);
@@ -84,8 +87,8 @@ export function MiddleColumn() {
         if (!mounted) {
           gsap.to(arrowSpanRef.current, {
             scaleY: 1,
-            transformOrigin: 'top',
-            duration: 0.3
+            transformOrigin: "top",
+            duration: 0.3,
           });
         }
       }
@@ -123,44 +126,48 @@ export function MiddleColumn() {
         },
       }}
     >
-        <motion.span 
-          ref={headerSpanRef} 
-          className="opacity-0 translate-y-[20px]"
-          exit={{
-            translateY: route === HERO ? '20px' : '-20px',
-            transition: {
-              duration: 0.3
-            }
-          }}
+      <motion.span
+        ref={headerSpanRef}
+        className="opacity-0 translate-y-[20px]"
+        exit={{
+          translateY: route === HERO ? "20px" : "-20px",
+          transition: {
+            duration: 0.3,
+          },
+        }}
+      >
+        <Typography
+          additionalClasses="max-w-[80%] m-auto"
+          isHeader={false}
+          size="text-2xl"
         >
-            <Typography
-                additionalClasses="max-w-[80%] m-auto"
-                isHeader={false}
-                size="text-2xl"
-            >
-                {WE_OFFER}
-            </Typography>
-        </motion.span>
+          {WE_OFFER}
+        </Typography>
+      </motion.span>
       {showArrow && (
-        <motion.span 
-          ref={arrowSpanRef} 
+        <motion.span
+          ref={arrowSpanRef}
           className="scale-y-0"
-          initial={{
-            // scaleY: 0
-          }}
-          animate={{
-            // scaleY: 1,
-            // transformOrigin: 'top',
-            // transition: {
-            //   duration: 0.3
-            // }
-          }}
+          initial={
+            {
+              // scaleY: 0
+            }
+          }
+          animate={
+            {
+              // scaleY: 1,
+              // transformOrigin: 'top',
+              // transition: {
+              //   duration: 0.3
+              // }
+            }
+          }
           exit={{
             scaleY: 0,
-            transformOrigin: 'top',
+            transformOrigin: "top",
             transition: {
-              duration: 0.2
-            }
+              duration: 0.2,
+            },
           }}
         >
           <DownArrowPlain />
@@ -170,31 +177,32 @@ export function MiddleColumn() {
         ref={coursesWrapperRef}
         className="flex flex-col gap-2 lg:gap-6 items-center opacity-0 translate-y-[20px]"
         exit={{
-          translateY: route === HERO ? '20px' : '-20px',
+          translateY: route === HERO ? "20px" : "-20px",
           transition: {
-            duration: 0.3
-          }
+            duration: 0.3,
+          },
         }}
       >
         <Typography isHeader={false} additionalClasses="max-w-[80%] m-auto">
           {IN_PERSON_COURSES}
         </Typography>
-        <Typography isHeader={false} additionalClasses="max-w-[80%] m-auto">
+        <Typography
+          isHeader={false}
+          additionalClasses="max-w-[80%] m-auto font-light"
+          size="text-4xl"
+        >
           {PLUS}
         </Typography>
         <Typography isHeader={false} additionalClasses="max-w-[80%] m-auto">
           {INTERACTIVE_ONLINE}
         </Typography>
       </motion.div>
-      <span ref={ctaSpanRef} 
-        className="w-52 h-[48px] opacity-0"
-      >
-        {
-          showCTA && 
+      <span ref={ctaSpanRef} className="w-52 h-[48px] opacity-0">
+        {showCTA && (
           <Link href={COURSES}>
             <CTA label={EXPLORE_ALL_COURSES} primary={false} />
           </Link>
-        }
+        )}
       </span>
     </motion.div>
   );
@@ -247,15 +255,19 @@ export function CourseAdvertMobile() {
       className="relative flex items-center flex-grow 
       w-full h-fit
       overflow-scroll"
-      initial={screen.width < 920 && {
-        opacity: 0
-      }}
-      animate={ screen.width < 920 && {
-        opacity: 1,
-        transition: {
-          duration: 0.5
+      initial={
+        screen.width < 920 && {
+          opacity: 0,
         }
-      }}
+      }
+      animate={
+        screen.width < 920 && {
+          opacity: 1,
+          transition: {
+            duration: 0.5,
+          },
+        }
+      }
     >
       <Image
         src={SummerBreeze}

@@ -21,7 +21,8 @@ export default function RootLayout({
     <html lang="en" className='h-full'>
       <body className={`h-full
         ${raleway.className} text-white 
-        bg-neutral-dark-gray-bg`}
+        bg-neutral-dark-gray-bg cursor-default
+      `}
       >
         <UserContextProvider>
           <CourseContextProvider>

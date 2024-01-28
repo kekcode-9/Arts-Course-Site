@@ -166,8 +166,7 @@ export default function UserRegistrationWrapper() {
             flex items-center justify-center
             w-screen sm:w-fit 
             h-fit
-            px-[2rem] 
-            backdrop-blur-sm"
+            px-[2rem]"
         >
           {hasAccount ? <LoginForm /> : <SignupForm />}
         </div>
@@ -188,7 +187,7 @@ export default function UserRegistrationWrapper() {
             placeholder="blur"
             fill
             className={`
-              object-cover
+              object-cover blur-[32px]
             `}
           />
         </div>

@@ -45,7 +45,7 @@ function InputWrapper({
           {mandatory && (
             <Typography
               isHeader={false}
-              size="text-2xl"
+              size="text-4xl"
               additionalClasses="text-orange"
             >
               *

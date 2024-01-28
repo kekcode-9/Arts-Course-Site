@@ -81,18 +81,22 @@ export default function Logo({ position, bottom, customInset }: LogoProps) {
     <>
       <div
         className="lg:hidden
-        flex flex-col items-start w-[5rem] cursor-pointer"
+        flex flex-col items-start gap-1 w-[5rem] cursor-pointer"
         onClick={backToRoot}
       >
         {mobileLogoArr.map((word) => {
           return (
-            <Typography
-              isHeader={false}
-              size={"1rem"}
+            <span
               key={word}
+              className="pb-[2px] border-b border-b-white"
             >
-              <u>{word}</u>
-            </Typography>
+              <Typography
+                isHeader={false}
+                size={"1rem"}
+              >
+                {word}
+              </Typography>
+            </span>
           );
         })}
       </div>
