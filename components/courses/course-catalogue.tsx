@@ -63,8 +63,8 @@ function CardSkeleton ({
   return (
     <div
       className={`
-        ${width || 'w-[18rem] lg:w-[21rem]'}
-        ${height || 'h-[23.5rem]'}
+        ${width || 'w-[14rem] sm:w-[18rem] lg:w-[21rem]'}
+        ${height || 'h-[18rem] sm:h-[23.5rem]'}
         rounded-md overflow-clip
         bg-white 
       `}
@@ -133,8 +133,8 @@ function CourseCard({ course }: CourseCardType) {
     <Link href={link} target="_blank">
       <div
         className="course-card
-        w-[18rem] lg:w-[21rem] 
-        h-[23.5rem] 
+        w-[14rem] sm:w-[18rem] lg:w-[21rem] 
+        h-[18rem] sm:h-[23.5rem] 
         rounded-md overflow-clip
         cursor-pointer
         font-sans
@@ -165,7 +165,7 @@ function CourseCard({ course }: CourseCardType) {
           <span className="card-header w-full">
             <Typography
               isHeader={false}
-              size="text-base"
+              size="text-xs sm:text-base"
               additionalClasses="w-full 
                 text-ellipsis overflow-hidden whitespace-nowrap"
             >
@@ -174,29 +174,19 @@ function CourseCard({ course }: CourseCardType) {
           </span>
           <Typography
             isHeader={false}
-            size="text-base"
+            size="text-xs sm:text-base"
             additionalClasses="text-gray-500"
           >
             <b>From:</b> {from}
           </Typography>
           <div className="flex gap-1 text-gray-500">
-            <Typography isHeader={false} size="text-base">
+            <Typography isHeader={false} size="text-xs sm:text-base">
               <b>videos:</b> {videos}
-            </Typography>
-            <Typography
-              isHeader={false}
-              size="text-base"
-              additionalClasses="opacity-60"
-            >
-              |
-            </Typography>
-            <Typography isHeader={false} size="text-base">
-              <b>Duration:</b> {duration}
             </Typography>
           </div>
           <Typography
             isHeader={false}
-            size="text-base"
+            size="text-xs sm:text-base"
             additionalClasses="text-gray-500"
           >
             <b>Level:</b> {level}
@@ -205,11 +195,16 @@ function CourseCard({ course }: CourseCardType) {
             className="rating-section text-gray-500
               flex gap-1"
           >
-            <StarIcon />
-            <Typography isHeader={false} size="text-base">
+            <span className="sm:hidden">
+              <StarIcon small />
+            </span>
+            <span className="max-sm:hidden">
+              <StarIcon />
+            </span>
+            <Typography isHeader={false} size="text-xs sm:text-base">
               <b>{rating}</b>
             </Typography>
-            <Typography isHeader={false} size="text-base">
+            <Typography isHeader={false} size="text-xs sm:text-base">
               ({reviewsCount} reviews)
             </Typography>
           </div>
