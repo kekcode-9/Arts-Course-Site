@@ -15,8 +15,8 @@ const config: Config = {
       },
     },
     fontFamily: {
-      'serif': ['Vollkorn'],
-      'sans': ['Lato']
+      // 'serif': ['Raleway'],
+      // 'sans': ['Raleway']
     },
     colors: {
       'burnt-orange': '#772F06',

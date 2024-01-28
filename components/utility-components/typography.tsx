@@ -82,7 +82,7 @@ export default function Typography({
         className={`
             ${size || 'text-base md:text-lg lg:text-xl'}
             ${additionalClasses}
-            ${animateEntrance && 'opacity-0'} font-sans font-medium
+            ${animateEntrance && 'opacity-0'} font-medium
         `}
         onClick={onClick}
     >
@@ -93,7 +93,7 @@ export default function Typography({
         className={`
             ${size || 'text-base md:text-lg lg:text-xl'}
             ${additionalClasses}
-            ${animateEntrance && 'opacity-0'} font-sans
+            ${animateEntrance && 'opacity-0'}
         `}
     >
         {children}

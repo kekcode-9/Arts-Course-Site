@@ -7,6 +7,7 @@ import { CourseContext, HOME_ROUTES } from "@/utilities/stores/courseContextStor
 import routes from "@/utilities/constants/routes";
 import Menu from "./menu-utility/menu";
 import MenuContent from "./menu-utility/menu-content";
+import Typography from "./typography";
 
 const { LOGIN_SIGNUP } = routes;
 
@@ -72,10 +73,15 @@ export default function HeaderLinks({
         <Link 
           href={LOGIN_SIGNUP} 
           className="lg:pr-16 
-          lg:text-right font-sans
+          lg:text-right
           whitespace-nowrap"
         >
-          {LOG_IN}
+          <Typography 
+            isHeader={false}
+            additionalClasses='cursor-pointer'
+          >
+            {LOG_IN}
+          </Typography>
         </Link>
         <Menu/>
       </div>

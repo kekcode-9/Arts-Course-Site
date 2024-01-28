@@ -152,8 +152,7 @@ function InputElement({
           : "w-48"
       } h-12 
       px-[0.5rem]
-      border-[1px] border-gray-500 rounded-md 
-      font-sans 
+      border-[1px] border-gray-500 rounded-md
       text-base md:text-lg lg:text-xl text-white
       bg-transparent focus-visible:outline-none
       ${isDropdownInput && "focus-visible:caret-transparent"}

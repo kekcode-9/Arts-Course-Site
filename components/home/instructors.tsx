@@ -44,7 +44,7 @@ export function InstructorSkeleton() {
             items-start justify-center 
             w-fit h-fit 
             p-4
-            font-sans font-semibold
+            font-semibold
             cursor-pointer`}
         >
             <div
@@ -159,7 +159,7 @@ export function InstructorCard({ cardItem, id, tl }: CardProps) {
           items-start justify-center 
           w-max h-max 
           p-4
-          font-sans font-semibold
+          font-semibold
           cursor-pointer
           opacity-0`}
       >

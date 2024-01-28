@@ -51,7 +51,7 @@ function RightSection() {
       <Link href={LOGIN_SIGNUP}>
         <Typography
           isHeader={false}
-          additionalClasses="whitespace-nowrap font-sans cursor-pointer"
+          additionalClasses="whitespace-nowrap cursor-pointer"
         >
           {LOG_IN}
         </Typography>

@@ -90,7 +90,6 @@ export default function SearchBar() {
             px-[0.5rem] 
             max-sm:border-b max-sm:border-b-white
             xl:border-b xl:border-b-white
-            font-sans 
             text-base md:text-lg lg:text-xl
             bg-transparent 
             focus-visible:outline-none"

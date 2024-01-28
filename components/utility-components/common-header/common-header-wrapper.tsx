@@ -63,7 +63,7 @@ function SkeletonHeader() {
         ) : (
           <Typography
             isHeader={false}
-            additionalClasses="whitespace-nowrap font-sans"
+            additionalClasses="whitespace-nowrap"
           >
             {LOG_IN}
           </Typography>

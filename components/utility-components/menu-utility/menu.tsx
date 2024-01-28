@@ -37,7 +37,7 @@ export default function Menu() {
     <>
         <Typography 
             isHeader={false}
-            additionalClasses='menu-link max-lg:hidden cursor-pointer font-sans'
+            additionalClasses='menu-link max-lg:hidden cursor-pointer'
             onClick={onClick}
         >
             {MENU}

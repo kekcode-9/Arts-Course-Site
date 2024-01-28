@@ -55,7 +55,7 @@ export function ImageCardSkeleton() {
         p-2
         rounded-md overflow-clip
         cursor-pointer
-        font-sans bg-white
+        bg-white
         hover:scale-[1.07] transition-all"
     >
       <div
@@ -89,7 +89,7 @@ export function ImageCard({ refDoc, onClick }: ImageCardProps) {
         p-2
         rounded-md overflow-clip
         cursor-pointer
-        font-sans bg-gray-500
+        bg-gray-500
         hover:scale-[1.07] transition-all"
     >
       <div

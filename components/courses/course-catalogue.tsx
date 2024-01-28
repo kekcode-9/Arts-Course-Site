@@ -137,7 +137,6 @@ function CourseCard({ course }: CourseCardType) {
         h-[18rem] sm:h-[23.5rem] 
         rounded-md overflow-clip
         cursor-pointer
-        font-sans
         text-neutral-dark-gray-bg 
         bg-white 
         hover:scale-[1.07] transition-all"

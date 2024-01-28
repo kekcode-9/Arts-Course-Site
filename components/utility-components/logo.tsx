@@ -90,7 +90,6 @@ export default function Logo({ position, bottom, customInset }: LogoProps) {
               isHeader={false}
               size={"1rem"}
               key={word}
-              additionalClasses="font-serif"
             >
               <u>{word}</u>
             </Typography>
@@ -114,7 +113,7 @@ export default function Logo({ position, bottom, customInset }: LogoProps) {
       >
         <Typography
           isHeader={false}
-          additionalClasses="underline cursor-pointer font-serif"
+          additionalClasses="underline cursor-pointer"
         >
           {LOGO}
         </Typography>
