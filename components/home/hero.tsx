@@ -23,6 +23,20 @@ const {
   APPLY_NOW,
 } = constants;
 
+function ImageCursor() {
+    const cursorRef = useRef<HTMLDivElement>(null);
+
+    return (
+        <div
+            ref={cursorRef}
+            className="cursor-div
+            max-md:hidden
+            w-56 h-56
+            bg-black border border-white"
+        ></div>
+    )
+}
+
 export function ApplySection() {
   const spanRefs = [
     useRef<HTMLSpanElement | null>(null),
@@ -54,7 +68,7 @@ export function ApplySection() {
   return (
     <div
       className="flex flex-col items-center gap-6 
-            w-[16.5rem]"
+        w-[16.5rem]"
     >
       <span ref={spanRefs[0]}>
         <Typography isHeader={false}>{LABEL_FOR_CLASSES}</Typography>
@@ -123,29 +137,40 @@ function MobileHeroImage() {
 export function HeroLargeLeftColImage() {
   const MotionImage = motion(Image);
   return (
-    <MotionImage
-      src={RobertKelleysCowboys}
-      alt="Art by Robert Kelley"
-      fill
-      objectFit="cover"
-      loading="lazy"
-      placeholder="blur"
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-        transition: {
-          duration: 2,
-        },
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 0.5,
-        },
-      }}
-    />
+    <>
+      <MotionImage
+        src={RobertKelleysCowboys}
+        alt="Art by Robert Kelley"
+        fill
+        objectFit="cover"
+        loading="lazy"
+        placeholder="blur"
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+          },
+        }}
+        exit={{
+          opacity: 0,
+          transition: {
+            duration: 0.5,
+          },
+        }}
+      />
+      <div
+        className="absolute z-20 bottom-0
+        flex justify-end items-center
+        w-full h-fit p-2 bg-neutral-dark-gray-bg bg-opacity-30"
+      >
+        <Typography isHeader={false} size='text-sm'>
+          Art by <b>Robert Kelley</b>
+        </Typography>
+      </div>
+    </>
   );
 }
 
@@ -154,15 +179,15 @@ export function HeroLargeMiddleCol() {
     <>
       <div
         className="flex items-center justify-center 
-                w-full 
-                h-1/2"
+          w-full 
+          h-1/2"
       >
         <HeaderSection />
       </div>
       <div
         className="flex items-center justify-center
-                w-full h-1/2 
-                bg-burnt-orange"
+          w-full h-1/2 
+          bg-burnt-orange"
       >
         <ApplySection />
       </div>
@@ -174,29 +199,40 @@ export function HeroLargeRightImage() {
   const MotionImage = motion(Image);
 
   return (
-    <MotionImage
-      src={BaumansGirls}
-      alt="Art by Stephen Bauman"
-      fill
-      objectFit="cover"
-      loading="lazy"
-      placeholder="blur"
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-        transition: {
-          duration: 2,
-        },
-      }}
-      exit={{
-        opacity: 0,
-        transition: {
-          duration: 2,
-        },
-      }}
-    />
+    <>
+      <MotionImage
+        src={BaumansGirls}
+        alt="Art by Stephen Bauman"
+        fill
+        objectFit="cover"
+        loading="lazy"
+        placeholder="blur"
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+          },
+        }}
+        exit={{
+          opacity: 0,
+          transition: {
+            duration: 2,
+          },
+        }}
+      />
+      <div
+        className="absolute z-20 bottom-0
+        flex justify-start items-center
+        w-full h-fit p-2 bg-neutral-dark-gray-bg bg-opacity-30"
+      >
+        <Typography isHeader={false} size='text-sm'>
+          Art by <b>Stephen Bauman</b>
+        </Typography>
+      </div>
+    </>
   );
 }
 

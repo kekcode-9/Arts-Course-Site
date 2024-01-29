@@ -222,31 +222,42 @@ export function CourseAdvertLargeRightImage() {
   const MotionImage = motion(Image);
 
   return (
-    <MotionImage
-      src={SummerBreeze}
-      alt="Summer Breeze by Lena Rivo"
-      fill
-      loading="lazy"
-      placeholder="blur"
-      className="object-cover"
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-        transition: {
-          delay: 0.7,
-          duration: 1,
-        },
-      }}
-      exit={{
-        objectFit: "cover",
-        opacity: 0,
-        transition: {
-          duration: 0.5,
-        },
-      }}
-    />
+    <>
+      <MotionImage
+        src={SummerBreeze}
+        alt="Summer Breeze by Lena Rivo"
+        fill
+        loading="lazy"
+        placeholder="blur"
+        className="object-cover"
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+          transition: {
+            delay: 0.7,
+            duration: 1,
+          },
+        }}
+        exit={{
+          objectFit: "cover",
+          opacity: 0,
+          transition: {
+            duration: 0.5,
+          },
+        }}
+      />
+      <div
+        className="absolute z-20 bottom-0
+        flex justify-start items-center
+        w-full h-fit p-2 bg-neutral-dark-gray-bg bg-opacity-30"
+      >
+        <Typography isHeader={false} size='text-sm'>
+          <b>Summer Breeze</b> by <b>Lena Rivo</b>
+        </Typography>
+      </div>
+    </>
   );
 }
 
