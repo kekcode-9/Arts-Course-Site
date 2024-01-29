@@ -27,7 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en" className='h-full'>
       <Head>
-        <meta property="og:image" content="https://res.cloudinary.com/dxvx3y6ch/image/upload/f_auto,q_auto/egxirxjmmyk3qsjuikig" />
+        <meta property="og:image" content="https://res.cloudinary.com/dxvx3y6ch/image/upload/f_auto,q_auto/yntjkkiiyhq8vvlpxbgb" />
+        <meta property='og:type' content="website" />
       </Head>
       <body className={`h-full
         ${raleway.className} text-white 
