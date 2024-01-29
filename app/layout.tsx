@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Raleway } from 'next/font/google';
 import { UserContextProvider } from '@/utilities/stores/userInfoStore';
 import { CourseContextProvider } from '@/utilities/stores/courseContextStore';
-import CommonHeaderWrapper from '@/components/utility-components/common-header/common-header-wrapper';
+import CommonHeaderWrapper from '@/components/utility-components/common-header/common-header-wrapper'; 
 import './globals.css';
 
 const raleway = Raleway({ subsets: ['latin']});
