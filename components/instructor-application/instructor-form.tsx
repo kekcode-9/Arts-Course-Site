@@ -517,12 +517,12 @@ export default function InstructorForm() {
                 <span
                   key={i}
                   className={`
-                        w-fit
-                        ${
-                          uncheckedFields?.includes(fieldName) &&
-                          "text-error-red"
-                        }
-                    `}
+                    w-fit
+                    ${
+                      uncheckedFields?.includes(fieldName) &&
+                      "text-error-red"
+                    }
+                `}
                 >
                   <DropdownInput
                     mandatory={mandatory}
@@ -564,9 +564,14 @@ export default function InstructorForm() {
 
     const removeField = useCallback(
       (key: string) => {
-        setKeysToRemove([...keysToRemove, key]);
+        if (experienceCount > 1) {
+          setKeysToRemove([...keysToRemove, key]);
+          // setExperienceCount(experienceCount - 1);
+        } else {
+          alert('You need to have at least one work experience')
+        }
       },
-      [keysToRemove]
+      [keysToRemove, experienceCount]
     );
 
     const validateLastExperience = useCallback(() => {
