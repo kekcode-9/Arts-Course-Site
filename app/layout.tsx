@@ -27,7 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en" className='h-full'>
       <Head>
-        <meta name="image" property="og:image" content="https://res.cloudinary.com/dxvx3y6ch/image/upload/f_auto,q_auto/yntjkkiiyhq8vvlpxbgb" />
+        <meta name="image" property="og:image" content="https://res.cloudinary.com/dxvx3y6ch/image/upload/v1706552119/og_image_esner_academy.jpg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="627" />
+        <meta name="author" content="Rupamita Sarkar" />
         <meta property='og:type' content="website" />
       </Head>
       <body className={`h-full
