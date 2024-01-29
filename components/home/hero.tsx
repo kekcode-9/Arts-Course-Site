@@ -161,15 +161,30 @@ export function HeroLargeLeftColImage() {
           },
         }}
       />
-      <div
+      <motion.div
         className="absolute z-20 bottom-0
         flex justify-end items-center
         w-full h-fit p-2 bg-neutral-dark-gray-bg bg-opacity-30"
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+          },
+        }}
+        exit={{
+          opacity: 0,
+          transition: {
+            duration: 0.5,
+          },
+        }}
       >
         <Typography isHeader={false} size='text-sm'>
           Art by <b>Robert Kelley</b>
         </Typography>
-      </div>
+      </motion.div>
     </>
   );
 }
@@ -223,15 +238,30 @@ export function HeroLargeRightImage() {
           },
         }}
       />
-      <div
+      <motion.div
         className="absolute z-20 bottom-0
         flex justify-start items-center
         w-full h-fit p-2 bg-neutral-dark-gray-bg bg-opacity-30"
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+          transition: {
+            duration: 2,
+          },
+        }}
+        exit={{
+          opacity: 0,
+          transition: {
+            duration: 2,
+          },
+        }}
       >
         <Typography isHeader={false} size='text-sm'>
           Art by <b>Stephen Bauman</b>
         </Typography>
-      </div>
+      </motion.div>
     </>
   );
 }
