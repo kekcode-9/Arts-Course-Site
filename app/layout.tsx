@@ -15,7 +15,13 @@ export const metadata: Metadata = {
     description: 'A Next.js v13 & Typescript project. The responsive website was designed with Figma. Animations are performed with GSAP and Framer motion. Firebase is used for user authentication and cloud firestore for database. Images are hosted by Cloudinary.',
     url: 'https://esneracademy.vercel.app/',
     siteName: 'Esner Academy',
-    images: 'https://nextjs.org/og.png'
+    images: [
+      {
+        url: 'https://nextjs.org/og.png', // Must be an absolute URL
+        width: 800,
+        height: 600,
+      }
+    ]
   }
 }
 
