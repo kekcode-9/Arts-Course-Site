@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useInView } from "react-intersection-observer";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { HeroMobileDevices } from "./hero";
 import LeftColumn from "../utility-components/left-column";
@@ -17,6 +17,7 @@ import SplashGif from "@/public/splash.gif";
 import MenuContent from "../utility-components/menu-utility/menu-content";
 import webStorageItems from "@/utilities/constants/web-storage-items";
 import routes from "@/utilities/constants/routes";
+import { getCurrentUser } from "@/lib/firebase/firebase-auth";
 
 const { IS_SPLASH_OVER } = webStorageItems;
 
@@ -83,6 +84,7 @@ function AssembledContentLarge() {
 export default function HomePage() {
   const { state, dispatch } = useContext(CourseContext);
   const { route } = state;
+  const router = useRouter();
 
   let debounceTimer: NodeJS.Timeout;
 
@@ -179,6 +181,11 @@ export default function HomePage() {
   }, [scrollAction, onArrowDown, onArrowUp]);
 
   useEffect(() => {
+    getCurrentUser((user) => {
+      if (user) {
+        router.push(routes.USER(user.displayName as string));
+      }
+    })
     /**
      * sessionStorage is for the current tab instance. Show splash screen only once
      * on first loading time and not during current tab reloads.

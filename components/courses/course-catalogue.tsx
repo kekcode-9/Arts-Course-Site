@@ -585,7 +585,7 @@ export default function CourseCatalogue() {
         <Filters disabled={!courses} />
         <div
           className="flex flex-col
-          w-full h-full 
+          w-full h-full
           max-sm:pb-24 pb-16"
         >
           {/*<span>
@@ -599,9 +599,10 @@ export default function CourseCatalogue() {
             </span>*/}
           <div
             className="courses-wrapper
-                flex flex-wrap justify-center gap-6 sm:gap-8
-                w-full h-full
-                overflow-y-auto pt-4"
+              flex flex-wrap justify-center lg:justify-start 
+              gap-6 sm:gap-8
+              w-full h-full
+              overflow-y-auto pt-4"
           >
             {
               courses ?
