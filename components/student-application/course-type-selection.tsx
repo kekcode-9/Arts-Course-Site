@@ -45,7 +45,7 @@ function OptionWrapper({
                     <LeftArrow 
                         setAbsolute={true} 
                         animate={true} 
-                        translationOffset={spanRef.current?.offsetWidth}
+                        translationOffset={spanRef.current?.offsetWidth as number}
                     />
                 }
             </AnimatePresence>

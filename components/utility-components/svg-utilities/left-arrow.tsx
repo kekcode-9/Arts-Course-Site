@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 type LeftArrowProps = {
     animate: boolean;
     setAbsolute?: boolean;
-    translationOffset?: number;
+    translationOffset: number;
 }
 
 export default function LeftArrow({
@@ -12,6 +12,11 @@ export default function LeftArrow({
     setAbsolute,
     translationOffset
 }: LeftArrowProps) {
+    const [tranlationDistance, setTranslationDistance] = useState<number>(translationOffset);
+    useEffect(() => {
+        setTranslationDistance(translationOffset + 60);
+    }, [translationOffset])
+
   return (
     <motion.svg
         className={`
@@ -24,18 +29,18 @@ export default function LeftArrow({
         xmlns="http://www.w3.org/2000/svg"
         initial={{
             opacity: 0,
-            translateX: `${translationOffset as number}`
+            translateX: `${translationOffset}px`
         }}
         animate={animate && {
             opacity: 1,
-            translateX: `${translationOffset as number + 60}px`,
+            translateX: `${tranlationDistance}px`,
             transition: {
                 duration: 0.3
             }
         }}
         exit={{
             opacity: 0,
-            translateX: `${translationOffset as number}`,
+            translateX: `${translationOffset}px`,
             transition: {
                 duration: 0.3
             }

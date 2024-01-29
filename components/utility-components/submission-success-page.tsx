@@ -61,7 +61,7 @@ export default function SubmissionSuccessPage({
         //     });
         //   }
         // });
-      } else if (!user && userId) {
+      } else if (!user) {
         // user has been logged out
         logoutUser();
         dispatch({

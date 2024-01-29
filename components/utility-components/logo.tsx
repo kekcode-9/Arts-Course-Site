@@ -35,7 +35,7 @@ export function HeaderLogo() {
         // storeUserInContext(user, dispatch, (userData) => {
         //   setHomeRoute(USER(user.displayName as string));
         // })
-      } else if (!user && userId) {
+      } else if (!user) {
         setHomeRoute(ROOT);
       }
     })

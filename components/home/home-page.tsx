@@ -86,6 +86,8 @@ export default function HomePage() {
   const { route } = state;
   const router = useRouter();
 
+  const [showHome, setShowHome] = useState<boolean>();
+
   let debounceTimer: NodeJS.Timeout;
 
   const pathname = usePathname();
@@ -181,6 +183,11 @@ export default function HomePage() {
   }, [scrollAction, onArrowDown, onArrowUp]);
 
   useEffect(() => {
+    dispatch({
+      type: RESET_ROUTE,
+    });
+    setShowHome(true);
+
     getCurrentUser((user) => {
       if (user) {
         router.push(routes.USER(user.displayName as string));
@@ -217,7 +224,7 @@ export default function HomePage() {
     };
   }, []);
 
-  return (
+  return showHome && (
     <div
       className="relative 
       flex flex-col 
@@ -235,5 +242,5 @@ export default function HomePage() {
         className="observer-span-bottom absolute bottom-0"
       />
     </div>
-  );
+  )
 }
