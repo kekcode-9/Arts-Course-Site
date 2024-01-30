@@ -62,6 +62,7 @@ export default function CourseTypeSelection({
         className={`
             flex flex-col items-center justify-center gap-14
             h-screen
+            max-sm:p-8
         `}
     >
         <Typography 
@@ -79,7 +80,7 @@ export default function CourseTypeSelection({
             <OptionWrapper>
                 <Typography 
                     isHeader={false} 
-                    additionalClasses='cursor-pointer'
+                    additionalClasses='cursor-pointer text-center'
                     animateEntrance={true}
                     animateDelay={0.2}
                     onClick={onInPersonOption} 

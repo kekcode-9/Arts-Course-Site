@@ -143,23 +143,43 @@ export default function UserRegistrationWrapper() {
           {LOGO}
         </Typography>
         {hasAccount ? (
-          <Typography
-            isHeader={false}
-            additionalClasses="cursor-pointer"
-            animateEntrance={true}
-            onClick={() => setHasAccount(false)}
-          >
-            {DONT_HAVE_ACCOUNT} <u>{CREATE_A_NEW_ACCOUNT}</u>
-          </Typography>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Typography
+              isHeader={false}
+              additionalClasses="cursor-pointer text-center"
+              animateEntrance={true}
+              onClick={() => setHasAccount(false)}
+            >
+              {DONT_HAVE_ACCOUNT}
+            </Typography>
+            <Typography
+              isHeader={false}
+              additionalClasses="cursor-pointer text-center"
+              animateEntrance={true}
+              onClick={() => setHasAccount(false)}
+            >
+              <u>{CREATE_A_NEW_ACCOUNT}</u>
+            </Typography>
+          </div>
         ) : (
-          <Typography
-            isHeader={false}
-            additionalClasses="cursor-pointer"
-            animateEntrance={true}
-            onClick={() => setHasAccount(true)}
-          >
-            {MEMBER_ALREADY} <u>{LOG_IN}</u>
-          </Typography>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Typography
+              isHeader={false}
+              additionalClasses="cursor-pointer text-center"
+              animateEntrance={true}
+              onClick={() => setHasAccount(true)}
+            >
+              {MEMBER_ALREADY}
+            </Typography>
+            <Typography 
+              isHeader={false}
+              additionalClasses="cursor-pointer text-center"
+              animateEntrance={true}
+              onClick={() => setHasAccount(true)}
+            >
+              <u>{LOG_IN}</u>
+            </Typography>
+          </div>
         )}
         <div
           className="relative
