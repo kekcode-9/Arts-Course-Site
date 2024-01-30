@@ -159,7 +159,7 @@ export default function MenuContent({
       ref={menuRef}
       className={`
         menu-content
-        absolute right-0 z-[2]
+        absolute right-0 z-[30]
         flex items-center justify-center
         ${pathName === ROOT ? "lg:justify-end" : "md:justify-end"}
         ${

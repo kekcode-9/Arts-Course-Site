@@ -270,9 +270,11 @@ export function CourseAdvertLargeRightImage() {
           },
         }}
       >
-        <Typography isHeader={false} size='text-sm'>
-          <b>Summer Breeze</b> by <b>Lena Rivo</b>
-        </Typography>
+        <Link href='https://www.lenarivo.com/' target='_blank' className="cursor-pointer">
+          <Typography isHeader={false} size='text-sm'>
+            <b>Summer Breeze</b> by <b>Lena Rivo</b>
+          </Typography>
+        </Link>
       </motion.div>
     </>
   );

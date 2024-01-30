@@ -181,9 +181,15 @@ export function HeroLargeLeftColImage() {
           },
         }}
       >
-        <Typography isHeader={false} size='text-sm'>
-          Art by <b>Robert Kelley</b>
-        </Typography>
+        <Link 
+          href='https://robertkelleyart.com/' 
+          target="_blank"
+          className="cursor-pointer"
+        >
+          <Typography isHeader={false} size='text-sm'>
+            Art by <b>Robert Kelley</b>
+          </Typography>
+        </Link>
       </motion.div>
     </>
   );
@@ -258,9 +264,15 @@ export function HeroLargeRightImage() {
           },
         }}
       >
-        <Typography isHeader={false} size='text-sm'>
-          Art by <b>Stephen Bauman</b>
-        </Typography>
+        <Link 
+          href='https://www.instagram.com/stephenbaumanartwork/?hl=en' 
+          target='_blank'
+          className="cursor-pointer"
+        >
+          <Typography isHeader={false} size='text-sm'>
+            Art by <b>Stephen Bauman</b>
+          </Typography>
+        </Link>
       </motion.div>
     </>
   );
