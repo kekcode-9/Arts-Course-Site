@@ -243,7 +243,7 @@ export function InstructorCards({ tl, getAll }: InstructorCardsProps) {
       className={`
         instructor-cards-wrapper
         flex flex-wrap gap-6 sm:gap-8 max-lg:justify-start
-        w-full h-fit max-h-[55vh]
+        w-full lg:w-[95%] h-fit max-h-[55vh]
         max-sm:px-8 max-lg:px-16 lg:pr-[4.5rem] xl:pr-[6.5rem] 
         ${getAll ? "px-8 md:px-16 pr-8 md:pr-16" : "lg:pr-[6.5rem]"} pb-16
         overflow-scroll
