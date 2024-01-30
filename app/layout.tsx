@@ -8,7 +8,7 @@ import './globals.css';
 const raleway = Raleway({ subsets: ['latin']});
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL('https://esneracademy.vercel.app/'),
   title: 'Esner Academy for Traditional & Digital Arts',
   description: 'A Next.js 13 + Typescript project',
   openGraph: {
