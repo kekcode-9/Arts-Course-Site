@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { CldImage } from "next-cloudinary";
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
@@ -13,6 +14,8 @@ import ValuesOfHead from "@/public/values-of-head.webp";
 import routes from "@/utilities/constants/routes";
 
 const { STUDENT_APPLICATION, INSTRUCTOR_APPLICATION } = routes;
+
+const BaumanBlur = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAP0lEQVR4nAE0AMv/AN7k2/z/91RWUU1PSgDz9u59f3kuLyvc4NgAztHIGxwYDg8Hm5+XADM1LxobFg0PCAEEALhmFI/1pBI3AAAAAElFTkSuQmCC';
 
 const {
   OR,
@@ -217,17 +220,17 @@ export function HeroLargeMiddleCol() {
 }
 
 export function HeroLargeRightImage() {
-  const MotionImage = motion(Image);
+  const MotionImage = motion(CldImage);
 
   return (
     <>
       <MotionImage
-        src={BaumansGirls}
+        src={'https://res.cloudinary.com/dxvx3y6ch/image/upload/f_auto,q_auto/v1/other/Bauman-04'}
         alt="Art by Stephen Bauman"
         fill
-        objectFit="cover"
+        className="object-cover"
         loading="lazy"
-        placeholder="blur"
+        placeholder={BaumanBlur}
         initial={{
           opacity: 0,
         }}

@@ -1,14 +1,16 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { CldImage } from "next-cloudinary";
 import { useRouter } from "next/navigation";
 import LanternChildren from "@/public/john-singer-sargent-lantern-children.jpg";
 import Typography from "./typography";
 
+const SingerSargentBlur = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAP0lEQVR4nAE0AMv/AAQcHWt6dxYmKtfu7wBoYmqWjZfItsX26/4AR0tR//v/kpGgQU1eAAAGEiEsMwAOGAccI1DgFFP8ncrmAAAAAElFTkSuQmCC';
+
 export default function ComingSoon() {
   const router = useRouter();
-  const MotionImage = motion(Image);
+  const MotionImage = motion(CldImage);
 
   return (
     <div
@@ -18,11 +20,12 @@ export default function ComingSoon() {
         w-screen h-screen"
     >
       <MotionImage
-        src={LanternChildren}
+        src={'https://res.cloudinary.com/dxvx3y6ch/image/upload/f_auto,q_auto/v1/other/singer-sargent'}
         alt="Glasgow Saturday Night by John Atkinson Grimshaw"
         fill
         loading="lazy"
         placeholder="blur"
+        blurDataURL={SingerSargentBlur}
         className="object-cover"
         initial={{
           opacity: 0,

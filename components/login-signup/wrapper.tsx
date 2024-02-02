@@ -2,15 +2,19 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { CldImage } from "next-cloudinary";
 import Link from "next/link";
-import Image from "next/image";
 import SignupForm from "@/components/login-signup/signup";
 import LoginForm from "@/components/login-signup/login";
 import DownArrowCircular from "../utility-components/svg-utilities/down-arrow-circular";
 import Typography from "@/components/utility-components/typography";
 import constants from "@/utilities/constants/constants";
-import DarkArt from "@/public/henrickaau-art-dark.webp";
-import LightArt from "@/public/henrikaau-art-light.webp";
+
+const LightURL = 'https://res.cloudinary.com/dxvx3y6ch/image/upload/f_auto,q_auto/v1/other/Henrick-aau-light';
+const DarkURL = 'https://res.cloudinary.com/dxvx3y6ch/image/upload/f_auto,q_auto/v1/other/Henrick-aau-dark';
+
+const LightBlur = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAECAIAAADETxJQAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAM0lEQVR4nAEoANf/AP/+99DCu//9+QC4qaBhSEDSyMQAp5WPRCgcw7KrAJJzbiMAAKWTjvU4FU41yzQfAAAAAElFTkSuQmCC';
+const DarkBlur = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAECAIAAADETxJQAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAKElEQVR4nGPg5eWVEBfn5eVlUFZU+P/8loS4OIOIsNCS7maQGDsMAACK5AZQ21vMOQAAAABJRU5ErkJggg==';
 
 const {
   DONT_HAVE_ACCOUNT,
@@ -23,7 +27,7 @@ const {
 export default function UserRegistrationWrapper() {
   const [hasAccount, setHasAccount] = useState(true);
   const router = useRouter();
-  const MotionImage = motion(Image);
+  const MotionImage = motion(CldImage);
 
   return (
     <div
@@ -59,10 +63,11 @@ export default function UserRegistrationWrapper() {
             target="_blank"
           >
             <MotionImage
-              src={hasAccount ? DarkArt : LightArt}
+              src={hasAccount ? DarkURL : LightURL}
               alt={"Art by Henrik Aa. Uldalen"}
               loading="lazy"
               placeholder="blur"
+              blurDataURL={hasAccount ? DarkBlur : LightBlur}
               fill
               className="object-cover"
               initial={{
@@ -201,10 +206,11 @@ export default function UserRegistrationWrapper() {
           `}
         >
           <MotionImage
-            src={DarkArt}
+            src={DarkURL}
             alt="Art by Henrik Aa. Uldalen"
             loading="lazy"
             placeholder="blur"
+            blurDataURL={DarkBlur}
             fill
             className={`
               object-cover blur-[32px]

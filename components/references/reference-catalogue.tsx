@@ -102,6 +102,7 @@ export function ImageCard({ refDoc, onClick }: ImageCardProps) {
           alt="reference image"
           fill
           loading="lazy"
+          placeholder="blur"
           className="object-cover"
           onClick={() => onClick(image, size)}
           blurDataURL={blurDataURL}

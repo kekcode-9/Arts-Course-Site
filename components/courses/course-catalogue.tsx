@@ -7,6 +7,7 @@ import React, {
   useRef
 } from "react";
 import gsap from "gsap";
+import { motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { DocumentData } from "firebase/firestore";
 import {
@@ -126,8 +127,11 @@ function CourseCard({ course }: CourseCardType) {
     rating,
     reviewsCount,
     thumbnail,
-    link
+    link,
+    blurDataURL
   } = course;
+
+  const MotionImage = motion(CldImage);
 
   return (
     <Link href={link} target="_blank">
@@ -146,12 +150,23 @@ function CourseCard({ course }: CourseCardType) {
             relative
             w-full h-1/2"
         >
-          <CldImage
+          <MotionImage
             src={thumbnail}
             alt="course thumbnail"
             fill
             loading="lazy"
+            placeholder="blur"
+            blurDataURL={blurDataURL}
             className="object-cover"
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+              transition: {
+                duration: 1,
+              },
+            }}
           />
         </div>
         <div
